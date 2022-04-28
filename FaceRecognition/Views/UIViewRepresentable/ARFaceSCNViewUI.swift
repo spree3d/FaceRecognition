@@ -41,7 +41,7 @@ struct ARFaceSCNViewUI: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARSCNView, context: Context) {
-        print("ARSCNViewUI: updateUIView was called.")
+//        print("ARSCNViewUI: updateUIView was called.")
     }
     static func dismantleUIView(_ uiView: ARSCNView, coordinator: ()) {
         print("ARSCNViewUI: dismantleUIView was called.")

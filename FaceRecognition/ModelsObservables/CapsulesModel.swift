@@ -34,9 +34,18 @@ class CapsulesModel {
                 if self.alphaValue < 0.0 { self.alphaValue = 0.0 }
             }
         }
+        @Published private(set) var maskFacialFeature:Float {
+            didSet {
+                if self.alphaValue > 1.0 { self.alphaValue = 1.0 }
+                if self.alphaValue < 0.0 { self.alphaValue = 0.0 }
+            }
+        }
+        @Published private(set) var facialFeaturesList: [(String,Float)]
         private let queue: DispatchQueue
         init() {
-            alphaValue = 1.0
+            self.alphaValue = 1.0
+            self.facialFeaturesList = [(String,Float)]()
+            self.maskFacialFeature = 0.0
             self.queue = DispatchQueue(label: "com.spree3d.CapsulesModel.FaceMesh")
         }
     }
@@ -70,10 +79,9 @@ class CapsulesModel {
     init(capsulesMaker: ()->[Float:Color]) {
         self.faceMesh = FaceMesh()
         self.postions = Postions(capsulesMaker: capsulesMaker)
-        let translation = Translation()
-        self.translation = translation
-        self.translationPublisher = translation.objectWillChange.share()
-        self.faceMeshPublisher = translation.objectWillChange.share()
+        self.translation = Translation()
+        self.translationPublisher = self.translation.objectWillChange.share()
+        self.faceMeshPublisher = self.faceMesh.objectWillChange.share()
     }
     
     @Injected static var shared: CapsulesModel
@@ -82,6 +90,25 @@ extension CapsulesModel.FaceMesh {
     func set(alphaValue:Float) {
         self.queue.async { [weak self] in
             self?.alphaValue = alphaValue
+        }
+    }
+    func set(maskFacialFeature:Float) {
+        self.queue.async { [weak self] in
+            self?.maskFacialFeature = maskFacialFeature
+        }
+    }
+    func set(facialFeaturesList: [(String,Float)] ) {
+        self.queue.async { [weak self] in
+            guard let self = self else { return }
+              let newValue = facialFeaturesList
+                .filter { $0.1 > self.maskFacialFeature }
+                .sorted { $0.1 > $1.1 }
+                .first( 6 )
+            if newValue.map({ $0.0 }) == self.facialFeaturesList.map({ $0.0 })
+                && newValue.map({ $0.1 }) == self.facialFeaturesList.map({ $0.1 }){
+                return
+            }
+            self.facialFeaturesList = newValue
         }
     }
 }

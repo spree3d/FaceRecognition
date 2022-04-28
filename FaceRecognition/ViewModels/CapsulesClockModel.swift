@@ -23,6 +23,7 @@ class CapsulesClockModel: ObservableObject {
         queue = DispatchQueue(label: "com.spree3d.CapsulesClockModel")
         capsulesModelSubscriber = CapsulesModel.shared.postions
             .objectWillChange
+            .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
             .sink { [weak self] in
                 Task { [weak self] in
                     await self?.capsulesModelSubscriberReceiveValue()

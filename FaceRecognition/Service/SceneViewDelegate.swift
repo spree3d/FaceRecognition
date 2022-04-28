@@ -13,15 +13,14 @@ class SceneViewDelegate: NSObject {
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float4x4, Never>?
     private var cancelable: AnyCancellable?
-    private var arfaceGeometryModel: ARFaceGeometryModel?
-    private var lastFaceBlenShapes:[String]
+    private var faceNode: SCNNode?
     override init() {
         self.queue = DispatchQueue(label: "com.spree3d.ARSession")
-        self.lastFaceBlenShapes = [String]()
         super.init()
         self.subject = PassthroughSubject<simd_float4x4, Never>()
         self.cancelable = subject?
 //            .debounce(for: .milliseconds(100), scheduler: self.queue)
+            .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
             .receive(on: self.queue)
             .sink { faceTransform in
                 Task { [weak self] in
@@ -57,32 +56,21 @@ extension SceneViewDelegate: ARSCNViewDelegate {
         }
         self.queue.async { [weak self] in
             guard let self = self else { return }
-            self.arfaceGeometryModel = ARFaceGeometryModel(renderer, nodeFor: anchor)
-            guard let faceNode = self.arfaceGeometryModel?.faceNode else { return }
+            self.faceNode = SCNNode(renderer, nodeFor: anchor)
+            guard let faceNode = self.faceNode else { return }
             node.addChildNode(faceNode)
         }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         self.queue.async {
-            guard let arfaceGeometryModel = self.arfaceGeometryModel,
-                  let faceNode = arfaceGeometryModel.faceNode,
+            guard let faceNode = self.faceNode,
                   let faceGeometry = faceNode.geometry as? ARSCNFaceGeometry,
                   let faceAnchor = anchor as? ARFaceAnchor
             else { return }
             
-            let blendShapes = faceAnchor.blendShapes
-                .sorted { (first, second) -> Bool in
-                    first.value.floatValue > second.value.floatValue
-                }
-                .filter { $0.value.floatValue > 0.5 }
-                .map { $0.key.rawValue }
-                .first( 3 )
-                .sorted()
-            if self.lastFaceBlenShapes != blendShapes {
-                print("SceneViewDelegate: BelndShapes \(blendShapes)")
-                self.lastFaceBlenShapes = blendShapes
-            }
+            let facialFeaturesList = faceAnchor.blendShapes.map { ($0.key.rawValue, $0.value.floatValue) }
+            CapsulesModel.shared.faceMesh.set(facialFeaturesList: facialFeaturesList)
             
             faceGeometry.update(from: faceAnchor.geometry)
             let meshTransparency = CapsulesModel.shared.faceMesh.alphaValue.cgFloat

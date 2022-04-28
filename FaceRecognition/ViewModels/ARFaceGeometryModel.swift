@@ -10,25 +10,22 @@ import Combine
 import ARKit
 import SceneKit
 
-class ARFaceGeometryModel {
-    // changing transparency will not cause any inmediate change but since the rendering is happening every
-    // 1/60 second we should be ok.
-    var transparency: Float
-    private(set) var faceNode: SCNNode?
-    init(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) {
-        self.transparency = CapsulesModel.shared.faceMesh.alphaValue
+extension SCNNode {
+    convenience
+    init?(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) {
 #if targetEnvironment(simulator)
-        return
+        return nil
 #else
         guard let sceneView = renderer as? ARSCNView,
-            anchor is ARFaceAnchor else { return  }
+            anchor is ARFaceAnchor else { return  nil }
         
         let faceGeometry = ARSCNFaceGeometry(device: sceneView.device!)!
         let material = faceGeometry.firstMaterial!
         material.transparency = CGFloat( CapsulesModel.shared.faceMesh.alphaValue )
         
         material.lightingModel = .physicallyBased
-        self.faceNode = SCNNode(geometry: faceGeometry)
+        
+        self.init(geometry: faceGeometry)
 #endif
     }
 }

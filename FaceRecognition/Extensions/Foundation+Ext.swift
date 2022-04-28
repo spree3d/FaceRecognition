@@ -40,7 +40,7 @@ extension Float {
 extension Array {
     func first(_ n:Int) -> Array {
         self.enumerated()
-            .filter { $0.offset < 3 }
+            .filter { $0.offset < n }
             .map { $0.element}
     }
 }
