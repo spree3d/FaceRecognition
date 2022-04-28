@@ -36,3 +36,11 @@ extension Float {
 extension Float {
     var cm2Inch: Float { self * 0.393701 }
 }
+
+extension Array {
+    func first(_ n:Int) -> Array {
+        self.enumerated()
+            .filter { $0.offset < 3 }
+            .map { $0.element}
+    }
+}

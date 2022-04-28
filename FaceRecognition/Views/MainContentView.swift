@@ -18,7 +18,7 @@ struct MainContentView: View {
             ZStack {
 #if targetEnvironment(simulator)
 #else
-                ARSCNViewUI()
+                ARFaceSCNViewUI()
 #endif
                 CircleClock(width: ringWidth)
                 if model.status == .inRange {
@@ -27,11 +27,38 @@ struct MainContentView: View {
             }
             .clipShape(Circle())
             .padding()
-            Button("Reset") {
-                Task.detached {
-                    await CapsulesModel.shared.postions.clear()
+            HStack {
+                Button("Reset") {
+                    Task.detached {
+                        await CapsulesModel.shared.postions.clear()
+                    }
                 }
+                .padding()
+                .border(.blue, width: 1)
+                Spacer()
             }
+            .padding()
+            HStack {
+                Text("Mask Transparency")
+                    .foregroundColor(.blue)
+                Slider(value: Binding(
+                    get: { () -> Float in
+                        CapsulesModel.shared.faceMesh.alphaValue
+                    },
+                    set: { (n:Float, Transaction) -> Void in
+                        CapsulesModel.shared.faceMesh.set(alphaValue: n)
+                    } ),
+                       in: 0.0...1.0,
+                       step: 0.1) {
+                } minimumValueLabel: {
+                    Text("0.0")
+                } maximumValueLabel: {
+                    Text("1.0")
+                }
+                
+            }
+            .padding()
+                   
         }
     }
 }

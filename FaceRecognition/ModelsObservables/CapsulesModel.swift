@@ -25,6 +25,21 @@ enum CapsulesModelBuilder {
 /// chamges in serial in the observable model serial queue.
 /// TODO: Change the class to actor.
 class CapsulesModel {
+    final
+    class FaceMesh: ObservableObject {
+        var isMeshActive:Bool { alphaValue == 0.0 }
+        @Published private(set) var alphaValue:Float {
+            didSet {
+                if self.alphaValue > 1.0 { self.alphaValue = 1.0 }
+                if self.alphaValue < 0.0 { self.alphaValue = 0.0 }
+            }
+        }
+        private let queue: DispatchQueue
+        init() {
+            alphaValue = 1.0
+            self.queue = DispatchQueue(label: "com.spree3d.CapsulesModel.FaceMesh")
+        }
+    }
     actor Postions: ObservableObject, Sendable {
         @Published private(set) var capsules: [Float:Color]
         @Published private(set) var facePostions: Set<FacePosition>
@@ -37,6 +52,7 @@ class CapsulesModel {
             self.facePostions.removeAll()
         }
     }
+    final
     class Translation: ObservableObject {
         @Published private(set) var faceTranslationStatus: FaceTranslation.Status
         private let queue: DispatchQueue
@@ -45,18 +61,29 @@ class CapsulesModel {
             self.faceTranslationStatus = .invalid
         }
     }
+    let faceMesh: FaceMesh
     let postions: Postions
     let translation: Translation
     let translationPublisher: Publishers.Share<ObservableObjectPublisher>
+    let faceMeshPublisher: Publishers.Share<ObservableObjectPublisher>
     
     init(capsulesMaker: ()->[Float:Color]) {
+        self.faceMesh = FaceMesh()
         self.postions = Postions(capsulesMaker: capsulesMaker)
         let translation = Translation()
         self.translation = translation
         self.translationPublisher = translation.objectWillChange.share()
+        self.faceMeshPublisher = translation.objectWillChange.share()
     }
     
     @Injected static var shared: CapsulesModel
+}
+extension CapsulesModel.FaceMesh {
+    func set(alphaValue:Float) {
+        self.queue.async { [weak self] in
+            self?.alphaValue = alphaValue
+        }
+    }
 }
 extension CapsulesModel.Postions {
     func set(capsules:[Float:Color]) {
@@ -64,7 +91,7 @@ extension CapsulesModel.Postions {
         self.capsules = capsules
     }
     func set(capsuleKey:Float, capsuleValue:Color) {
-        print("CapsulesModel.Postions: set(capsuleKey:\(capsuleKey), capsuleValue:\(capsuleValue) ")
+//        print("CapsulesModel.Postions: set(capsuleKey:\(capsuleKey), capsuleValue:\(capsuleValue) ")
         guard self.capsules[capsuleKey] != capsuleValue else { return }
         self.capsules[capsuleKey] = capsuleValue
     }
@@ -80,7 +107,7 @@ extension CapsulesModel.Translation {
             guard self.faceTranslationStatus != faceTranslation.status else {
                 return
             }
-            print("CapsulesModel: new faceTranslation.status \(faceTranslation.status)")
+//            print("CapsulesModel: new faceTranslation.status \(faceTranslation.status)")
             self.faceTranslationStatus = faceTranslation.status
         }
     }

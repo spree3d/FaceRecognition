@@ -17,7 +17,7 @@ class SessionDelegate: NSObject, ARSessionDelegate {
     }
 }
 
-struct ARSCNViewUI: UIViewRepresentable {
+struct ARFaceSCNViewUI: UIViewRepresentable {
     private var sceneView: ARSCNView
     private var sessionDelegate: SessionDelegate
     private let sceneViewDelegate: SceneViewDelegate
@@ -51,6 +51,6 @@ struct ARSCNViewUI: UIViewRepresentable {
 
 struct ARSCNViewUI_Previews: PreviewProvider {
     static var previews: some View {
-        ARSCNViewUI()
+        ARFaceSCNViewUI()
     }
 }

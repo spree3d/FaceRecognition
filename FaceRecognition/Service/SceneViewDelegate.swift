@@ -13,8 +13,11 @@ class SceneViewDelegate: NSObject {
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float4x4, Never>?
     private var cancelable: AnyCancellable?
+    private var arfaceGeometryModel: ARFaceGeometryModel?
+    private var lastFaceBlenShapes:[String]
     override init() {
         self.queue = DispatchQueue(label: "com.spree3d.ARSession")
+        self.lastFaceBlenShapes = [String]()
         super.init()
         self.subject = PassthroughSubject<simd_float4x4, Never>()
         self.cancelable = subject?
@@ -22,7 +25,6 @@ class SceneViewDelegate: NSObject {
             .receive(on: self.queue)
             .sink { faceTransform in
                 Task { [weak self] in
-//                    print("Detach")
                     await self?.cancelableReceiveValue(faceTransform)
                 }
             }
@@ -30,7 +32,6 @@ class SceneViewDelegate: NSObject {
 }
 extension SceneViewDelegate {
     func cancelableReceiveValue(_ faceTransform:simd_float4x4) async {
-//        print("SceneViewDelegate: CapsulesModel is about to be uodated")
         let faceTranslation = FaceTranslation(transform:faceTransform)
         CapsulesModel.shared.translation.set(faceTranslation: faceTranslation)
         let facePosition = FacePosition(camera: faceTransform)
@@ -51,19 +52,44 @@ extension SceneViewDelegate: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         self.queue.async {
             guard let _ = anchor as? ARFaceAnchor else { return }
-    //        let quat = simd_quatf(anchor.transform ) * simd_quatf.z270
-//            print("SceneViewDelegate: ARSession: Face added")
             
             self.subject?.send(anchor.transform)
+        }
+        self.queue.async { [weak self] in
+            guard let self = self else { return }
+            self.arfaceGeometryModel = ARFaceGeometryModel(renderer, nodeFor: anchor)
+            guard let faceNode = self.arfaceGeometryModel?.faceNode else { return }
+            node.addChildNode(faceNode)
         }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         self.queue.async {
-            guard let _ = anchor as? ARFaceAnchor else {
-                return
+            guard let arfaceGeometryModel = self.arfaceGeometryModel,
+                  let faceNode = arfaceGeometryModel.faceNode,
+                  let faceGeometry = faceNode.geometry as? ARSCNFaceGeometry,
+                  let faceAnchor = anchor as? ARFaceAnchor
+            else { return }
+            
+            let blendShapes = faceAnchor.blendShapes
+                .sorted { (first, second) -> Bool in
+                    first.value.floatValue > second.value.floatValue
+                }
+                .filter { $0.value.floatValue > 0.5 }
+                .map { $0.key.rawValue }
+                .first( 3 )
+                .sorted()
+            if self.lastFaceBlenShapes != blendShapes {
+                print("SceneViewDelegate: BelndShapes \(blendShapes)")
+                self.lastFaceBlenShapes = blendShapes
             }
-//            print("SceneViewDelegate: Face uodated")
+            
+            faceGeometry.update(from: faceAnchor.geometry)
+            let meshTransparency = CapsulesModel.shared.faceMesh.alphaValue.cgFloat
+            faceGeometry.materials.forEach {
+                $0.transparency = meshTransparency
+            }
+            
             self.subject?.send(anchor.transform)
         }
     }

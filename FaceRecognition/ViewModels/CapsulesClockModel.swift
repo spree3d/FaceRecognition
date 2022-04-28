@@ -12,9 +12,10 @@ import SwiftUI
 /// ViiewModels checnge their publsihed in the main queue and all their public
 /// apis work asyn in its serial ques.
 /// TODO: Change the class to actor.
+final
 class CapsulesClockModel: ObservableObject {
-    @Published var capsules: [Float:Color]
-    private var queue: DispatchQueue
+    @Published private(set) var capsules: [Float:Color]
+    private let queue: DispatchQueue
     private var capsulesModelSubscriber: AnyCancellable?
     private var animationBlock: (() async  -> Void)?
     init() {
@@ -27,14 +28,9 @@ class CapsulesClockModel: ObservableObject {
                     await self?.capsulesModelSubscriberReceiveValue()
                 }
             }
-//#if targetEnvironment(simulator)
-//#else
-        Task { [weak self] in
-            let capsules = await CapsulesModel.shared.postions.capsules
-            await self?.checkOnAnimation()
-            DispatchQueue.main.async { [weak self] in self?.capsules = capsules }
+        Task {
+            await self.capsulesModelSubscriberReceiveValue()
         }
-//#endif
     }
 }
 extension CapsulesClockModel {
