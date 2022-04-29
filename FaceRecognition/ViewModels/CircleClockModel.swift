@@ -24,10 +24,7 @@ class CircleClockModel: ObservableObject {
         capsulesModelSubscriber = CapsulesModel.shared.translationPublisher
             .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
             .sink { [weak self] in
-                self?.queue.async { [weak self] in
-                    self?.checkOnAnimation()
-                }
-            }
+                self?.checkOnAnimation()            }
     }
 }
 

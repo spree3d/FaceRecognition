@@ -44,3 +44,10 @@ extension Array {
             .map { $0.element}
     }
 }
+
+extension Dictionary {
+    func toJsonData() throws -> Data {
+        let data = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+        return data
+    }
+}

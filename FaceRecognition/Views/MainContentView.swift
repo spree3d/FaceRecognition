@@ -31,8 +31,8 @@ struct MainContentView: View {
             .padding(.horizontal)
             FacialFeaturesListView(list:model.facialFeaturesList)
             VStack {
-                MaskFaceExpression()
-                MaskTransparency()
+                MaskFaceExpression(maskFacialFeature: model.maskFacialFeature)
+                MaskTransparency(meshAlphaValue: model.meshAlphaValue)
             }
             .padding()
                    
@@ -48,6 +48,7 @@ struct MainContentView_Previews: PreviewProvider {
 }
 
 struct MainActionsView: View {
+    @State var showEmailComposer = false
     var body: some View {
         HStack {
             Button("Reset") {
@@ -59,7 +60,21 @@ struct MainActionsView: View {
             .border(.blue, width: 1)
             Spacer()
             Button("Send Mesh") {
-                print("Message sended")
+                showEmailComposer = true
+            }
+            .sheet(isPresented: $showEmailComposer) {
+                MailView(
+                    subject: "Face Mesh",
+                    message: "JSon mesh.\n Json files can be open in here http://jsonviewer.stack.hu/.",
+                    attachment: MailView.Attachment(data: try? CapsulesModel
+                        .shared.faceMesh.faceAnchor?.spree3dMesh.toJsonData(),
+                                                    mimeType: "plain",
+                                                    filename: "faceMesh.json"),
+                    onResult: { _ in
+                            // Handle the result if needed.
+                        self.showEmailComposer = false
+                    }
+                )
             }
             .padding()
             .border(.blue, width: 1)
@@ -106,6 +121,7 @@ struct FacialFeatureView: View {
 }
 
 struct MaskFaceExpression: View {
+    var maskFacialFeature: Float
     var body: some View {
         HStack {
             Text("Mask F.Expresions")
@@ -118,17 +134,14 @@ struct MaskFaceExpression: View {
                     CapsulesModel.shared.faceMesh.set(maskFacialFeature: value)
                 } ),
                    in: 0.0...1.0,
-                   step: 0.1) {
-            } minimumValueLabel: {
-                Text("0.0")
-            } maximumValueLabel: {
-                Text("1.0")
-            }
+                   step: 0.1)
+            Text(String(format: "%.2f", maskFacialFeature))
         }
     }
 }
 
 struct MaskTransparency: View {
+    var meshAlphaValue: Float
     var body: some View {
         HStack {
             Text("Mask Transparency")
@@ -141,12 +154,8 @@ struct MaskTransparency: View {
                     CapsulesModel.shared.faceMesh.set(alphaValue: value)
                 } ),
                    in: 0.0...1.0,
-                   step: 0.1) {
-            } minimumValueLabel: {
-                Text("0.0")
-            } maximumValueLabel: {
-                Text("1.0")
-            }
+                   step: 0.1)
+            Text(String(format: "%.2f", meshAlphaValue))
         }
     }
 }

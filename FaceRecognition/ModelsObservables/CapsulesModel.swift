@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import SwiftUI
+import ARKit
 
 enum CapsulesModelBuilder {
     static var capsulesMaker: ()->[Float:Color] {
@@ -41,11 +42,13 @@ class CapsulesModel {
             }
         }
         @Published private(set) var facialFeaturesList: [(String,Float)]
+        private(set) var faceAnchor: ARFaceAnchor?
         private let queue: DispatchQueue
         init() {
-            self.alphaValue = 1.0
+            self.alphaValue = 0.5
             self.facialFeaturesList = [(String,Float)]()
-            self.maskFacialFeature = 0.0
+            self.maskFacialFeature = 0.3
+            self.faceAnchor = nil
             self.queue = DispatchQueue(label: "com.spree3d.CapsulesModel.FaceMesh")
         }
     }
@@ -97,7 +100,7 @@ extension CapsulesModel.FaceMesh {
             self?.maskFacialFeature = maskFacialFeature
         }
     }
-    func set(facialFeaturesList: [(String,Float)] ) {
+    func set(facialFeaturesList: [(String,Float)], faceAnchor: ARFaceAnchor ) {
         self.queue.async { [weak self] in
             guard let self = self else { return }
               let newValue = facialFeaturesList
@@ -109,6 +112,7 @@ extension CapsulesModel.FaceMesh {
                 return
             }
             self.facialFeaturesList = newValue
+            self.faceAnchor = faceAnchor
         }
     }
 }

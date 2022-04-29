@@ -21,7 +21,6 @@ class SceneViewDelegate: NSObject {
         self.cancelable = subject?
 //            .debounce(for: .milliseconds(100), scheduler: self.queue)
             .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
-            .receive(on: self.queue)
             .sink { faceTransform in
                 Task { [weak self] in
                     await self?.cancelableReceiveValue(faceTransform)
@@ -70,7 +69,7 @@ extension SceneViewDelegate: ARSCNViewDelegate {
             else { return }
             
             let facialFeaturesList = faceAnchor.blendShapes.map { ($0.key.rawValue, $0.value.floatValue) }
-            CapsulesModel.shared.faceMesh.set(facialFeaturesList: facialFeaturesList)
+            CapsulesModel.shared.faceMesh.set(facialFeaturesList: facialFeaturesList, faceAnchor: faceAnchor)
             
             faceGeometry.update(from: faceAnchor.geometry)
             let meshTransparency = CapsulesModel.shared.faceMesh.alphaValue.cgFloat

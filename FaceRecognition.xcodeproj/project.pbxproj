@@ -14,6 +14,8 @@
 		C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */; };
 		C9459BAC281896C60016DA32 /* ARFaceGeometry.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */; };
 		C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */; };
+		C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */; };
+		C9459BB3281B54DA0016DA32 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB2281B54DA0016DA32 /* MailView.swift */; };
 		C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */; };
 		C9AAE0AA280E088B00771A61 /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A9280E088B00771A61 /* MainContentView.swift */; };
 		C9AAE0AC280E088C00771A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9AAE0AB280E088C00771A61 /* Assets.xcassets */; };
@@ -60,6 +62,8 @@
 		C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Ext.swift"; sourceTree = "<group>"; };
 		C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ARFaceGeometry.obj; sourceTree = "<group>"; };
 		C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceGeometryModel.swift; sourceTree = "<group>"; };
+		C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARKit+Ext.swift"; sourceTree = "<group>"; };
+		C9459BB2281B54DA0016DA32 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		C9AAE0A4280E088B00771A61 /* FaceRecognition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceRecognition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionApp.swift; sourceTree = "<group>"; };
 		C9AAE0A9280E088B00771A61 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 				C93AE15028109732003A0939 /* CoreGraphics+Ext.swift */,
 				C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */,
 				C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */,
+				C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -208,6 +213,7 @@
 				C9AAE0D7280F79AE00771A61 /* CapsuleClock.swift */,
 				C9AAE0D9280F79F900771A61 /* CapsulesClock.swift */,
 				C9AAE0A9280E088B00771A61 /* MainContentView.swift */,
+				C9459BB2281B54DA0016DA32 /* MailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 				C9AAE0DC280F7A5600771A61 /* CapsulesModel.swift in Sources */,
 				C9F7600D2811007A00FF8F8F /* FacePosition.swift in Sources */,
 				C9F7600A2810E46600FF8F8F /* CapsulesClockModel.swift in Sources */,
+				C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */,
 				C93AE14D28109275003A0939 /* Resolver+App.swift in Sources */,
 				C9AAE0DA280F79F900771A61 /* CapsulesClock.swift in Sources */,
 				C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */,
@@ -393,6 +400,7 @@
 				C93AE15128109732003A0939 /* CoreGraphics+Ext.swift in Sources */,
 				C9F760152812B20B00FF8F8F /* MainContentViewModel.swift in Sources */,
 				C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */,
+				C9459BB3281B54DA0016DA32 /* MailView.swift in Sources */,
 				C9AAE0D6280F78E600771A61 /* CircleClock.swift in Sources */,
 				C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */,
 				C9F760112811F88900FF8F8F /* CircleClockModel.swift in Sources */,
