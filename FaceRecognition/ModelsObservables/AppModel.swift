@@ -60,10 +60,15 @@ class AppModel {
      @sticks: [Float, Float] - Angle of the stick in grades vs its value from 0 to 1.
      */
     class SticksPositions: ObservableObject {
-        @Published var sticks: [Float: Float]
+        struct Position {
+            let angle: Float
+            var value: Float
+            var time: TimeInterval? // in seconds
+        }
+        @Published var positions: [Position]
         private let queue: DispatchQueue
         init(count:Int) {
-            self.sticks = Self.sticksDictionary(count: count)
+            self.positions = Self.positionsBuilder(count: count)
             self.queue = DispatchQueue(label: "com.spree3d.SticksPositions.\(UUID().uuidString)")
         }
     }
@@ -102,53 +107,60 @@ extension AppModel.FaceMesh {
         }
     }
 }
-
-extension AppModel.SticksPositions {
-    private
-    static func sticksDictionary(count:Int) -> [Float:Float] {
-        let angle = Float.two_pi / Float(count)
-        return stride(from: 0, to: Float.two_pi, by: angle)
-            .reduce(into:[Float: Float]()) { $0[$1] = 0.float }
-    }
-    var rotatedAngles: [Float] { sticks.keys.sorted() }
+extension AppModel.SticksPositions.Position: Identifiable {
+    var id: Float { angle }
 }
 extension AppModel.SticksPositions {
     private
-    static func neighbourStick(sticks:[Float:Float], rotation:Float, value:Float) -> [Float: Float] {
+    static func positionsBuilder(count:Int) -> [Position] {
+        let angle = Float.two_pi / Float(count)
+        return stride(from: 0, to: Float.two_pi, by: angle)
+            .map { Position(angle: $0, value: 0.float, time: nil) }
+    }
+}
+extension AppModel.SticksPositions.Position {
+    func update(threshold: Float) -> AppModel.SticksPositions.Position {
+        AppModel.SticksPositions.Position(angle: self.angle,
+                                          value: self.value < threshold ? 0.float : self.value,
+                                          time: self.time)
+    }
+}
+extension AppModel.SticksPositions {
+    private
+    static func neighbourStick(positions:[Position], rotation:Float, value:Float, time:TimeInterval) -> [Position] {
         let range = Float.pi / 4.float * value // angle affected by this new value
-        let angles = sticks.keys.sorted()
-            .map { ($0, fabsf($0 - rotation)) } // touples angles and delta from rotation.
-            .filter { $0.1 < range } // remove angles farther than range
-        return angles.reduce(into: [Float:Float]()) {
-            let newvalue = value * (1.float - $1.1 / range)
-            $0[$1.0] = newvalue
-        }
+        return positions
+            .filter { fabsf($0.angle - rotation) < range }
+            .map {
+                Position(angle: $0.angle,
+                         value: value * (1.float - fabsf($0.angle - rotation)  / range ),
+                         time: time)
+            }
     }
     
-    func updateSticksPositions(rotation:Float, value:Float) {
-        let valueThreshold:Float = 0.80
+    func updateSticksPositions(rotation:Float, value:Float, time:TimeInterval) {
+        let valueThreshold:Float = 0.75
         // Obtain class values on main queue
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            var sticks = self.sticks.reduce(into: [Float:Float]()) {
-                $0[$1.0] = $1.1 < valueThreshold ? 0 : $1.1
-            }
+            var positions = self.positions
             // Calculate new sticks values on class queue
             self.queue.async { [weak self] in
                 guard let self = self else { return }
                 // Reset to cero the values smaller than valueThreshold
-                sticks = sticks.reduce(into: [Float:Float]()) {
-                    $0[$1.0] = $1.1 < valueThreshold ? 0 : $1.1
-                }
-                let updatedPositions = Self.neighbourStick(sticks: sticks,
+                positions = positions.map { $0.update(threshold: valueThreshold) }
+                let updatedPositions = Self.neighbourStick(positions: positions,
                                                            rotation: rotation,
-                                                           value: value)
-                updatedPositions.forEach {
-                    guard let currentValue = sticks[$0] else { return }
-                    if currentValue < $1 { sticks[$0] = $1 }
+                                                           value: value,
+                                                           time:time)
+                    .reduce(into: [Float:Position]()) { $0[$1.angle] = $1 }
+                positions = positions.map {
+                    if let position = updatedPositions[$0.angle],
+                       position.value > $0.value { return position }
+                    return $0
                 }
                 DispatchQueue.main.async {
-                    self.sticks = sticks
+                    self.positions = positions
                 }
             }
         }

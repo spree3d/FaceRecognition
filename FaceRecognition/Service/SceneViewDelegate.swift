@@ -38,7 +38,8 @@ extension SceneViewDelegate {
         if let (rotation, accuracy) = try? FaceOrientation.orientation(lookAt) {
             print("rotation, accuracy: \(rotation.toGrades), \(accuracy)")
             self.sticksPositions.updateSticksPositions(rotation: rotation,
-                                                       value: accuracy)
+                                                       value: accuracy,
+                                                       time: Date().timeIntervalSince1970)
         }
         
         /*

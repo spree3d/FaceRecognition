@@ -16,9 +16,8 @@ struct SticksRingView: View {
         GeometryReader { geom in
             ZStack {
                 ring(geom.size)
-                ForEach( model.sticksPositions.rotatedAngles, id: \.self) {
-                    rotation in
-                    stick(geom.size, rotation)
+                ForEach( model.sticksPositions.positions) {
+                    stick(geom.size, $0)
                 }
                 
             }
@@ -35,16 +34,16 @@ extension SticksRingView {
                     lineWidth: model.ringWidth(size: size))
     }
     private
-    func stickModel(_ size:CGSize, _ rotation:Float) -> StickModel {
+    func stickModel(_ size:CGSize, _ rotation:Float, _ opacity:Float) -> StickModel {
         StickModel(size: size,
                    ringWidth: model.ringWidth(size: size),
-                   count: model.sticksPositions.sticks.count,
+                   count: model.sticksPositions.positions.count,
                    rotation: rotation,
-                   opacity: model.sticksPositions.sticks[rotation] ?? 0)
+                   opacity: opacity)
     }
     private
-    func stick(_ size:CGSize, _ rotation:Float) -> some View {
-        StickView(model: stickModel(size, rotation))
+    func stick(_ size:CGSize, _ positions:AppModel.SticksPositions.Position) -> some View {
+        StickView(model: stickModel(size, positions.angle, positions.value))
     }
 }
 

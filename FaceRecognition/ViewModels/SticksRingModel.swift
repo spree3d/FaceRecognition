@@ -19,7 +19,7 @@ class SticksRingModel: ObservableObject {
     // throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
     init(sticksPositions: AppModel.SticksPositions) {
         self.sticksPositions = sticksPositions
-        self.sticksPositionsListener = sticksPositions.$sticks
+        self.sticksPositionsListener = sticksPositions.$positions
             .throttle(for: .milliseconds(100), scheduler: RunLoop.main, latest: true)
             .sink { [weak self] _ in
                 self?.objectWillChange.send()
