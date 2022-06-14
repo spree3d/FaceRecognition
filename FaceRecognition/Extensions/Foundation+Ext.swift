@@ -12,7 +12,9 @@ extension Int {
     var float: Float { Float(self) }
 }
 extension Float {
+    var double: Double { Double(self) }
     var cgFloat: CGFloat { CGFloat(self) }
+    @inlinable public static var two_pi: Float { Float.pi * 2 }
     var toRadians: Float { self / 180.0 * Float.pi }
     var toGrades: Float { self * 180.0 / Float.pi }
     var gradeNomalize: Float {
@@ -24,6 +26,10 @@ extension Float {
         return grade > 0 ? grade : (Float.pi * 2.0) + grade
     }
     func inRange(_ left:Float, _ right:Float) -> Bool { self > left && self < right }
+    func equal(_ right:Float, error: Float) -> Bool {
+        self + error <= right
+        && self - error >= right
+    }
     func gradeAroundCero(biggerThan: Float) -> Bool {
         let biggerThan = biggerThan.gradeNomalize
         let grade = self.gradeNomalize

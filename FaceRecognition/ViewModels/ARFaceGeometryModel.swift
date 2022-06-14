@@ -12,7 +12,7 @@ import SceneKit
 
 extension SCNNode {
     convenience
-    init?(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) {
+    init?(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor, transparency: Float) {
 #if targetEnvironment(simulator)
         return nil
 #else
@@ -21,7 +21,7 @@ extension SCNNode {
         
         let faceGeometry = ARSCNFaceGeometry(device: sceneView.device!)!
         let material = faceGeometry.firstMaterial!
-        material.transparency = CGFloat( CapsulesModel.shared.faceMesh.alphaValue )
+        material.transparency = transparency.cgFloat
         
         material.lightingModel = .physicallyBased
         

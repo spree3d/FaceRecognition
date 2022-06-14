@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FaceRecognitionApp: App {
+    let appModel = AppModel(count: 8*8)
     var body: some Scene {
         WindowGroup {
-            MainContentView()
+            MainContentView(model: MainContentModel(faceMesh: appModel.faceMesh,
+                                                    sticksPositions: appModel.sticksPositions))
         }
     }
 }

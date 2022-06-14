@@ -11,8 +11,7 @@ import SwiftUI
 
 
 struct MainContentView: View {
-    var ringWidth:Float = 20.0
-    @StateObject private var model = MainContentViewModel()
+    @StateObject var model: MainContentModel
     @State private var isShowingPopover = false
     var body: some View {
         VStack {
@@ -24,23 +23,22 @@ struct MainContentView: View {
                 .padding(.horizontal)
             }
             ZStack {
-    #if targetEnvironment(simulator)
-    #else
-                ARFaceSCNViewUI()
-    #endif
-                CircleClock(width: ringWidth)
-                if model.status == .inRange {
-                    CapsulesClock(capsuleHeight: ringWidth)
-                }
+#if targetEnvironment(simulator)
+                self.model.sticksRingView
+#else
+                ARFaceSCNViewUI(faceMesh: model.faceMesh,
+                                sticksPositions: model.sticksPositions)
+                self.model.sticksRingView
+#endif
             }
             .clipShape(Circle())
             .padding()
-            MainActionsView()
+            MainActionsView(faceMesh: model.faceMesh)
             .padding(.horizontal)
-            FacialFeaturesListView(list:model.facialFeaturesList)
+            FacialFeaturesListView(list:model.faceMesh.facialFeaturesList)
             VStack {
-                MaskFaceExpression(maskFacialFeature: model.maskFacialFeature)
-                MaskTransparency(meshAlphaValue: model.meshAlphaValue)
+                MaskFaceExpressionView(faceMesh: $model.faceMesh)
+                MaskTransparencyView(faceMesh: $model.faceMesh)
             }
             .padding()
                    
@@ -49,8 +47,15 @@ struct MainContentView: View {
 }
 
 struct MainContentView_Previews: PreviewProvider {
+    struct MainContentView_Container: View {
+        let appModel = AppModel(count: 8*8)
+        var body: some View {
+            MainContentView(model: MainContentModel(faceMesh: appModel.faceMesh,
+                                                    sticksPositions: appModel.sticksPositions))
+        }
+    }
     static var previews: some View {
-        MainContentView()
+        MainContentView_Container()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Mini"))
     }
 }

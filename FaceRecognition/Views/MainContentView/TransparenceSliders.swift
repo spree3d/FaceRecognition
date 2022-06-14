@@ -8,42 +8,26 @@
 import Foundation
 import SwiftUI
 
-struct MaskFaceExpression: View {
-    var maskFacialFeature: Float
+struct MaskFaceExpressionView: View {
+    @Binding var faceMesh: AppModel.FaceMesh
     var body: some View {
         HStack {
             Text("Mask F.Expresions")
                 .foregroundColor(.blue)
-            Slider(value: Binding(
-                get: { () -> Float in
-                    CapsulesModel.shared.faceMesh.maskFacialFeature
-                },
-                set: { (value:Float, Transaction) -> Void in
-                    CapsulesModel.shared.faceMesh.set(maskFacialFeature: value)
-                } ),
-                   in: 0.0...1.0,
-                   step: 0.1)
-            Text(String(format: "%.2f", maskFacialFeature))
+            Slider(value: $faceMesh.maskFacialFeature, in: 0.0...1.0, step: 0.2)
+            Text(String(format: "%.2f", faceMesh.maskFacialFeature))
         }
     }
 }
 
-struct MaskTransparency: View {
-    var meshAlphaValue: Float
+struct MaskTransparencyView: View {
+    @Binding var faceMesh: AppModel.FaceMesh
     var body: some View {
         HStack {
             Text("Mask Transparency")
                 .foregroundColor(.blue)
-            Slider(value: Binding(
-                get: { () -> Float in
-                    CapsulesModel.shared.faceMesh.alphaValue
-                },
-                set: { (value:Float, Transaction) -> Void in
-                    CapsulesModel.shared.faceMesh.set(alphaValue: value)
-                } ),
-                   in: 0.0...1.0,
-                   step: 0.1)
-            Text(String(format: "%.2f", meshAlphaValue))
+            Slider(value: $faceMesh.alphaValue, in: 0.0...1.0, step: 0.1)
+            Text(String(format: "%.2f", faceMesh.alphaValue))
         }
     }
 }

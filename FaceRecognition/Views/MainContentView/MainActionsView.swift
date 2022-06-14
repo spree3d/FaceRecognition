@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct MainActionsView: View {
-    @State var showEmailComposer = false
+    let faceMesh: AppModel.FaceMesh
+    @State private var showEmailComposer = false
     var body: some View {
         HStack {
             Button("Reset") {
                 Task.detached {
-                    await CapsulesModel.shared.postions.clear()
+//                    await AppModel.shared.postions.clear()
                 }
             }
             .padding()
@@ -26,8 +27,7 @@ struct MainActionsView: View {
                 MailView(
                     subject: "Face Mesh",
                     message: "JSon mesh.\n Json files can be open in here http://jsonviewer.stack.hu/.",
-                    attachment: MailView.Attachment(data: try? CapsulesModel
-                        .shared.faceMesh.faceAnchor?.spree3dMesh.toJsonData(),
+                    attachment: MailView.Attachment(data: try? faceMesh.faceAnchor?.spree3dMesh.toJsonData(),
                                                     mimeType: "plain",
                                                     filename: "faceMesh.json"),
                     onResult: { _ in
@@ -42,8 +42,10 @@ struct MainActionsView: View {
     }
 }
 
+/*
 struct MainActionsView_Previews: PreviewProvider {
     static var previews: some View {
         MainActionsView()
     }
 }
+*/

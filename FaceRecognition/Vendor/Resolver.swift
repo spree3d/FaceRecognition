@@ -32,7 +32,7 @@ import SwiftUI
 #else
 import Foundation
 #endif
-
+/*
     // swiftlint:disable file_length
 public protocol ResolverRegistering {
     static func registerAllServices()
@@ -900,3 +900,4 @@ public extension UIViewController {
 }
 #endif
 #endif
+*/

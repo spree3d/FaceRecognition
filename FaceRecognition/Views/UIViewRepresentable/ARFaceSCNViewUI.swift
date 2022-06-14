@@ -21,11 +21,13 @@ struct ARFaceSCNViewUI: UIViewRepresentable {
     private var sceneView: ARSCNView
     private var sessionDelegate: SessionDelegate
     private let sceneViewDelegate: SceneViewDelegate
-    init() {
+    init(faceMesh: AppModel.FaceMesh, sticksPositions: AppModel.SticksPositions) {
         sceneView = ARSCNView()
+        sceneView.debugOptions = [.showCameras, .showWorldOrigin, .showBoundingBoxes]
         sessionDelegate = SessionDelegate()
         sceneView.session.delegate = sessionDelegate
-        sceneViewDelegate = SceneViewDelegate()
+        sceneViewDelegate = SceneViewDelegate(faceMesh: faceMesh,
+                                              sticksPositions: sticksPositions)
     }
     func makeUIView(context: Context) -> ARSCNView {
         guard ARFaceTrackingConfiguration.isSupported else {
@@ -35,6 +37,7 @@ struct ARFaceSCNViewUI: UIViewRepresentable {
         configuration.isLightEstimationEnabled = true
         configuration.maximumNumberOfTrackedFaces = 1
         configuration.worldAlignment = .camera
+            //.gravity .camera
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
         sceneView.delegate = sceneViewDelegate
         return sceneView
@@ -48,9 +51,10 @@ struct ARFaceSCNViewUI: UIViewRepresentable {
     }
 }
 
-
+/*
 struct ARSCNViewUI_Previews: PreviewProvider {
     static var previews: some View {
         ARFaceSCNViewUI()
     }
 }
+*/

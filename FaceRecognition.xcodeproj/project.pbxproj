@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9270B5A285708A600FDA006 /* StickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9270B59285708A600FDA006 /* StickModel.swift */; };
 		C93AE14B28108BBF003A0939 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE14A28108BBF003A0939 /* Resolver.swift */; };
 		C93AE14D28109275003A0939 /* Resolver+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE14C28109275003A0939 /* Resolver+App.swift */; };
 		C93AE14F281096A3003A0939 /* Foundation+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE14E281096A3003A0939 /* Foundation+Ext.swift */; };
@@ -29,17 +30,15 @@
 		C9AAE0C3280E088C00771A61 /* FaceRecognitionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0C2280E088C00771A61 /* FaceRecognitionUITests.swift */; };
 		C9AAE0C5280E088D00771A61 /* FaceRecognitionUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0C4280E088D00771A61 /* FaceRecognitionUITestsLaunchTests.swift */; };
 		C9AAE0D3280E0B6200771A61 /* ARFaceSCNViewUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D2280E0B6200771A61 /* ARFaceSCNViewUI.swift */; };
-		C9AAE0D6280F78E600771A61 /* CircleClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D5280F78E600771A61 /* CircleClock.swift */; };
-		C9AAE0D8280F79AE00771A61 /* CapsuleClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D7280F79AE00771A61 /* CapsuleClock.swift */; };
-		C9AAE0DA280F79F900771A61 /* CapsulesClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D9280F79F900771A61 /* CapsulesClock.swift */; };
-		C9AAE0DC280F7A5600771A61 /* CapsulesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0DB280F7A5600771A61 /* CapsulesModel.swift */; };
+		C9AAE0D8280F79AE00771A61 /* StickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D7280F79AE00771A61 /* StickView.swift */; };
+		C9AAE0DA280F79F900771A61 /* SticksRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0D9280F79F900771A61 /* SticksRingView.swift */; };
+		C9AAE0DC280F7A5600771A61 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0DB280F7A5600771A61 /* AppModel.swift */; };
 		C9AAE0E1280F829500771A61 /* SceneViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */; };
 		C9F760082810E06200FF8F8F /* SwiftUI+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */; };
-		C9F7600A2810E46600FF8F8F /* CapsulesClockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760092810E46600FF8F8F /* CapsulesClockModel.swift */; };
-		C9F7600D2811007A00FF8F8F /* FacePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7600C2811007A00FF8F8F /* FacePosition.swift */; };
+		C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760092810E46600FF8F8F /* SticksRingModel.swift */; };
+		C9F7600D2811007A00FF8F8F /* FaceOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7600C2811007A00FF8F8F /* FaceOrientation.swift */; };
 		C9F7600F2811F02500FF8F8F /* FaceTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7600E2811F02500FF8F8F /* FaceTranslation.swift */; };
-		C9F760112811F88900FF8F8F /* CircleClockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760102811F88900FF8F8F /* CircleClockModel.swift */; };
-		C9F760152812B20B00FF8F8F /* MainContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760142812B20B00FF8F8F /* MainContentViewModel.swift */; };
+		C9F760152812B20B00FF8F8F /* MainContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760142812B20B00FF8F8F /* MainContentModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C9270B59285708A600FDA006 /* StickModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickModel.swift; sourceTree = "<group>"; };
 		C93AE14A28108BBF003A0939 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		C93AE14C28109275003A0939 /* Resolver+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+App.swift"; sourceTree = "<group>"; };
 		C93AE14E281096A3003A0939 /* Foundation+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Ext.swift"; sourceTree = "<group>"; };
@@ -85,17 +85,15 @@
 		C9AAE0C2280E088C00771A61 /* FaceRecognitionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionUITests.swift; sourceTree = "<group>"; };
 		C9AAE0C4280E088D00771A61 /* FaceRecognitionUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C9AAE0D2280E0B6200771A61 /* ARFaceSCNViewUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceSCNViewUI.swift; sourceTree = "<group>"; };
-		C9AAE0D5280F78E600771A61 /* CircleClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleClock.swift; sourceTree = "<group>"; };
-		C9AAE0D7280F79AE00771A61 /* CapsuleClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleClock.swift; sourceTree = "<group>"; };
-		C9AAE0D9280F79F900771A61 /* CapsulesClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsulesClock.swift; sourceTree = "<group>"; };
-		C9AAE0DB280F7A5600771A61 /* CapsulesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsulesModel.swift; sourceTree = "<group>"; };
+		C9AAE0D7280F79AE00771A61 /* StickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickView.swift; sourceTree = "<group>"; };
+		C9AAE0D9280F79F900771A61 /* SticksRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SticksRingView.swift; sourceTree = "<group>"; };
+		C9AAE0DB280F7A5600771A61 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewDelegate.swift; sourceTree = "<group>"; };
 		C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Ext.swift"; sourceTree = "<group>"; };
-		C9F760092810E46600FF8F8F /* CapsulesClockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsulesClockModel.swift; sourceTree = "<group>"; };
-		C9F7600C2811007A00FF8F8F /* FacePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePosition.swift; sourceTree = "<group>"; };
+		C9F760092810E46600FF8F8F /* SticksRingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SticksRingModel.swift; sourceTree = "<group>"; };
+		C9F7600C2811007A00FF8F8F /* FaceOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceOrientation.swift; sourceTree = "<group>"; };
 		C9F7600E2811F02500FF8F8F /* FaceTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTranslation.swift; sourceTree = "<group>"; };
-		C9F760102811F88900FF8F8F /* CircleClockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleClockModel.swift; sourceTree = "<group>"; };
-		C9F760142812B20B00FF8F8F /* MainContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentViewModel.swift; sourceTree = "<group>"; };
+		C9F760142812B20B00FF8F8F /* MainContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,9 +231,8 @@
 			children = (
 				C9459BB6281C60A60016DA32 /* MainContentView */,
 				C9459BAF2819CAC70016DA32 /* UIViewRepresentable */,
-				C9AAE0D5280F78E600771A61 /* CircleClock.swift */,
-				C9AAE0D7280F79AE00771A61 /* CapsuleClock.swift */,
-				C9AAE0D9280F79F900771A61 /* CapsulesClock.swift */,
+				C9AAE0D7280F79AE00771A61 /* StickView.swift */,
+				C9AAE0D9280F79F900771A61 /* SticksRingView.swift */,
 				C9459BB2281B54DA0016DA32 /* MailView.swift */,
 			);
 			path = Views;
@@ -244,7 +241,7 @@
 		C9AAE0DD280F7AA300771A61 /* ModelsValueType */ = {
 			isa = PBXGroup;
 			children = (
-				C9F7600C2811007A00FF8F8F /* FacePosition.swift */,
+				C9F7600C2811007A00FF8F8F /* FaceOrientation.swift */,
 				C9F7600E2811F02500FF8F8F /* FaceTranslation.swift */,
 			);
 			path = ModelsValueType;
@@ -253,10 +250,10 @@
 		C9F7600B2810FB1E00FF8F8F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C9F760142812B20B00FF8F8F /* MainContentViewModel.swift */,
-				C9F760102811F88900FF8F8F /* CircleClockModel.swift */,
-				C9F760092810E46600FF8F8F /* CapsulesClockModel.swift */,
+				C9F760142812B20B00FF8F8F /* MainContentModel.swift */,
+				C9F760092810E46600FF8F8F /* SticksRingModel.swift */,
 				C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */,
+				C9270B59285708A600FDA006 /* StickModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -264,7 +261,7 @@
 		C9F7601228124DC300FF8F8F /* ModelsObservables */ = {
 			isa = PBXGroup;
 			children = (
-				C9AAE0DB280F7A5600771A61 /* CapsulesModel.swift */,
+				C9AAE0DB280F7A5600771A61 /* AppModel.swift */,
 			);
 			path = ModelsObservables;
 			sourceTree = "<group>";
@@ -408,15 +405,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9270B5A285708A600FDA006 /* StickModel.swift in Sources */,
 				C9459BBE281C61700016DA32 /* FacialFeatureView.swift in Sources */,
 				C9F7600F2811F02500FF8F8F /* FaceTranslation.swift in Sources */,
 				C9459BBA281C611E0016DA32 /* MainActionsView.swift in Sources */,
-				C9AAE0DC280F7A5600771A61 /* CapsulesModel.swift in Sources */,
-				C9F7600D2811007A00FF8F8F /* FacePosition.swift in Sources */,
-				C9F7600A2810E46600FF8F8F /* CapsulesClockModel.swift in Sources */,
+				C9AAE0DC280F7A5600771A61 /* AppModel.swift in Sources */,
+				C9F7600D2811007A00FF8F8F /* FaceOrientation.swift in Sources */,
+				C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */,
 				C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */,
 				C93AE14D28109275003A0939 /* Resolver+App.swift in Sources */,
-				C9AAE0DA280F79F900771A61 /* CapsulesClock.swift in Sources */,
+				C9AAE0DA280F79F900771A61 /* SticksRingView.swift in Sources */,
 				C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */,
 				C9AAE0AA280E088B00771A61 /* MainContentView.swift in Sources */,
 				C93AE14B28108BBF003A0939 /* Resolver.swift in Sources */,
@@ -424,14 +422,12 @@
 				C9AAE0E1280F829500771A61 /* SceneViewDelegate.swift in Sources */,
 				C9459BB8281C60E60016DA32 /* TransparenceSliders.swift in Sources */,
 				C93AE15128109732003A0939 /* CoreGraphics+Ext.swift in Sources */,
-				C9F760152812B20B00FF8F8F /* MainContentViewModel.swift in Sources */,
+				C9F760152812B20B00FF8F8F /* MainContentModel.swift in Sources */,
 				C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */,
 				C9459BB3281B54DA0016DA32 /* MailView.swift in Sources */,
-				C9AAE0D6280F78E600771A61 /* CircleClock.swift in Sources */,
 				C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */,
-				C9F760112811F88900FF8F8F /* CircleClockModel.swift in Sources */,
 				C9459BC0281C620D0016DA32 /* HelpView.swift in Sources */,
-				C9AAE0D8280F79AE00771A61 /* CapsuleClock.swift in Sources */,
+				C9AAE0D8280F79AE00771A61 /* StickView.swift in Sources */,
 				C9459BBC281C61530016DA32 /* FacialFeaturesListView.swift in Sources */,
 				C9AAE0D3280E0B6200771A61 /* ARFaceSCNViewUI.swift in Sources */,
 				C9F760082810E06200FF8F8F /* SwiftUI+Ext.swift in Sources */,
@@ -604,14 +600,15 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Spree3dFR;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.spree3d.facerecognition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -638,14 +635,15 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Spree3dFR;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.spree3d.facerecognition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

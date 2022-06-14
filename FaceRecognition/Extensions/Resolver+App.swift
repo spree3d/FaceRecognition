@@ -6,12 +6,13 @@
 //
 
 import Foundation
-
+/*
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         Resolver
-            .register { CapsulesModel(capsulesMaker: CapsulesModelBuilder.capsulesMaker) }
+            .register { AppModel(capsulesMaker: AppModelBuilder.capsulesMaker) }
             .scope(.application)
     }
     
 }
+*/
