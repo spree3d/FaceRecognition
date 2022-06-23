@@ -6,38 +6,62 @@
 //
 
 import SwiftUI
+import UIKit
+import Resolver
 
 struct MainActionsView: View {
-    let faceMesh: AppModel.FaceMesh
+    @Injected private var faceMesh: FaceMesh
     @State private var showEmailComposer = false
     var body: some View {
         HStack {
-            Button("Reset") {
+//            Button("Reset") {
+//                Task.detached {
+////                    await AppModel.shared.postions.clear()
+//                }
+//            }
+//            .padding()
+//            .border(.blue, width: 1)
+//            Spacer()
+            Button("Video Start") {
                 Task.detached {
-//                    await AppModel.shared.postions.clear()
+                        print("TBD")
+                }
+            }
+            .padding()
+            .border(.blue, width: 1)
+            Button("Video Stop") {
+                Task.detached {
+                    print("TBD")
                 }
             }
             .padding()
             .border(.blue, width: 1)
             Spacer()
-            Button("Send Mesh") {
-                showEmailComposer = true
-            }
-            .sheet(isPresented: $showEmailComposer) {
-                MailView(
-                    subject: "Face Mesh",
-                    message: "JSon mesh.\n Json files can be open in here http://jsonviewer.stack.hu/.",
-                    attachment: MailView.Attachment(data: try? faceMesh.faceAnchor?.spree3dMesh.toJsonData(),
-                                                    mimeType: "plain",
-                                                    filename: "faceMesh.json"),
-                    onResult: { _ in
-                            // Handle the result if needed.
-                        self.showEmailComposer = false
-                    }
-                )
-            }
+            Spacer()
+            self.sendMeshButton
             .padding()
             .border(.blue, width: 1)
+        }
+    }
+}
+
+extension MainActionsView {
+    var sendMeshButton: some View {
+        Button("Send Mesh") {
+            showEmailComposer = true
+        }
+        .sheet(isPresented: $showEmailComposer) {
+            MailView(
+                subject: "Face Mesh",
+                message: "JSon mesh.\n Json files can be open in here http://jsonviewer.stack.hu/.",
+                attachment: MailView.Attachment(data: try? faceMesh.faceAnchor?.spree3dMesh.toJsonData(),
+                                                mimeType: "plain",
+                                                filename: "faceMesh.json"),
+                onResult: { _ in
+                        // Handle the result if needed.
+                    self.showEmailComposer = false
+                }
+            )
         }
     }
 }

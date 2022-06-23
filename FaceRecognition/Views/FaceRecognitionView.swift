@@ -9,31 +9,35 @@ import Combine
 import SwiftUI
 
 
-struct SticksRingView: View {
-    @StateObject
-    var model: SticksRingModel
+struct FaceRecognitionView: View {
+    @InjectedStateObject var model: SticksRingModel
     var body: some View {
         GeometryReader { geom in
             ZStack {
+    #if targetEnvironment(simulator)
                 ring(geom.size)
                 ForEach( model.sticksPositions.positions) {
                     stick(geom.size, $0)
                 }
-                
+    #else
+                ARFaceScnUIView()
+                ring(geom.size)
+                ForEach( model.sticksPositions.positions) {
+                    stick(geom.size, $0)
+                }
+    #endif
             }
         }
         .background(Color(red: 0, green: 0, blue: 0, opacity: 0.1))
     }
 }
-extension SticksRingView {
+
+extension FaceRecognitionView {
     private
     func ring(_ size:CGSize) -> some View {
-        Circle()
-            .scale(model.ringScale.cgFloat)
-            .stroke(Color.white,
-                    lineWidth: model.ringWidth(size: size))
+        Ring(scale: model.ringScale,
+             width: model.ringWidth(size: size).float)
     }
-    private
     func stickModel(_ size:CGSize, _ rotation:Float, _ opacity:Float) -> StickModel {
         StickModel(size: size,
                    ringWidth: model.ringWidth(size: size),
@@ -42,21 +46,21 @@ extension SticksRingView {
                    opacity: opacity)
     }
     private
-    func stick(_ size:CGSize, _ positions:AppModel.SticksPositions.Position) -> some View {
+    func stick(_ size:CGSize, _ positions:StickPositions.Position) -> some View {
         StickView(model: stickModel(size, positions.angle, positions.value))
     }
 }
 
-struct SticksRingView_Previews: PreviewProvider {
+struct FaceRecognitionView_Previews: PreviewProvider {
     struct SticksRingViewProxy: View {
-        let sticksPositions: AppModel.SticksPositions
+        let sticksPositions: StickPositions
         let model: SticksRingModel
         init() {
-            sticksPositions = AppModel.SticksPositions(count: 64)
-            model = SticksRingModel(sticksPositions: sticksPositions)
+            sticksPositions = StickPositions(count: 64)
+            model = SticksRingModel()
         }
         var body: some View {
-            SticksRingView(model: model)
+            FaceRecognitionView()
         }
     }
     

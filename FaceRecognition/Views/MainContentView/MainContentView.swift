@@ -8,10 +8,11 @@
 import Foundation
 import Combine
 import SwiftUI
+import Resolver
 
 
 struct MainContentView: View {
-    @StateObject var model: MainContentModel
+    @InjectedStateObject private var faceMesh: FaceMesh
     @State private var isShowingPopover = false
     var body: some View {
         VStack {
@@ -22,41 +23,25 @@ struct MainContentView: View {
                 .border(.blue)
                 .padding(.horizontal)
             }
-            ZStack {
-#if targetEnvironment(simulator)
-                self.model.sticksRingView
-#else
-                ARFaceSCNViewUI(faceMesh: model.faceMesh,
-                                sticksPositions: model.sticksPositions)
-                self.model.sticksRingView
-#endif
-            }
+            FaceRecognitionView()
             .clipShape(Circle())
             .padding()
-            MainActionsView(faceMesh: model.faceMesh)
+            MainActionsView()
             .padding(.horizontal)
-            FacialFeaturesListView(list:model.faceMesh.facialFeaturesList)
+            FacialFeaturesListView(list:faceMesh.facialFeaturesList)
             VStack {
-                MaskFaceExpressionView(faceMesh: $model.faceMesh)
-                MaskTransparencyView(faceMesh: $model.faceMesh)
+                MaskFaceExpressionView()
+                MaskTransparencyView()
+                PositionSitckNumberView()
             }
             .padding()
-                   
         }
     }
 }
 
 struct MainContentView_Previews: PreviewProvider {
-    struct MainContentView_Container: View {
-        let appModel = AppModel(count: 8*8)
-        var body: some View {
-            MainContentView(model: MainContentModel(faceMesh: appModel.faceMesh,
-                                                    sticksPositions: appModel.sticksPositions))
-        }
-    }
     static var previews: some View {
-        MainContentView_Container()
+        MainContentView()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Mini"))
     }
 }
-

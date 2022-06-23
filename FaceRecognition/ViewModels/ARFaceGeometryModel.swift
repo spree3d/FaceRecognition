@@ -10,22 +10,32 @@ import Combine
 import ARKit
 import SceneKit
 
+enum SCNNodeError: Error {
+    case simulatorNotSupported
+    case wrongRederedType
+    case faceGeometryDoesNotHaveMaterial
+}
 extension SCNNode {
-    convenience
-    init?(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor, transparency: Float) {
+    static
+    func faceMeshMaker(_ renderer: SCNSceneRenderer,
+                       nodeFor anchor: ARAnchor,
+                       transparency: Float) throws -> SCNNode {
 #if targetEnvironment(simulator)
-        return nil
+        throw SCNNodeError.simulatorNotSupported
 #else
         guard let sceneView = renderer as? ARSCNView,
-            anchor is ARFaceAnchor else { return  nil }
+              anchor is ARFaceAnchor else {
+            throw  SCNNodeError.wrongRederedType
+        }
         
         let faceGeometry = ARSCNFaceGeometry(device: sceneView.device!)!
-        let material = faceGeometry.firstMaterial!
+        guard let material = faceGeometry.firstMaterial else {
+            throw SCNNodeError.faceGeometryDoesNotHaveMaterial
+        }
         material.transparency = transparency.cgFloat
         
         material.lightingModel = .physicallyBased
-        
-        self.init(geometry: faceGeometry)
+        return SCNNode(geometry: faceGeometry)
 #endif
     }
 }

@@ -8,17 +8,16 @@
 import Foundation
 import Combine
 import ARKit
+import Resolver
 
 class SceneViewDelegate: NSObject {
-    private let faceMesh: AppModel.FaceMesh
-    private let sticksPositions: AppModel.SticksPositions
+    @Injected private var faceMesh: FaceMesh
+    @Injected private var sticksPositions: StickPositions
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float3, Never>?
     private var cancelable: AnyCancellable?
     private var faceNode: SCNNode?
-    init(faceMesh: AppModel.FaceMesh, sticksPositions: AppModel.SticksPositions) {
-        self.faceMesh = faceMesh
-        self.sticksPositions = sticksPositions
+    override init() {
         self.queue = DispatchQueue(label: "com.spree3d.ARSession")
         super.init()
         self.subject = PassthroughSubject<simd_float3, Never>()
@@ -36,21 +35,10 @@ extension SceneViewDelegate {
     func cancelableReceiveValue(_ lookAt:simd_float3) async {
         
         if let (rotation, accuracy) = try? FaceOrientation.orientation(lookAt) {
-            print("rotation, accuracy: \(rotation.toGrades), \(accuracy)")
             self.sticksPositions.updateSticksPositions(rotation: rotation,
                                                        value: accuracy,
                                                        time: Date().timeIntervalSince1970)
         }
-        
-        /*
-        let facePosition = LookAtPoint(lookAt: lookAt)
-        switch facePosition {
-        case .front, .none:
-            return
-        case .north, .north_west, .west, .south_west, .south, .south_east, .east, .north_east:
-            await AppModel.shared.postions.set(facePositionValue: facePosition)
-        }
-        */
     }
 }
 
@@ -62,12 +50,21 @@ extension SceneViewDelegate: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         self.queue.async { [weak self] in
             guard let self = self else { return }
-            self.faceNode = SCNNode(renderer, nodeFor: anchor, transparency: self.faceMesh.alphaValue)
-            guard let faceNode = self.faceNode else { return }
-            node.addChildNode(faceNode)
+            do {
+                let faceNode = try SCNNode.faceMeshMaker(renderer,
+                                                         nodeFor: anchor,
+                                                         transparency: self.faceMesh.alphaValue)
+                node.addChildNode(faceNode)
+                self.faceNode = faceNode
+            } catch {
+              print("Error making Face Mesh, error: \(error)")
+            }
         }
     }
     
+    /**
+     faceAnchor.geometry have the vertices and triangles indices.
+     */
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         self.queue.async {
             guard let faceNode = self.faceNode,

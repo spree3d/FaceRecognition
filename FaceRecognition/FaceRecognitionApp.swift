@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
+import Resolver
 
 @main
 struct FaceRecognitionApp: App {
-    let appModel = AppModel(count: 8*8)
     var body: some Scene {
         WindowGroup {
-            MainContentView(model: MainContentModel(faceMesh: appModel.faceMesh,
-                                                    sticksPositions: appModel.sticksPositions))
+            MainContentView()
         }
     }
 }

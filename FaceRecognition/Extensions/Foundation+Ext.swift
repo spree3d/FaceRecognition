@@ -12,6 +12,7 @@ extension Int {
     var float: Float { Float(self) }
 }
 extension Float {
+    var int: Int { Int(self) }
     var double: Double { Double(self) }
     var cgFloat: CGFloat { CGFloat(self) }
     @inlinable public static var two_pi: Float { Float.pi * 2 }
