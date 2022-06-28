@@ -35,27 +35,27 @@ struct MaskTransparencyView: View {
 }
 
 class PositionSitckNumberModel: ObservableObject {
-    @Injected private var stickPositions: StickPositions
+    @Injected private var scnRecorder: ScnRecorder
     @Published var count:Float
     private var sticksPositionsObserver: AnyCancellable?
     var onEditing = false
     init() {
         self.count = 0
-        self.sticksPositionsObserver = stickPositions.$positions
+        self.sticksPositionsObserver = scnRecorder.$positions
             .sink { [weak self] in
                 guard let self = self,
                     self.onEditing == false else { return }
                 self.count = $0.count.float
             }
-        self.count = self.stickPositions.positions.count.float
+        self.count = self.scnRecorder.positions.count.float
     }
     func updateModel() {
         guard onEditing == false else { return }
-        self.stickPositions.reset(count: self.count.int)
+        self.scnRecorder.reset(count: self.count.int)
     }
 }
 struct PositionSitckNumberView: View {
-    @InjectedStateObject private var model: PositionSitckNumberModel
+    @StateObject private var model = PositionSitckNumberModel()
     var body: some View {
         HStack {
             Text("Amount of sticks")

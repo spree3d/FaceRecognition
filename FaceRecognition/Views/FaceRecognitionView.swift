@@ -20,7 +20,7 @@ struct FaceRecognitionView: View {
                     stick(geom.size, $0)
                 }
     #else
-                ARFaceScnUIView()
+                ARFaceScnView()
                 ring(geom.size)
                 ForEach( model.sticksPositions.positions) {
                     stick(geom.size, $0)
@@ -46,17 +46,17 @@ extension FaceRecognitionView {
                    opacity: opacity)
     }
     private
-    func stick(_ size:CGSize, _ positions:StickPositions.Position) -> some View {
+    func stick(_ size:CGSize, _ positions:ScnRecorder.Position) -> some View {
         StickView(model: stickModel(size, positions.angle, positions.value))
     }
 }
 
 struct FaceRecognitionView_Previews: PreviewProvider {
     struct SticksRingViewProxy: View {
-        let sticksPositions: StickPositions
+        let sticksPositions: ScnRecorder
         let model: SticksRingModel
         init() {
-            sticksPositions = StickPositions(count: 64)
+            sticksPositions = ScnRecorder(count: 64)
             model = SticksRingModel()
         }
         var body: some View {

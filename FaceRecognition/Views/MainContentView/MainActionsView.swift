@@ -8,32 +8,69 @@
 import SwiftUI
 import UIKit
 import Resolver
+import Combine
+
+struct ResetButton: View {
+    @Injected private var scnRecorder: ScnRecorder
+    var body: some View {
+        Button("Reset") {
+            scnRecorder.reset(count: scnRecorder.positions.count)
+            scnRecorder.recording = .unknown
+        }
+    }
+}
+
+class RecordButtonModel: ObservableObject {
+    @Injected private var scnRecorder: ScnRecorder
+    private var recordingObserver: AnyCancellable?
+    init() {
+        self.recordingObserver = self.scnRecorder
+            .$recording
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.objectWillChange.send()
+        }
+    }
+    var title: String {
+        switch scnRecorder.recording {
+        case .recordRequest, .stopRequest, .saveRequest:
+            return "...  "
+        case .recording(_): return "Stop Rec"
+        case .recorded(_): return "Save Video"
+        default: return "Start Rec"
+        }
+    }
+    var action: () -> Void {
+        { [weak self] () -> Void in
+            guard let self = self else { return }
+            switch self.scnRecorder.recording {
+            case .recording(_):
+                self.scnRecorder.recording = .stopRequest
+            case .recorded(let url):
+                self.scnRecorder.recording = .saveRequest(url)
+            default:
+                self.scnRecorder.recording = .recordRequest
+            }
+        }
+    }
+}
+struct RecordButton: View {
+    @StateObject private var model = RecordButtonModel()
+    var body: some View {
+        Button(model.title, action: model.action)
+    }
+}
 
 struct MainActionsView: View {
     @Injected private var faceMesh: FaceMesh
     @State private var showEmailComposer = false
     var body: some View {
         HStack {
-//            Button("Reset") {
-//                Task.detached {
-////                    await AppModel.shared.postions.clear()
-//                }
-//            }
-//            .padding()
-//            .border(.blue, width: 1)
-//            Spacer()
-            Button("Video Start") {
-                Task.detached {
-                        print("TBD")
-                }
-            }
+            ResetButton()
             .padding()
             .border(.blue, width: 1)
-            Button("Video Stop") {
-                Task.detached {
-                    print("TBD")
-                }
-            }
+            Spacer()
+            RecordButton()
             .padding()
             .border(.blue, width: 1)
             Spacer()

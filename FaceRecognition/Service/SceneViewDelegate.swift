@@ -12,7 +12,7 @@ import Resolver
 
 class SceneViewDelegate: NSObject {
     @Injected private var faceMesh: FaceMesh
-    @Injected private var sticksPositions: StickPositions
+    @Injected private var sticksPositions: ScnRecorder
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float3, Never>?
     private var cancelable: AnyCancellable?
@@ -25,19 +25,18 @@ class SceneViewDelegate: NSObject {
 //            .debounce(for: .milliseconds(100), scheduler: self.queue)
             .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
             .sink { faceTransform in
-                Task { [weak self] in
-                    await self?.cancelableReceiveValue(faceTransform)
+                DispatchQueue.main.sync { [weak self] in
+                    self?.cancelableReceiveValue(faceTransform)
                 }
             }
     }
 }
 extension SceneViewDelegate {
-    func cancelableReceiveValue(_ lookAt:simd_float3) async {
-        
+    func cancelableReceiveValue(_ lookAt:simd_float3) {
         if let (rotation, accuracy) = try? FaceOrientation.orientation(lookAt) {
             self.sticksPositions.updateSticksPositions(rotation: rotation,
                                                        value: accuracy,
-                                                       time: Date().timeIntervalSince1970)
+                                                       time: Date())
         }
     }
 }

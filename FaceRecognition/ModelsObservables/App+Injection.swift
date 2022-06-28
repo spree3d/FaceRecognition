@@ -14,7 +14,7 @@ extension Resolver: ResolverRegistering {
             Resolver.register { FaceMesh() }
                 .scope(.application)
             
-            Resolver.register { StickPositions(count: 8*8) }
+            Resolver.register { ScnRecorder(count: 8*8) }
                 .scope(.application)
             
             Resolver.register { SticksRingModel() }

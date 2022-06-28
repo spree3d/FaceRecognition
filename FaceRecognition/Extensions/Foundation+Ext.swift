@@ -9,15 +9,15 @@ import Foundation
 import CoreGraphics
 
 extension Int {
-    var float: Float { Float(self) }
+    @inlinable var float: Float { Float(self) }
 }
 extension Float {
-    var int: Int { Int(self) }
-    var double: Double { Double(self) }
-    var cgFloat: CGFloat { CGFloat(self) }
+    @inlinable var int: Int { Int(self) }
+    @inlinable var double: Double { Double(self) }
+    @inlinable var cgFloat: CGFloat { CGFloat(self) }
     @inlinable public static var two_pi: Float { Float.pi * 2 }
-    var toRadians: Float { self / 180.0 * Float.pi }
-    var toGrades: Float { self * 180.0 / Float.pi }
+    @inlinable var toRadians: Float { self / 180.0 * Float.pi }
+    @inlinable var toGrades: Float { self * 180.0 / Float.pi }
     var gradeNomalize: Float {
         let grade = self.truncatingRemainder(dividingBy: 360.0 )
         return grade > 0 ? grade : 360 + grade
@@ -41,7 +41,7 @@ extension Float {
 }
 
 extension Float {
-    var cm2Inch: Float { self * 0.393701 }
+    @inlinable var cm2Inch: Float { self * 0.393701 }
 }
 
 extension Array {

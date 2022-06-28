@@ -15,7 +15,7 @@ import Resolver
 /// TODO: Change the class to actor.
 final
 class SticksRingModel: ObservableObject {
-    @Injected var sticksPositions: StickPositions
+    @Injected var sticksPositions: ScnRecorder
     var sticksPositionsListener: AnyCancellable?
     // throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
     init() {

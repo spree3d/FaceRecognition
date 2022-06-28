@@ -8,6 +8,8 @@
 import SwiftUI
 import ARKit
 import ARVideoKit
+import Combine
+import Resolver
 
 fileprivate
 extension ARFaceTrackingConfiguration {
@@ -20,40 +22,15 @@ extension ARFaceTrackingConfiguration {
     }
 }
 
-class SessionDelegate: NSObject, ARSessionDelegate {
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        print("SessionDelegate: did fail with error \(error)")
-    }
-    func sessionWasInterrupted(_ session: ARSession) {
-        print("SessionDelegate: Session was interrupted")
-    }
-}
-
 struct ARFaceScnUIView: UIViewRepresentable {
-    private let sceneView: ARSCNView
-    private let sessionDelegate: SessionDelegate
-    private let sceneViewDelegate: SceneViewDelegate
-    private let recorder: RecordAR?
-    
-    init() {
-        sceneView = ARSCNView()
-        sessionDelegate = SessionDelegate()
-        sceneViewDelegate = SceneViewDelegate()
-        // RecorderAR should be init on view did load.
-        recorder = RecordAR(ARSceneKit: sceneView)
-        recorder?.enableAudio = false
-    }
+    let model: ARFaceScnModel
     func makeUIView(context: Context) -> ARSCNView {
         guard ARFaceTrackingConfiguration.isSupported else {
-            return sceneView
+            return ARSCNView()
         }
-        
-        sceneView.debugOptions = [.showCameras, .showWorldOrigin, .showBoundingBoxes]
-        sceneView.session.delegate = sessionDelegate
-        sceneView.session.run(ARFaceTrackingConfiguration.defaultMaker,
-                              options: [.resetTracking, .removeExistingAnchors])
-        sceneView.delegate = sceneViewDelegate
-        return sceneView
+        model.sceneView.session.run(ARFaceTrackingConfiguration.defaultMaker,
+                                    options: [.resetTracking, .removeExistingAnchors])
+        return model.sceneView
     }
     
     func updateUIView(_ uiView: ARSCNView, context: Context) {
@@ -61,24 +38,6 @@ struct ARFaceScnUIView: UIViewRepresentable {
     }
     static func dismantleUIView(_ uiView: ARSCNView, coordinator: ()) {
         print("ARSCNViewUI: dismantleUIView was called.")
-    }
-}
-
-// Recorder
-extension ARFaceScnUIView {
-    // Should be called on viewWillAppear(_ animated: Bool) / onAppear
-    func prepareRecorder() {
-        // RecorderAR should be called on viewWillAppear(_ animated: Bool) / onAppear.
-        recorder?.prepare(sceneView.session.configuration)
-    }
-    // Should be called on viewWillDisappear(_ animated: Bool) / onDisappear
-    func restRecorder() {
-        // RecorderAR.rest should be called on viewWillDisappear(_ animated: Bool) / onDisappear.
-        recorder?.rest()
-    }
-    func startRecorder() { recorder?.record() }
-    func stopRecorder(completion:((URL) -> Void)? = nil ) {
-        recorder?.stop(completion)
     }
 }
 

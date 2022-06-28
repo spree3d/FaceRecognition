@@ -7,224 +7,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "75276CC2-CB39-4C7F-ABF4-177C7960FE03"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/Service/SceneViewDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "SceneViewDelegate"
-            landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B176D7CA-4039-47AF-A0D4-AA071C7670B0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/Service/VideoRecordingService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "video(_:didFinishSavingWithError:contextInfo:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BBEBDEB9-EFBC-4033-A5D4-0D034BDEF2AC"
+            uuid = "507C7F72-E7B3-446E-B3E7-2EA4D92FF17C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FaceRecognition/Views/MainContentView/MainActionsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "body"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "title"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "647CCF8A-8D67-4184-9FAD-0F59F0FBE13B"
+            uuid = "A07C6219-374E-418E-BE15-E909ED7070A3"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FaceRecognition/Views/MainContentView/MainActionsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "body"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "action"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "130B8F7A-C774-48E5-B838-EA21A8D8249C"
-            shouldBeEnabled = "No"
+            uuid = "6E2C9FC9-368E-4ABE-B7AB-21637075032A"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../Library/Developer/Xcode/DerivedData/FaceRecognition-ejdsrcjpqtgzzogncsgeahreddca/SourcePackages/checkouts/ARVideoKit/ARVideoKit/Sources/RecordAR.swift"
+            filePath = "FaceRecognition/ModelsObservables/ScnRecorder+Ext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
-            landmarkName = "stopAndExport(_:)"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "listOfTimeRanges(angles:error:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4BD06A54-7BB7-4919-A501-5C8B4E7DA3EA"
+            uuid = "CC66F8F8-D997-449C-8E08-B8F30ED8FDBE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../Library/Developer/Xcode/DerivedData/FaceRecognition-ejdsrcjpqtgzzogncsgeahreddca/SourcePackages/checkouts/ARVideoKit/ARVideoKit/Sources/RecordAR.swift"
+            filePath = "FaceRecognition/ModelsObservables/ScnRecorder+Ext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
-            landmarkName = "stopAndExport(_:)"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "buildMeaningfulVideo(angles:error:angleTime:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B3DA8B90-FB9B-4E20-B2F4-8F364B04FAB5"
-            shouldBeEnabled = "No"
+            uuid = "AA9BA3C7-5FF9-4292-B1F0-54BDD0BCDA52"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/Views/MainContentView/Sliders.swift"
+            filePath = "FaceRecognition/ModelsObservables/ScnRecorder+Ext.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "B3DA8B90-FB9B-4E20-B2F4-8F364B04FAB5 - 63384f90c6802755"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FaceRecognition.MaskFaceExpressionView.body.getter : some"
-                  moduleName = "FaceRecognition"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gustavohalperin/CODE/spree3d/FaceRecognition/FaceRecognition/Views/MainContentView/Sliders.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
-                  offsetFromSymbolStart = "220">
-               </Location>
-               <Location
-                  uuid = "B3DA8B90-FB9B-4E20-B2F4-8F364B04FAB5 - aceb4a3fbecab834"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Slider&lt;SwiftUI.EmptyView, SwiftUI.EmptyView&gt;, SwiftUI.Text)&gt; in FaceRecognition.MaskFaceExpressionView.body.getter : some"
-                  moduleName = "FaceRecognition"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gustavohalperin/CODE/spree3d/FaceRecognition/FaceRecognition/Views/MainContentView/Sliders.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "15"
-                  endingLineNumber = "15"
-                  offsetFromSymbolStart = "1684">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2292EE9E-81F3-47F8-B37A-4E4D0F417BA9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/Views/MainContentView/Sliders.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "2292EE9E-81F3-47F8-B37A-4E4D0F417BA9 - 86a762b048bf310"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FaceRecognition.MaskTransparencyView.body.getter : some"
-                  moduleName = "FaceRecognition"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gustavohalperin/CODE/spree3d/FaceRecognition/FaceRecognition/Views/MainContentView/Sliders.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "220">
-               </Location>
-               <Location
-                  uuid = "2292EE9E-81F3-47F8-B37A-4E4D0F417BA9 - 493e5d994f33356b"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Text, SwiftUI.Slider&lt;SwiftUI.EmptyView, SwiftUI.EmptyView&gt;, SwiftUI.Text)&gt; in FaceRecognition.MaskTransparencyView.body.getter : some"
-                  moduleName = "FaceRecognition"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gustavohalperin/CODE/spree3d/FaceRecognition/FaceRecognition/Views/MainContentView/Sliders.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "1684">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "872F3305-C6A7-4BC8-8211-C9DB2BAC80EC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/Service/SceneViewDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "renderer(_:didUpdate:for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EF62B081-13A3-46B0-A7F9-61AB8869B9D1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FaceRecognition/ModelsObservables/FaceMesh.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "update(facialFeaturesList:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "listOfTimeRanges(angles:error:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
