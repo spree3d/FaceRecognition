@@ -58,3 +58,28 @@ extension Dictionary {
         return data
     }
 }
+
+enum URLError: Error {
+    case emptyDocumentDirectory
+}
+extension URL {
+    static var videoFolder: URL {
+        get throws {
+            let folderName = "videoFolder"
+            let fileManager = FileManager.default
+            // Get document directory for device, this should succeed
+            guard let documentDirectory = fileManager.urls(for: .documentDirectory,
+                                                           in: .userDomainMask).first else {
+                throw URLError.emptyDocumentDirectory
+            }
+            let folderURL = documentDirectory.appendingPathComponent(folderName)
+            if fileManager.fileExists(atPath: folderURL.path) {
+                return folderURL
+            }
+            try fileManager.createDirectory(atPath: folderURL.path,
+                                            withIntermediateDirectories: true,
+                                            attributes: nil)
+            return folderURL
+        }
+    }
+}

@@ -27,6 +27,7 @@
 		C9459BBC281C61530016DA32 /* FacialFeaturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBB281C61530016DA32 /* FacialFeaturesListView.swift */; };
 		C9459BBE281C61700016DA32 /* FacialFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBD281C61700016DA32 /* FacialFeatureView.swift */; };
 		C9459BC0281C620D0016DA32 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBF281C620D0016DA32 /* HelpView.swift */; };
+		C95FC51B286EA91E004EDCE2 /* CoreVideo+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */; };
 		C9600E6D28652A1A0004D7D8 /* ScnRecorder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */; };
 		C9600E72286A6F9B0004D7D8 /* ARFaceScnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E71286A6F9B0004D7D8 /* ARFaceScnView.swift */; };
 		C9600E74286A6FD50004D7D8 /* ARFaceScnModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E73286A6FD50004D7D8 /* ARFaceScnModel.swift */; };
@@ -84,6 +85,7 @@
 		C9459BBB281C61530016DA32 /* FacialFeaturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialFeaturesListView.swift; sourceTree = "<group>"; };
 		C9459BBD281C61700016DA32 /* FacialFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialFeatureView.swift; sourceTree = "<group>"; };
 		C9459BBF281C620D0016DA32 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreVideo+Ext.swift"; sourceTree = "<group>"; };
 		C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScnRecorder+Ext.swift"; sourceTree = "<group>"; };
 		C9600E6F28667A950004D7D8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C9600E71286A6F9B0004D7D8 /* ARFaceScnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceScnView.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */,
 				C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */,
 				C93F867C285D549400EC52E3 /* Resolver+Ext.swift */,
+				C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				C91EF2E52864405B00A6C726 /* Ring.swift in Sources */,
 				C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */,
 				C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */,
+				C95FC51B286EA91E004EDCE2 /* CoreVideo+Ext.swift in Sources */,
 				C9AAE0DA280F79F900771A61 /* FaceRecognitionView.swift in Sources */,
 				C9600E72286A6F9B0004D7D8 /* ARFaceScnView.swift in Sources */,
 				C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */,

@@ -7,9 +7,6 @@
 
 import SwiftUI
 import ARKit
-import ARVideoKit
-import Combine
-import Resolver
 
 fileprivate
 extension ARFaceTrackingConfiguration {

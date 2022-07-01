@@ -37,6 +37,7 @@ class RecordButtonModel: ObservableObject {
             return "...  "
         case .recording(_): return "Stop Rec"
         case .recorded(_): return "Save Video"
+        case .saving: return "Making Video"
         default: return "Start Rec"
         }
     }
@@ -50,6 +51,7 @@ class RecordButtonModel: ObservableObject {
                 self.scnRecorder.recording = .saveRequest(url)
             default:
                 self.scnRecorder.recording = .recordRequest
+                // TODO: We need to handle situations where the state got stuck or is taking to much time.
             }
         }
     }

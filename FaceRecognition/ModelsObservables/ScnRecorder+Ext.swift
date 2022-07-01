@@ -7,6 +7,8 @@
 
 import Foundation
 import CoreMedia
+import AVFoundation
+import Photos
 import Combine
 import XCTest
 
@@ -32,16 +34,32 @@ extension Array where Element == CMTimeRange {
             $0.append(last.union($1))
         }
     }
+    var prependBound: [Element] {
+        guard let first = self.first else { return self }
+        let start = CMTime(seconds: 0, preferredTimescale: first.start.timescale)
+        let duration = CMTime(seconds: first.duration.seconds * 0.5,
+                              preferredTimescale: first.duration.timescale)
+        return [CMTimeRange(start: start, duration: duration)] + self
+    }
+    var appendBound: [Element] {
+        guard let last = self.last else { return self }
+        let start = CMTime(seconds: 0, preferredTimescale: last.start.timescale)
+        let duration = CMTime(seconds: last.duration.seconds * 0.5,
+                              preferredTimescale: last.duration.timescale)
+        return self + [CMTimeRange(start: start, duration: duration)]
+    }
 }
 
 extension CMTimeRange {
     static func listMaker(timeList:[TimeInterval], range: TimeInterval) -> [CMTimeRange] {
-        let preferredTimescale = CMTimeScale(1)
+        let scale = 1000.0
+        let preferredTimescale = CMTimeScale(scale)
+//        let range = range * scale
         let duration = CMTime(seconds: range, preferredTimescale:preferredTimescale)
         let list = timeList.map {
-            CMTimeRange(start: CMTime(seconds: $0, preferredTimescale: preferredTimescale),
+            CMTimeRange(start: CMTime(seconds: $0 - range * 0.5, preferredTimescale: preferredTimescale),
                         duration: duration) }
-        return list.unionIntersections
+        return list
     }
 }
 
@@ -54,7 +72,7 @@ extension Array where Element == Float {
     var unique: [Element] {
         Set<Element>(self).map { $0 }
     }
-    func filterByProximity2(_ list:[Element], error:Float) -> [Element]? {
+    func filterByProximity(_ list:[Element], error:Float) -> [Element]? {
         let selfSorted = self.unique.sorted()
         let listSorted = list.unique.sorted()
         var selfIter = selfSorted.makeIterator()
@@ -77,25 +95,138 @@ extension Array where Element == Float {
 enum ScnRecorderVideoError: Error {
     case videoSourceNotFound
     case someAngleWereNotFound
+    case addMutableTrackNilValue
+    case insertingTrackError(_ err:Error)
+    case exportVideoToDocumments
+    case invalidRecordingState
+    case invalidListOfAngles
+    case canNotRemoveExistingVideo
 }
 extension ScnRecorder {
-    func listOfTimeRanges(angles:[Float], error:Float) throws -> [CMTimeRange] {
-        let matchingAngles = self.positions.map { $0.angle }.filterByProximity2(angles, error: error) ?? [Float]()
+    func listOfTimeRanges(angles:[Float], error:Float, range: TimeInterval) throws -> [CMTimeRange] {
+        let matchingAngles = self.positions.map { $0.angle }.filterByProximity(angles, error: error) ?? [Float]()
         let matchingAnglesSet = Set<Float>(matchingAngles)
         let matchingPositions = self.positions.filter { matchingAnglesSet.contains($0.angle) }
         let timeList = matchingPositions.map { $0.time }.compactMap { $0 }
         guard timeList.count == angles.count else {
             throw ScnRecorderVideoError.someAngleWereNotFound
         }
-        return CMTimeRange.listMaker(timeList: timeList, range: 1.5)
+        return CMTimeRange.listMaker(timeList: timeList, range: range).prependBound.appendBound
     }
-    func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) throws -> URL {
-        guard case RecordingStatus.saveRequest(let url) = self.recording else {
-            throw ScnRecorderVideoError.videoSourceNotFound
+    func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
+        DispatchQueue.main.async { [weak self] in
+            self?.recording = .saving
         }
-        let _ = try listOfTimeRanges(angles:angles, error:error)
+        guard case RecordingStatus.saveRequest(let url) = self.recording else {
+            return Fail(error: ScnRecorderVideoError.invalidRecordingState).eraseToAnyPublisher()
+        }
         
+        guard let timeRangesList = try? listOfTimeRanges(angles:angles, error:error, range: angleTime)
+        else {
+            return Fail(error: ScnRecorderVideoError.invalidListOfAngles).eraseToAnyPublisher()
+        }
+        let composition = AVMutableComposition()
+        guard let track = composition.addMutableTrack(withMediaType: AVMediaType.video,
+                                                      preferredTrackID:Int32(kCMPersistentTrackID_Invalid))
+        else {
+            return Fail(error: ScnRecorderVideoError.addMutableTrackNilValue).eraseToAnyPublisher()
+        }
+        let videoAsset = AVAsset(url: url)
+        var atTime = CMTime.zero
+        for timeRange in timeRangesList {
+            do {
+                try track.insertTimeRange(timeRange,
+                                          of: videoAsset.tracks(withMediaType: AVMediaType.video)[0] as AVAssetTrack,
+                                          at: atTime)
+                atTime = CMTime(seconds: atTime.seconds + timeRange.duration.seconds, preferredTimescale: 2)
+            } catch {
+                return Fail(error: ScnRecorderVideoError.insertingTrackError(error)).eraseToAnyPublisher()
+            }
+            
+        }
+        guard let videoUrl = try? URL.videoFolder.appendingPathComponent("video.mp4")
+        else {
+            return Fail(error: ScnRecorderVideoError.addMutableTrackNilValue).eraseToAnyPublisher()
+        }
+        if FileManager.default.fileExists(atPath: videoUrl.path) {
+            do {
+                try FileManager.default.removeItem(at: videoUrl)
+            } catch {
+                return Fail(error: ScnRecorderVideoError.canNotRemoveExistingVideo).eraseToAnyPublisher()
+            }
+        }
+        guard let exporter = AVAssetExportSession(asset: composition,
+                                                  presetName: AVAssetExportPresetHighestQuality)
+        else {
+            return Fail(error: ScnRecorderVideoError.exportVideoToDocumments).eraseToAnyPublisher()
+        }
+        exporter.outputURL = videoUrl
+        exporter.outputFileType = AVFileType.mp4
+        exporter.shouldOptimizeForNetworkUse = true
         
-        return URL(fileURLWithPath: "url")
+        return exporter.exportFuture(videoUrl:videoUrl)
+            .phPhotoLibrarySave(videoUrl: videoUrl)
+            .eraseToAnyPublisher()
     }
 }
+
+extension AVAssetExportSession {
+    func exportFuture(videoUrl: URL) -> AnyPublisher<URL,Never> {
+        return Future() { promise in
+            self.exportAsynchronously { promise(Result.success((videoUrl))) }
+        }.eraseToAnyPublisher()
+    }
+}
+extension Publisher {
+    func phPhotoLibrarySave(videoUrl:URL) -> AnyPublisher<Bool, Error> {
+        PHPhotoLibrary.shared()
+            .saveVideo(atFileURL: videoUrl)
+            .eraseToAnyPublisher()
+    }
+}
+
+extension PHPhotoLibrary {
+    func saveVideo(atFileURL: URL) -> Future<Bool, Error> {
+        return Future() { promise in
+            PHPhotoLibrary.shared()
+                .performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: atFileURL)
+                })
+            { saved, error in
+                if let error = error { promise(Result.failure(error)) }
+                promise(Result.success(saved))
+            }
+        }
+    }
+}
+/*
+func requestAuthorization(completion: @escaping ()->Void) {
+    if PHPhotoLibrary.authorizationStatus() == .notDetermined {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+    } else if PHPhotoLibrary.authorizationStatus() == .authorized{
+        completion()
+    }
+}
+
+func saveVideoToAlbum(_ outputURL: URL, _ completion: ((Error?) -> Void)?) {
+    requestAuthorization {
+        PHPhotoLibrary.shared().performChanges({
+            let request = PHAssetCreationRequest.forAsset()
+            request.addResource(with: .video, fileURL: outputURL, options: nil)
+        }) { (result, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    print("Saved successfully")
+                }
+                completion?(error)
+            }
+        }
+    }
+}
+*/

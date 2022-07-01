@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import Combine
+import CoreVideo
 
 enum RecordingStatus {
     case unknown
@@ -51,21 +53,37 @@ class ScnRecorder: ObservableObject {
         let angle: Float
         var value: Float
         var time: TimeInterval? // in seconds
+        var cvPixelBuffer: CVPixelBuffer?
     }
+    var meaningfullVideoObserver: AnyCancellable?
     @Published var positions: [Position]
     @Published var recording: RecordingStatus {
         didSet {
             if case .saveRequest = self.recording {
-//                do {
-//                    let _ = try self.buildMeaningfulVideo(angles: self.meaningfulVideoAngles,
-//                                                            error: self.meaningfulVideoAnglesError,
-//                                                            angleTime: self.meaningfulVideoAngleTime)
-//                } catch {
-//                    print("Error making meaningful video, error: \(error)")
+                self.meaningfullVideoObserver = buildMeaningfulVideo(angles: self.meaningfulVideoAngles,
+                                                                     error: self.meaningfulVideoAnglesError,
+                                                                     angleTime: self.meaningfulVideoAngleTime)
+                .sink(receiveCompletion: {error in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.recording = .unknown
+                    }
+                    print("error on making video, error: \(error)")
+                    self.meaningfullVideoObserver = nil
+                }, receiveValue: { saved in
+                    DispatchQueue.main.async { [weak self] in
+                        self?.recording = .unknown
+                    }
+                    self.meaningfullVideoObserver = nil
+                })
+//                .sink { error in
+//                    DispatchQueue.main.async { [weak self] in
+//                        self?.recording = .unknown
+//                    }
+//                } { saved in
+//                    DispatchQueue.main.async { [weak self] in
+//                        self?.recording = .unknown
+//                    }
 //                }
-                DispatchQueue.main.async {
-                    self.recording = .unknown
-                }
             }
         }
     }

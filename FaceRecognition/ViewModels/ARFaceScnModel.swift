@@ -52,11 +52,8 @@ class ARFaceScnModel: ObservableObject {
                     self.recorder?.record()
                     self.scnRecorder.recording = .recording(Date())
                 case .stopRequest:
-                    self.recorder?.stopAndExport()
-                    if let url = URL(string: "www.spree3d.com") {
+                    self.recorder?.stop { url in
                         self.scnRecorder.recording = .recorded(url)
-                    } else {
-                        self.scnRecorder.recording = .unknown
                     }
                 default:
                     break
