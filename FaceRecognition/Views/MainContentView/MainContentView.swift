@@ -15,18 +15,24 @@ struct MainContentView: View {
     @State private var isShowingPopover = false
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
-                HelpView(isShowingPopover: $isShowingPopover)
-                .padding(.horizontal)
-                .border(.blue)
-                .padding(.horizontal)
+            ZStack {
+                VStack {
+                    HStack {
+                        Spacer()
+                        HelpView(isShowingPopover: $isShowingPopover)
+                        .padding(.horizontal)
+                        .padding(.vertical, 3)
+                        .border(.blue, width: 2)
+                        .padding(.horizontal)
+                    }
+                    Spacer()
+                }
+                
+                FaceRecognitionView()
+                .clipShape(Circle())
             }
-            FaceRecognitionView()
-            .clipShape(Circle())
-            .padding()
             MainActionsView()
-            .padding(.horizontal)
+                .padding()
             FacialFeaturesListView()
             VStack {
                 MaskFaceExpressionView()

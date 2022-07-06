@@ -39,11 +39,21 @@ HELP
 This is a 3D face recognition app demo.
 The circle on top uses ARKit in order to recognize your face, your face posses, \
 and your face expression.
-When you face is too close or too far from the camer the app will show a blinking \
-ring on the circle border, other wise we will be able to see a ring of white rims \
-and one in orange showing where we need to look.
-The goal is to complete four poses of looking at our left, right, top, and bottom and \
-two poses of tilt our head to the left and to the right.
+When you face is too close, too far, or not in the center of the stick's ring \
+the face pose recognition feature may fail.
+
+The goal is to complete eight poses of looking at our east, east-notrh, north, north-weast, \
+weast, weast-south, south and south-east.
+
+The app has tree buttoms, Reset, Start Rec, Send Mesh.
+
+Reset Button: Reset the sticks,
+
+Start Rec: This button has his elable that also shows the next available states, as "Stop \
+Record" and "Save Video". Save video will save a video on the Album Photos only if all the \\
+poses were recognised, if all the sticks are green process should be ok.
+
+Resst Mesh: Open a send mail UI with the face mesh representation already attached.
 
 This app also shows us the six stronger face expressions recognized by ARKit. The \
 list of Face Expressions shows each one its name and its value.
