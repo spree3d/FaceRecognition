@@ -651,6 +651,7 @@
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face orientation";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We do not use/need acceess to your microphone, feel free to deny this request.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -658,7 +659,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Spree3dFR;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -690,6 +690,7 @@
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face orientation";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We do not use/need acceess to your microphone, feel free to deny this request.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -697,7 +698,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Spree3dFR;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
