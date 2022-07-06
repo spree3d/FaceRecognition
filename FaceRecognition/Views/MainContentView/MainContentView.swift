@@ -12,7 +12,6 @@ import Resolver
 
 
 struct MainContentView: View {
-    @InjectedStateObject private var faceMesh: FaceMesh
     @State private var isShowingPopover = false
     var body: some View {
         VStack {
@@ -28,7 +27,7 @@ struct MainContentView: View {
             .padding()
             MainActionsView()
             .padding(.horizontal)
-            FacialFeaturesListView(list:faceMesh.facialFeaturesList)
+            FacialFeaturesListView()
             VStack {
                 MaskFaceExpressionView()
                 MaskTransparencyView()

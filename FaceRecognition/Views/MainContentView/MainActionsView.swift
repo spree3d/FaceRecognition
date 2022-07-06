@@ -22,6 +22,7 @@ struct ResetButton: View {
 
 class RecordButtonModel: ObservableObject {
     @Injected private var scnRecorder: ScnRecorder
+    @Injected private var faceMesh: FaceMesh
     private var recordingObserver: AnyCancellable?
     init() {
         self.recordingObserver = self.scnRecorder
@@ -35,7 +36,11 @@ class RecordButtonModel: ObservableObject {
         switch scnRecorder.recording {
         case .recordRequest, .stopRequest, .saveRequest:
             return "...  "
-        case .recording(_): return "Stop Rec"
+        case .recording(_):
+            DispatchQueue.main.async {
+                self.scnRecorder.reset()
+            }
+            return "Stop Rec"
         case .recorded(_): return "Save Video"
         case .saving: return "Making Video"
         default: return "Start Rec"

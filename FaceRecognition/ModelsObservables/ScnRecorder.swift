@@ -21,6 +21,45 @@ enum RecordingStatus {
 }
 
 extension RecordingStatus {
+    static func == (lhs: RecordingStatus, rhs: RecordingStatus) -> Bool {
+        if case .unknown = lhs,
+           case .unknown = rhs {
+            return true
+        }
+        if case .recordRequest = lhs,
+           case .recordRequest = rhs {
+            return true
+        }
+        if case .recording(let lhsDate) = lhs,
+           case .recording(let rhsDate) = rhs,
+           lhsDate == rhsDate {
+            return true
+        }
+        if case .stopRequest = lhs,
+           case .stopRequest = rhs {
+            return true
+        }
+        if case .recorded(let lhsPath) = lhs,
+           case .recorded(let rhsPath) = rhs,
+           lhsPath.path == rhsPath.path {
+            return true
+        }
+        if case .saveRequest(let lhsPath) = lhs,
+           case .saveRequest(let rhsPath) = rhs,
+           lhsPath.path == rhsPath.path {
+            return true
+        }
+        if case .saving = lhs,
+           case .saving = rhs {
+            return true
+        }
+        return false
+    }
+    static func != (lhs: RecordingStatus, rhs: RecordingStatus) -> Bool {
+        !(lhs == rhs)
+    }
+}
+extension RecordingStatus {
     var isRecording:Bool {
         guard case RecordingStatus.recording(_) = self else {
             return false
@@ -53,39 +92,11 @@ class ScnRecorder: ObservableObject {
         let angle: Float
         var value: Float
         var time: TimeInterval? // in seconds
-        var cvPixelBuffer: CVPixelBuffer?
     }
     var meaningfullVideoObserver: AnyCancellable?
     @Published var positions: [Position]
     @Published var recording: RecordingStatus {
-        didSet {
-            if case .saveRequest = self.recording {
-                self.meaningfullVideoObserver = buildMeaningfulVideo(angles: self.meaningfulVideoAngles,
-                                                                     error: self.meaningfulVideoAnglesError,
-                                                                     angleTime: self.meaningfulVideoAngleTime)
-                .sink(receiveCompletion: {error in
-                    DispatchQueue.main.async { [weak self] in
-                        self?.recording = .unknown
-                    }
-                    print("error on making video, error: \(error)")
-                    self.meaningfullVideoObserver = nil
-                }, receiveValue: { saved in
-                    DispatchQueue.main.async { [weak self] in
-                        self?.recording = .unknown
-                    }
-                    self.meaningfullVideoObserver = nil
-                })
-//                .sink { error in
-//                    DispatchQueue.main.async { [weak self] in
-//                        self?.recording = .unknown
-//                    }
-//                } { saved in
-//                    DispatchQueue.main.async { [weak self] in
-//                        self?.recording = .unknown
-//                    }
-//                }
-            }
-        }
+        didSet { recordingDidSet(oldValue) }
     }
     private let queue: DispatchQueue
     init(count:Int) {
@@ -96,9 +107,28 @@ class ScnRecorder: ObservableObject {
     /**
      If count is -1 the class use the current count
      */
-    func reset(count:Int?) {
+    func reset(count:Int? = nil) {
         let count = count ?? self.positions.count
         self.positions = Self.positionsBuilder(count: count)
+    }
+    private func  recordingDidSet(_ oldValue:RecordingStatus) {
+        if  self.recording != oldValue,
+            case .saveRequest = self.recording {
+            self.meaningfullVideoObserver = self.buildMeaningfulVideo(angles: self.meaningfulVideoAngles,
+                                                                      error: self.meaningfulVideoAnglesError,
+                                                                      angleTime: self.meaningfulVideoAngleTime)
+            .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
+            .sink(receiveCompletion: {error in
+                self.reset()
+                self.recording = .unknown
+                print("error on making video, error: \(error)")
+                self.meaningfullVideoObserver = nil
+            }, receiveValue: { saved in
+                self.reset()
+                self.recording = .unknown
+                self.meaningfullVideoObserver = nil
+            })
+        }
     }
 }
 fileprivate
@@ -159,7 +189,7 @@ extension ScnRecorder {
     }
     
     func updateSticksPositions(rotation:Float, value:Float, time:Date) {
-        let valueThreshold:Float = 0.75
+        let valueThreshold:Float = 0.65
         // Obtain class values on main queue
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -169,15 +199,18 @@ extension ScnRecorder {
                 guard let self = self else { return }
                 // Reset to cero the values smaller than valueThreshold
                 positions = positions.map { $0.update(threshold: valueThreshold) }
-                let updatedPositions = Self.neighbourStick(positions: positions,
-                                                           rotation: rotation,
-                                                           value: value,
-                                                           time: self.recording.timeIntervalUpto(to: time) )
+                let updatedPositions = Self
+                    .neighbourStick(positions: positions,
+                                    rotation: rotation,
+                                    value: value,
+                                    time: self.recording.timeIntervalUpto(to: time) )
                     .reduce(into: [Float:Position]()) { $0[$1.angle] = $1 }
                 positions = positions.map {
                     if let position = updatedPositions[$0.angle],
                        position.value > $0.value { return position }
-                    return $0
+                    return Position(angle: $0.angle,
+                                    value: $0.value,
+                                    time: $0.time)
                 }
                 DispatchQueue.main.async {
                     self.positions = positions

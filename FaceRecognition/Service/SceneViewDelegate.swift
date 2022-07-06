@@ -80,7 +80,7 @@ extension SceneViewDelegate: ARSCNViewDelegate {
             self.faceMesh.update(facialFeaturesList: facialFeaturesList, faceAnchor: faceAnchor)
             
             faceGeometry.update(from: faceAnchor.geometry)
-            let meshTransparency = self.faceMesh.alphaValue.cgFloat
+            let meshTransparency = self.faceMesh.meshDisabled ? 0.0 : self.faceMesh.alphaValue.cgFloat
             faceGeometry.materials.forEach {
                 $0.transparency = meshTransparency
             }

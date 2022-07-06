@@ -93,6 +93,7 @@ extension Array where Element == Float {
 }
 
 enum ScnRecorderVideoError: Error {
+    case undefined
     case videoSourceNotFound
     case someAngleWereNotFound
     case addMutableTrackNilValue
@@ -101,17 +102,15 @@ enum ScnRecorderVideoError: Error {
     case invalidRecordingState
     case invalidListOfAngles
     case canNotRemoveExistingVideo
+    case fileNotFound
+    case videoFolderCreationError
 }
 extension ScnRecorder {
-    func listOfTimeRanges(angles:[Float], error:Float, range: TimeInterval) throws -> [CMTimeRange] {
+    func listOfMatchingAngles(angles:[Float], error:Float) -> [TimeInterval] {
         let matchingAngles = self.positions.map { $0.angle }.filterByProximity(angles, error: error) ?? [Float]()
         let matchingAnglesSet = Set<Float>(matchingAngles)
         let matchingPositions = self.positions.filter { matchingAnglesSet.contains($0.angle) }
-        let timeList = matchingPositions.map { $0.time }.compactMap { $0 }
-        guard timeList.count == angles.count else {
-            throw ScnRecorderVideoError.someAngleWereNotFound
-        }
-        return CMTimeRange.listMaker(timeList: timeList, range: range).prependBound.appendBound
+        return matchingPositions.map { $0.time }.compactMap { $0 }
     }
     func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
         DispatchQueue.main.async { [weak self] in
@@ -121,10 +120,13 @@ extension ScnRecorder {
             return Fail(error: ScnRecorderVideoError.invalidRecordingState).eraseToAnyPublisher()
         }
         
-        guard let timeRangesList = try? listOfTimeRanges(angles:angles, error:error, range: angleTime)
-        else {
+        let timeList = listOfMatchingAngles(angles:angles, error:error)
+        guard timeList.count == angles.count else {
             return Fail(error: ScnRecorderVideoError.invalidListOfAngles).eraseToAnyPublisher()
         }
+        let timeRangesList = CMTimeRange.listMaker(timeList: timeList, range: angleTime)
+            .prependBound
+            .appendBound
         let composition = AVMutableComposition()
         guard let track = composition.addMutableTrack(withMediaType: AVMediaType.video,
                                                       preferredTrackID:Int32(kCMPersistentTrackID_Invalid))
@@ -146,7 +148,7 @@ extension ScnRecorder {
         }
         guard let videoUrl = try? URL.videoFolder.appendingPathComponent("video.mp4")
         else {
-            return Fail(error: ScnRecorderVideoError.addMutableTrackNilValue).eraseToAnyPublisher()
+            return Fail(error: ScnRecorderVideoError.videoFolderCreationError).eraseToAnyPublisher()
         }
         if FileManager.default.fileExists(atPath: videoUrl.path) {
             do {
@@ -164,33 +166,54 @@ extension ScnRecorder {
         exporter.outputFileType = AVFileType.mp4
         exporter.shouldOptimizeForNetworkUse = true
         
-        return exporter.exportFuture(videoUrl:videoUrl)
-            .phPhotoLibrarySave(videoUrl: videoUrl)
+        // TODO: save images
+        return exporter.exportFuture()
+//            .saveVideo()
             .eraseToAnyPublisher()
     }
 }
+
 
 extension AVAssetExportSession {
-    func exportFuture(videoUrl: URL) -> AnyPublisher<URL,Never> {
+    func exportFuture() -> Future<Bool,Error> {
         return Future() { promise in
-            self.exportAsynchronously { promise(Result.success((videoUrl))) }
-        }.eraseToAnyPublisher()
+            guard let videoUrl = self.outputURL else {
+                promise(Result.failure(ScnRecorderVideoError.videoFolderCreationError))
+                return
+            }
+            self.exportAsynchronously {
+                switch self.status {
+                case AVAssetExportSession.Status.completed:
+                    PHPhotoLibrary.shared()
+                        .performChanges({
+                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
+                        })
+                    { saved, error in
+                        if let error = error { promise(Result.failure(error)) }
+                        promise(Result.success(saved))
+                    }
+//                    promise(Result.success(videoUrl))
+                case AVAssetExportSession.Status.failed:
+                    print("failed \(self.error?.localizedDescription ?? "error nil")")
+                    promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
+                case AVAssetExportSession.Status.cancelled:
+                    print("cancelled \(self.error?.localizedDescription ?? "error nil")")
+                    promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
+                default:
+                    print("complete")
+                    promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
+                }
+            }
+        }
     }
 }
+/*
 extension Publisher {
-    func phPhotoLibrarySave(videoUrl:URL) -> AnyPublisher<Bool, Error> {
-        PHPhotoLibrary.shared()
-            .saveVideo(atFileURL: videoUrl)
-            .eraseToAnyPublisher()
-    }
-}
-
-extension PHPhotoLibrary {
-    func saveVideo(atFileURL: URL) -> Future<Bool, Error> {
-        return Future() { promise in
+    func saveVideo() -> Future<Bool, Error> where Output == URL {
+        Future() { promise in
             PHPhotoLibrary.shared()
                 .performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: atFileURL)
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: <videoUrl>)
                 })
             { saved, error in
                 if let error = error { promise(Result.failure(error)) }
@@ -199,6 +222,7 @@ extension PHPhotoLibrary {
         }
     }
 }
+*/
 /*
 func requestAuthorization(completion: @escaping ()->Void) {
     if PHPhotoLibrary.authorizationStatus() == .notDetermined {

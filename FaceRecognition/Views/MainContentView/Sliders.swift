@@ -22,15 +22,46 @@ struct MaskFaceExpressionView: View {
     }
 }
 
+class MaskTransparencyModel: ObservableObject {
+    @Injected var faceMesh: FaceMesh
+    @Injected private var scnRecorder: ScnRecorder
+    @Published var sliderDisabled: Bool
+    @Published var sliderOpacity: Double
+    private var alphaValueObserver: AnyCancellable?
+    private var recordingObserver: AnyCancellable?
+    init() {
+        self.sliderDisabled = false
+        self.sliderOpacity = 1.0
+        self.alphaValueObserver = faceMesh.$alphaValue
+            .sink { _ in
+                self.objectWillChange.send()
+            }
+        self.recordingObserver = scnRecorder.$recording
+            .sink { [weak self] in
+                switch $0 {
+                case .recordRequest, .recording(_), .stopRequest:
+                    self?.sliderOpacity = 0.5
+                    self?.sliderDisabled = true
+                    self?.faceMesh.meshDisabled = true
+                case .unknown, .recorded(_), .saveRequest(_), .saving:
+                    self?.sliderOpacity = 1.0
+                    self?.sliderDisabled = false
+                    self?.faceMesh.meshDisabled = false
+                }
+            }
+    }
+}
 struct MaskTransparencyView: View {
-    @InjectedStateObject private var faceMesh: FaceMesh
+    @StateObject var model = MaskTransparencyModel()
     var body: some View {
         HStack {
             Text("Mask Transparency")
                 .foregroundColor(.blue)
-            Slider(value: $faceMesh.alphaValue, in: 0.0...1.0, step: 0.1)
-            Text(String(format: "%.2f", faceMesh.alphaValue))
+            Slider(value: $model.faceMesh.alphaValue, in: 0.0...1.0, step: 0.1)
+                .disabled(model.sliderDisabled)
+            Text(String(format: "%.2f", model.faceMesh.alphaValue))
         }
+        .opacity(model.sliderDisabled ? 0.4 : 1.0)
     }
 }
 

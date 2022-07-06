@@ -9,10 +9,10 @@ import SwiftUI
 
 
 struct FacialFeaturesListView: View {
-    var list: [(String,Float)]
+    @InjectedStateObject private var faceMesh: FaceMesh
     func feature(index:Int) -> (String,Float)? {
-        guard list.count > index else { return nil }
-        return list[index]
+        guard  faceMesh.facialFeaturesList.count > index else { return nil }
+        return faceMesh.facialFeaturesList[index]
     }
     var body: some View {
         VStack {
@@ -32,6 +32,6 @@ struct FacialFeaturesListView: View {
 
 struct FacialFeaturesListView_Previews: PreviewProvider {
     static var previews: some View {
-        FacialFeaturesListView(list: [(String, Float)]())
+        FacialFeaturesListView()
     }
 }

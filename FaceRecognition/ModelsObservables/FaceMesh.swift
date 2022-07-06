@@ -10,7 +10,7 @@ import ARKit
 
 final
 class FaceMesh: ObservableObject {
-    var isMeshActive:Bool { alphaValue == 0.0 }
+    var meshDisabled:Bool
     var facialFeaturesCount: Int
     @Published var alphaValue:Float {
         didSet {
@@ -28,6 +28,7 @@ class FaceMesh: ObservableObject {
     var faceAnchor: ARFaceAnchor?
     let queue: DispatchQueue
     init(facialFeaturesCount:Int = 6) {
+        self.meshDisabled = false
         self.facialFeaturesCount = facialFeaturesCount
         self.alphaValue = 0.5
         self.facialFeaturesList = [(String,Float)]()

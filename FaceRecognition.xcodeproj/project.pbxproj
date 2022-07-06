@@ -31,6 +31,8 @@
 		C9600E6D28652A1A0004D7D8 /* ScnRecorder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */; };
 		C9600E72286A6F9B0004D7D8 /* ARFaceScnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E71286A6F9B0004D7D8 /* ARFaceScnView.swift */; };
 		C9600E74286A6FD50004D7D8 /* ARFaceScnModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E73286A6FD50004D7D8 /* ARFaceScnModel.swift */; };
+		C968E646286FA5AD001EEECA /* Cloudinary in Frameworks */ = {isa = PBXBuildFile; productRef = C968E645286FA5AD001EEECA /* Cloudinary */; };
+		C968E648286FB11D001EEECA /* Cloudinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C968E647286FB11D001EEECA /* Cloudinary.swift */; };
 		C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */; };
 		C9AAE0AA280E088B00771A61 /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A9280E088B00771A61 /* MainContentView.swift */; };
 		C9AAE0AC280E088C00771A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9AAE0AB280E088C00771A61 /* Assets.xcassets */; };
@@ -90,6 +92,7 @@
 		C9600E6F28667A950004D7D8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C9600E71286A6F9B0004D7D8 /* ARFaceScnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceScnView.swift; sourceTree = "<group>"; };
 		C9600E73286A6FD50004D7D8 /* ARFaceScnModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceScnModel.swift; sourceTree = "<group>"; };
+		C968E647286FB11D001EEECA /* Cloudinary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloudinary.swift; sourceTree = "<group>"; };
 		C9AAE0A4280E088B00771A61 /* FaceRecognition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceRecognition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionApp.swift; sourceTree = "<group>"; };
 		C9AAE0A9280E088B00771A61 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 			files = (
 				C91EF2E22863AD0600A6C726 /* Resolver in Frameworks */,
 				C93F8675285CEA0700EC52E3 /* ARVideoKit in Frameworks */,
+				C968E646286FA5AD001EEECA /* Cloudinary in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +306,7 @@
 			children = (
 				C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */,
 				C93F8671285AA32100EC52E3 /* VideoRecordingService.swift */,
+				C968E647286FB11D001EEECA /* Cloudinary.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 			packageProductDependencies = (
 				C93F8674285CEA0700EC52E3 /* ARVideoKit */,
 				C91EF2E12863AD0600A6C726 /* Resolver */,
+				C968E645286FA5AD001EEECA /* Cloudinary */,
 			);
 			productName = FaceRecognition;
 			productReference = C9AAE0A4280E088B00771A61 /* FaceRecognition.app */;
@@ -401,6 +407,7 @@
 			packageReferences = (
 				C93F8673285CEA0700EC52E3 /* XCRemoteSwiftPackageReference "ARVideoKit" */,
 				C91EF2E02863AD0600A6C726 /* XCRemoteSwiftPackageReference "Resolver" */,
+				C968E644286FA5AD001EEECA /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
 			);
 			productRefGroup = C9AAE0A5280E088B00771A61 /* Products */;
 			projectDirPath = "";
@@ -448,6 +455,7 @@
 				C9270B5A285708A600FDA006 /* StickModel.swift in Sources */,
 				C9459BBE281C61700016DA32 /* FacialFeatureView.swift in Sources */,
 				C9F7600F2811F02500FF8F8F /* FaceTranslation.swift in Sources */,
+				C968E648286FB11D001EEECA /* Cloudinary.swift in Sources */,
 				C9459BBA281C611E0016DA32 /* MainActionsView.swift in Sources */,
 				C93F8681285D597C00EC52E3 /* ScnRecorder.swift in Sources */,
 				C9AAE0DC280F7A5600771A61 /* App+Injection.swift in Sources */,
@@ -840,6 +848,14 @@
 				version = 1.6.0;
 			};
 		};
+		C968E644286FA5AD001EEECA /* XCRemoteSwiftPackageReference "cloudinary_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cloudinary/cloudinary_ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -852,6 +868,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C93F8673285CEA0700EC52E3 /* XCRemoteSwiftPackageReference "ARVideoKit" */;
 			productName = ARVideoKit;
+		};
+		C968E645286FA5AD001EEECA /* Cloudinary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C968E644286FA5AD001EEECA /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
+			productName = Cloudinary;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

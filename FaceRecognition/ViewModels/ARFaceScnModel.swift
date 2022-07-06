@@ -43,17 +43,17 @@ class ARFaceScnModel: ObservableObject {
     }
     private var recordingObserverMaker: AnyCancellable {
         self.scnRecorder.$recording
-            .receive(on: DispatchQueue.main)
-        // receive(on) required so the changes on recording are made in the next cicle.
-            .sink { [weak self] recording in
-                guard let self = self else { return }
+            .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
+            .sink {  recording in
                 switch recording {
                 case .recordRequest:
                     self.recorder?.record()
                     self.scnRecorder.recording = .recording(Date())
                 case .stopRequest:
                     self.recorder?.stop { url in
-                        self.scnRecorder.recording = .recorded(url)
+                        DispatchQueue.main.async {
+                            self.scnRecorder.recording = .recorded(url)
+                        }
                     }
                 default:
                     break
