@@ -23,8 +23,8 @@ struct FacialFeaturesListView: View {
             FacialFeatureView(feature: feature(index: 1) )
             FacialFeatureView(feature: feature(index: 2) )
             FacialFeatureView(feature: feature(index: 3) )
-            FacialFeatureView(feature: feature(index: 4) )
-            FacialFeatureView(feature: feature(index: 5) )
+//            FacialFeatureView(feature: feature(index: 4) )
+//            FacialFeatureView(feature: feature(index: 5) )
         }
     }
 }

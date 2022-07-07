@@ -7,18 +7,21 @@
 
 import Foundation
 import CoreGraphics
+import SwiftUI
 
 class StickModel {
     var size: CGSize
     var ringWidth: CGFloat
     var count:Int
     var rotation:Float
+    var color: Color
     var opacity:Float
-    init(size:CGSize, ringWidth: CGFloat, count:Int, rotation:Float, opacity:Float) {
+    init(size:CGSize, ringWidth: CGFloat, count:Int, rotation:Float, color:Color, opacity:Float) {
         self.size = size
         self.ringWidth = ringWidth
         self.count = count
         self.rotation = rotation
+        self.color = color
         self.opacity = opacity
     }
     var radius: Float {

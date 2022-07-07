@@ -93,6 +93,7 @@ class ScnRecorder: ObservableObject {
         var value: Float
         var time: TimeInterval? // in seconds
     }
+    static let positionValueThreshold:Float = 0.65
     var meaningfullVideoObserver: AnyCancellable?
     @Published var positions: [Position]
     @Published var recording: RecordingStatus {
@@ -189,7 +190,6 @@ extension ScnRecorder {
     }
     
     func updateSticksPositions(rotation:Float, value:Float, time:Date) {
-        let valueThreshold:Float = 0.65
         // Obtain class values on main queue
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -198,7 +198,7 @@ extension ScnRecorder {
             self.queue.async { [weak self] in
                 guard let self = self else { return }
                 // Reset to cero the values smaller than valueThreshold
-                positions = positions.map { $0.update(threshold: valueThreshold) }
+                positions = positions.map { $0.update(threshold: Self.positionValueThreshold) }
                 let updatedPositions = Self
                     .neighbourStick(positions: positions,
                                     rotation: rotation,

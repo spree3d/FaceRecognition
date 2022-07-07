@@ -39,10 +39,12 @@ extension FaceRecognitionView {
              width: model.ringWidth(size: size).float)
     }
     func stickModel(_ size:CGSize, _ rotation:Float, _ opacity:Float) -> StickModel {
-        StickModel(size: size,
+        let color = opacity >= ScnRecorder.positionValueThreshold ? Color.green : Color.yellow
+        return StickModel(size: size,
                    ringWidth: model.ringWidth(size: size),
                    count: model.sticksPositions.positions.count,
                    rotation: rotation,
+                   color: color,
                    opacity: opacity)
     }
     private
