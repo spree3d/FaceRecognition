@@ -113,7 +113,7 @@ extension ScnRecorder {
     }
     func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
         DispatchQueue.main.async { [weak self] in
-            self?.recording = .saving
+            self?.recording = .saving(progress: 0, resutl: nil)
         }
         guard case RecordingStatus.saveRequest(let url) = self.recording else {
             return Fail(error: ScnRecorderVideoError.invalidRecordingState).eraseToAnyPublisher()
@@ -166,7 +166,7 @@ extension ScnRecorder {
         exporter.shouldOptimizeForNetworkUse = true
         
         // TODO: save images
-        return exporter.exportFuture()
+        return exporter.exportFuture(scnRecorder:self)
 //            .saveVideo()
             .eraseToAnyPublisher()
     }
@@ -175,7 +175,7 @@ extension ScnRecorder {
 
 extension AVAssetExportSession {
     var cloudinaryVideoName: String { "\(Date().timeIntervalSince1970)" }
-    func exportFuture() -> Future<Bool,Error> {
+    func exportFuture(scnRecorder:ScnRecorder) -> Future<Bool,Error> {
         return Future() { promise in
             guard let videoUrl = self.outputURL else {
                 promise(Result.failure(ScnRecorderVideoError.videoFolderCreationError))
@@ -185,7 +185,13 @@ extension AVAssetExportSession {
                 switch self.status {
                 case AVAssetExportSession.Status.completed:
                     Cloudinary.shared.upload(url: videoUrl, name: self.cloudinaryVideoName) {
-                        (succed:Bool, error:Error?) -> Void in
+                        fractionCompleted in
+                        DispatchQueue.main.async { [weak scnRecorder] in
+                            scnRecorder?.recording = .saving(progress: fractionCompleted,
+                                                             resutl: nil)
+                        }
+                        print("\(fractionCompleted)")
+                    } completion: { succed, error in
                         if let error = error {
                             promise(Result.failure(error))
                         }

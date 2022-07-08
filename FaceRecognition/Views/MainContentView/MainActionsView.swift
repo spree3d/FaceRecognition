@@ -42,7 +42,15 @@ class RecordButtonModel: ObservableObject {
             }
             return "Stop Rec"
         case .recorded(_): return "Save Video"
-        case .saving: return "Making Video"
+        case .saving(let progress, let result):
+            if let result = result {
+                if result { return "Success" }
+                else { return "Error" }
+            }
+            if let progress = progress {
+                return "Progress: \((progress * 100).rounded())%"
+            }
+            return "Making Video"
         default: return "Start Rec"
         }
     }

@@ -17,7 +17,7 @@ enum RecordingStatus {
     case stopRequest   // ARFaceScnUIView will process the request
     case recorded(_ path:URL)
     case saveRequest(_ path:URL)
-    case saving
+    case saving(progress:Double?, resutl:Bool?)
 }
 
 extension RecordingStatus {

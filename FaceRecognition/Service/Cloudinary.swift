@@ -40,7 +40,9 @@ class Cloudinary {
             }
         }
     }
-    func upload(url:URL, name:String, completion: @escaping (Bool, Error?) -> Void) {
+    func upload(url:URL, name:String,
+                progress progressCallback: @escaping (Double)->Void,
+                completion: @escaping (Bool, Error?) -> Void) {
         let params = CLDUploadRequestParams()
         params.setResourceType(.video)
         params.setPublicId(name)
@@ -51,6 +53,7 @@ class Cloudinary {
                     params: params,
                     progress: { progress in
                 print("progress: \(String(describing: progress))")
+                progressCallback(progress.fractionCompleted)
             })
         request.response( { response, error in
             print("Cloudinary: result: \(String(describing: response))")
