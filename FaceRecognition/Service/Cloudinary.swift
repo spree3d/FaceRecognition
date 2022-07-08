@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import UIKit
 import Cloudinary
+import Photos
 
 class Cloudinary {
     static let shared = Cloudinary()
@@ -21,25 +23,37 @@ class Cloudinary {
 
     private
     init() {
-        let config = CLDConfiguration(cloudName: Self.cloudName, apiKey: Self.apiKey)
+        let config = CLDConfiguration(cloudName: Self.cloudName,
+                                      apiKey: Self.apiKey,
+                                      apiSecret: Self.apiSecret,
+                                      secure: true )
         self.cloudinary = CLDCloudinary(configuration: config)
     }
+    func saveVideoToPhotoAlbum(videoUrl:URL) {
+        PHPhotoLibrary.shared()
+            .performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
+            })
+        { saved, error in
+            if let error = error {
+                print("Error saving video on Photo Album, error: \(error)")
+            }
+        }
+    }
     func upload(url:URL, name:String) {
-//        let params = CLDUploadRequestParams().setResourceType(.video)
-//        let params = CLDRequestParams().setResourceType(.video)
-//        cloudinary.createUploader()
-//            .upload(url: url,
-//                    uploadPreset: name,
-//                    params: CLDUploadRequestParams(params: ["resource_type":"video"])) { (progress:Progress) in
-//                print("progress: \(progress)")
-//            } completionHandler: { response, error in
-//                print("error: \(error)")
-//                print("response: \(response)")
-//            }
-        
-        let request = cloudinary.createUploader().upload(url: url, uploadPreset: name)
-        request.response({ result, error in
-            print("Cloudinary: result: \(String(describing: result))")
+        let params = CLDUploadRequestParams()
+        params.setResourceType(.video)
+        params.setPublicId(name)
+        let deviceFolder = UIDevice.current.identifierForVendor?.uuidString ?? "UserFolder"
+        params.setFolder("FaceRecognition/\(deviceFolder)/")
+        let request = cloudinary.createUploader()
+            .signedUpload(url: url,
+                    params: params,
+                    progress: { progress in
+                print("progress: \(String(describing: progress))")
+            })
+        request.response( { response, error in
+            print("Cloudinary: result: \(String(describing: response))")
             print("Cloudinary: error: \(String(describing: error))")
             self.requests.remove(request)
         })

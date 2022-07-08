@@ -13,7 +13,6 @@
 		C93AE14F281096A3003A0939 /* Foundation+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE14E281096A3003A0939 /* Foundation+Ext.swift */; };
 		C93AE15128109732003A0939 /* CoreGraphics+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE15028109732003A0939 /* CoreGraphics+Ext.swift */; };
 		C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */; };
-		C93F8672285AA32100EC52E3 /* VideoRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F8671285AA32100EC52E3 /* VideoRecordingService.swift */; };
 		C93F8675285CEA0700EC52E3 /* ARVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = C93F8674285CEA0700EC52E3 /* ARVideoKit */; };
 		C93F867D285D549400EC52E3 /* Resolver+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F867C285D549400EC52E3 /* Resolver+Ext.swift */; };
 		C93F867F285D591D00EC52E3 /* FaceMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F867E285D591D00EC52E3 /* FaceMesh.swift */; };
@@ -74,7 +73,6 @@
 		C93AE14E281096A3003A0939 /* Foundation+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Ext.swift"; sourceTree = "<group>"; };
 		C93AE15028109732003A0939 /* CoreGraphics+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Ext.swift"; sourceTree = "<group>"; };
 		C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Ext.swift"; sourceTree = "<group>"; };
-		C93F8671285AA32100EC52E3 /* VideoRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingService.swift; sourceTree = "<group>"; };
 		C93F867C285D549400EC52E3 /* Resolver+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+Ext.swift"; sourceTree = "<group>"; };
 		C93F867E285D591D00EC52E3 /* FaceMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMesh.swift; sourceTree = "<group>"; };
 		C93F8680285D597C00EC52E3 /* ScnRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnRecorder.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 			isa = PBXGroup;
 			children = (
 				C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */,
-				C93F8671285AA32100EC52E3 /* VideoRecordingService.swift */,
 				C968E647286FB11D001EEECA /* Cloudinary.swift */,
 			);
 			path = Service;
@@ -461,7 +458,6 @@
 				C9AAE0DC280F7A5600771A61 /* App+Injection.swift in Sources */,
 				C93F867F285D591D00EC52E3 /* FaceMesh.swift in Sources */,
 				C9F7600D2811007A00FF8F8F /* FaceOrientation.swift in Sources */,
-				C93F8672285AA32100EC52E3 /* VideoRecordingService.swift in Sources */,
 				C91EF2E52864405B00A6C726 /* Ring.swift in Sources */,
 				C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */,
 				C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */,
@@ -650,10 +646,10 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face orientation";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face poses and gestures.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We do not use/need acceess to your microphone, feel free to deny this request.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in case you want us save the video with your poses. This outhorization access isn't required for the normal operation of the app, it is optional.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -689,10 +685,10 @@
 				ENABLE_TESTABILITY = NO;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face orientation";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera used to detect your face poses and gestures.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We do not use/need acceess to your microphone, feel free to deny this request.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in order to save the face detection sessions.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo Library access is required in case you want us save the video with your poses. This outhorization access isn't required for the normal operation of the app, it is optional.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -8,7 +8,6 @@
 import Foundation
 import CoreMedia
 import AVFoundation
-import Photos
 import Combine
 import XCTest
 
@@ -175,6 +174,7 @@ extension ScnRecorder {
 
 
 extension AVAssetExportSession {
+    var cloudinaryVideoName: String { "\(Date().timeIntervalSince1970)" }
     func exportFuture() -> Future<Bool,Error> {
         return Future() { promise in
             guard let videoUrl = self.outputURL else {
@@ -184,15 +184,7 @@ extension AVAssetExportSession {
             self.exportAsynchronously {
                 switch self.status {
                 case AVAssetExportSession.Status.completed:
-                    PHPhotoLibrary.shared()
-                        .performChanges({
-                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
-                        })
-                    { saved, error in
-                        if let error = error { promise(Result.failure(error)) }
-                        promise(Result.success(saved))
-                    }
-//                    promise(Result.success(videoUrl))
+                    Cloudinary.shared.upload(url: videoUrl, name: self.cloudinaryVideoName)
                 case AVAssetExportSession.Status.failed:
                     print("failed \(self.error?.localizedDescription ?? "error nil")")
                     promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
