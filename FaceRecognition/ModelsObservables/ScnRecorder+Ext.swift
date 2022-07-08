@@ -184,7 +184,13 @@ extension AVAssetExportSession {
             self.exportAsynchronously {
                 switch self.status {
                 case AVAssetExportSession.Status.completed:
-                    Cloudinary.shared.upload(url: videoUrl, name: self.cloudinaryVideoName)
+                    Cloudinary.shared.upload(url: videoUrl, name: self.cloudinaryVideoName) {
+                        (succed:Bool, error:Error?) -> Void in
+                        if let error = error {
+                            promise(Result.failure(error))
+                        }
+                        promise(Result.success(succed))
+                    }
                 case AVAssetExportSession.Status.failed:
                     print("failed \(self.error?.localizedDescription ?? "error nil")")
                     promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))

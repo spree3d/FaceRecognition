@@ -40,7 +40,7 @@ class Cloudinary {
             }
         }
     }
-    func upload(url:URL, name:String) {
+    func upload(url:URL, name:String, completion: @escaping (Bool, Error?) -> Void) {
         let params = CLDUploadRequestParams()
         params.setResourceType(.video)
         params.setPublicId(name)
@@ -56,6 +56,8 @@ class Cloudinary {
             print("Cloudinary: result: \(String(describing: response))")
             print("Cloudinary: error: \(String(describing: error))")
             self.requests.remove(request)
+            if let error = error { completion(false, error) }
+            else { completion(true, nil) }
         })
         self.requests.insert(request)
         request.resume()
