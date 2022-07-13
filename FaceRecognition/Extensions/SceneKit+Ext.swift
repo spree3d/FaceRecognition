@@ -96,6 +96,14 @@ func radiansToDegress(radians: Float) -> Float {
     return radians * 180 / (Float.pi)
 }
 
+extension simd_float3 {
+    public init(angle:Float, axis:simd_float3) {
+        let quat = simd_quatf(angle: 0,
+                              axis: axis)
+        self = quat.act( simd_float3(x: 0, y: 0, z: 1) )
+    }
+}
+
 extension simd_float4x4 {
     var simd3x3: simd_float3x3 {
         simd_float3x3([self.columns.0.simd3,

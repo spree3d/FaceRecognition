@@ -32,7 +32,8 @@ class ARFaceScnModel: ObservableObject {
         sessionDelegate = SessionDelegate()
         sceneViewDelegate = SceneViewDelegate()
         if ARFaceTrackingConfiguration.isSupported {
-            sceneView.debugOptions = [.showCameras, .showWorldOrigin, .showBoundingBoxes]
+            // TODO: Add booleand somewhere to enable/disable debug options.
+//            sceneView.debugOptions = [.showCameras, .showWorldOrigin, .showBoundingBoxes]
             sceneView.session.delegate = sessionDelegate
             sceneView.delegate = sceneViewDelegate
         }

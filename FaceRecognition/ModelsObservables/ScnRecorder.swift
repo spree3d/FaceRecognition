@@ -12,46 +12,39 @@ import CoreVideo
 
 enum RecordingStatus {
     case unknown
+    case standBy
     case recordRequest // ARFaceScnUIView will process the request
     case recording(_ startDate:Date)
     case stopRequest   // ARFaceScnUIView will process the request
     case recorded(_ path:URL)
     case saveRequest(_ path:URL)
-    case saving(progress:Double?, resutl:Bool?)
+    case saving(progress:Double?, result:Bool?)
 }
 
 extension RecordingStatus {
     static func == (lhs: RecordingStatus, rhs: RecordingStatus) -> Bool {
-        if case .unknown = lhs,
-           case .unknown = rhs {
-            return true
-        }
-        if case .recordRequest = lhs,
-           case .recordRequest = rhs {
-            return true
-        }
-        if case .recording(let lhsDate) = lhs,
-           case .recording(let rhsDate) = rhs,
-           lhsDate == rhsDate {
-            return true
-        }
-        if case .stopRequest = lhs,
-           case .stopRequest = rhs {
-            return true
-        }
-        if case .recorded(let lhsPath) = lhs,
-           case .recorded(let rhsPath) = rhs,
-           lhsPath.path == rhsPath.path {
-            return true
-        }
-        if case .saveRequest(let lhsPath) = lhs,
-           case .saveRequest(let rhsPath) = rhs,
-           lhsPath.path == rhsPath.path {
-            return true
-        }
-        if case .saving = lhs,
-           case .saving = rhs {
-            return true
+        switch lhs {
+        case .unknown:
+            if case .unknown = rhs { return true }
+        case .standBy:
+            if case .standBy = rhs { return true }
+        case .recordRequest:
+            if case .recordRequest = rhs { return true }
+        case .recording(let vlhs):
+            if case .recording(let vrhs) = rhs,
+               vlhs == vrhs { return true }
+        case .stopRequest:
+            if case .stopRequest = rhs { return true }
+        case .recorded(let vlhs):
+            if case .recorded(let vrhs) = rhs,
+               vlhs == vrhs { return true }
+        case .saveRequest(let vlhs):
+            if case .saveRequest(let vrhs) = rhs,
+               vlhs == vrhs { return true }
+        case .saving(let plhs, let rlhs):
+            if case .saving(let prhs, let rrhs) = rhs,
+               plhs == prhs,
+               rlhs == rrhs { return true }
         }
         return false
     }
@@ -96,13 +89,16 @@ class ScnRecorder: ObservableObject {
     static let positionValueThreshold:Float = 0.65
     var meaningfullVideoObserver: AnyCancellable?
     @Published var positions: [Position]
+    var recognitionDone: Bool {
+        self.positions.filter { $0.value < Self.positionValueThreshold }.count == 0
+    }
     @Published var recording: RecordingStatus {
         didSet { recordingDidSet(oldValue) }
     }
     private let queue: DispatchQueue
     init(count:Int) {
         self.positions = Self.positionsBuilder(count: count)
-        self.recording = .unknown
+        self.recording = .standBy
         self.queue = DispatchQueue(label: "com.spree3d.SticksPositions.\(UUID().uuidString)")
     }
     /**

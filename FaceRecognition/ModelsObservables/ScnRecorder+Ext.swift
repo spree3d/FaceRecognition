@@ -10,6 +10,7 @@ import CoreMedia
 import AVFoundation
 import Combine
 import XCTest
+import Photos
 
 extension CMTimeRange {
     func inTouch(_ to: CMTimeRange) -> Bool {
@@ -113,7 +114,7 @@ extension ScnRecorder {
     }
     func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
         DispatchQueue.main.async { [weak self] in
-            self?.recording = .saving(progress: 0, resutl: nil)
+            self?.recording = .saving(progress: 0, result: nil)
         }
         guard case RecordingStatus.saveRequest(let url) = self.recording else {
             return Fail(error: ScnRecorderVideoError.invalidRecordingState).eraseToAnyPublisher()
@@ -188,13 +189,19 @@ extension AVAssetExportSession {
                         fractionCompleted in
                         DispatchQueue.main.async { [weak scnRecorder] in
                             scnRecorder?.recording = .saving(progress: fractionCompleted,
-                                                             resutl: nil)
+                                                             result: nil)
                         }
-                        print("\(fractionCompleted)")
-                    } completion: { succed, error in
+                    } completion: { [weak scnRecorder] succed, error in
+                        defer {
+                            self.saveToPhotoAlbum(videoUrl: videoUrl)
+                        }
                         if let error = error {
+                            scnRecorder?.recording = .saving(progress: nil,
+                                                             result: false)
                             promise(Result.failure(error))
                         }
+                        scnRecorder?.recording = .saving(progress: nil,
+                                                         result: true)
                         promise(Result.success(succed))
                     }
                 case AVAssetExportSession.Status.failed:
@@ -209,6 +216,23 @@ extension AVAssetExportSession {
                 }
             }
         }
+    }
+    func saveToPhotoAlbum(videoUrl:URL) {
+        PHPhotoLibrary.shared()
+            .performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
+            })
+        { _, error in
+            if let error = error {
+                print("Error saving the video \(error)")
+            }
+            do {
+                try FileManager.default.removeItem(at: videoUrl)
+            } catch {
+                print("Failure removing file, error \(error)")
+            }
+        }
+
     }
 }
 /*

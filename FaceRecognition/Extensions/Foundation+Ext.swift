@@ -44,6 +44,10 @@ extension Float {
     @inlinable var cm2Inch: Float { self * 0.393701 }
 }
 
+extension Double {
+    @inlinable var float: Float { Float(self) }
+}
+
 extension Array {
     func first(_ n:Int) -> Array {
         self.enumerated()

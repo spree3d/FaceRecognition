@@ -22,17 +22,20 @@ class FaceMesh: ObservableObject {
         didSet {
             if self.maskFacialFeature > 1.0 { self.maskFacialFeature = 1.0 }
             if self.maskFacialFeature < 0.0 { self.maskFacialFeature = 0.0 }
+            if self.maskFacialFeature == 0 {
+                self.facialFeaturesList.removeAll()
+            }
         }
     }
     @Published var facialFeaturesList: [(String,Float)]
     var faceAnchor: ARFaceAnchor?
     let queue: DispatchQueue
     init(facialFeaturesCount:Int = 6) {
-        self.meshDisabled = false
+        self.meshDisabled = true
         self.facialFeaturesCount = facialFeaturesCount
-        self.alphaValue = 0.5
+        self.alphaValue = 0.0
         self.facialFeaturesList = [(String,Float)]()
-        self.maskFacialFeature = 0.3
+        self.maskFacialFeature = 0.0
         self.faceAnchor = nil
         self.queue = DispatchQueue(label: "com.spree3d.SticksPositions.\(UUID().uuidString)")
     }

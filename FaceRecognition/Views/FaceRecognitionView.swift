@@ -11,16 +11,20 @@ import SwiftUI
 
 struct FaceRecognitionView: View {
     @InjectedStateObject var model: SticksRingModel
+    var withFaceRecognition = true
+    
     var body: some View {
         GeometryReader { geom in
             ZStack {
     #if targetEnvironment(simulator)
                 ring(geom.size)
-                ForEach( model.sticksPositions.positions) {
+                ForEach( model.scnRecorder.positions) {
                     stick(geom.size, $0)
                 }
     #else
-                ARFaceScnView()
+                if withFaceRecognition {
+                    ARFaceScnView()
+                }
                 ring(geom.size)
                 ForEach( model.sticksPositions.positions) {
                     stick(geom.size, $0)
@@ -36,7 +40,8 @@ extension FaceRecognitionView {
     private
     func ring(_ size:CGSize) -> some View {
         Ring(scale: model.ringScale,
-             width: model.ringWidth(size: size).float)
+             width: model.ringWidth(size: size).float,
+             color: .black)
     }
     func stickModel(_ size:CGSize, _ rotation:Float, _ opacity:Float) -> StickModel {
         let color = opacity >= ScnRecorder.positionValueThreshold ? Color.green : Color.yellow
@@ -49,7 +54,10 @@ extension FaceRecognitionView {
     }
     private
     func stick(_ size:CGSize, _ positions:ScnRecorder.Position) -> some View {
-        StickView(model: stickModel(size, positions.angle, positions.value))
+        StickView(model: stickModel(size,
+                                    positions.angle,
+                                    positions.value
+                                   ))
     }
 }
 

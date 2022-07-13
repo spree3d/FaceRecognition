@@ -43,7 +43,7 @@ class MaskTransparencyModel: ObservableObject {
                     self?.sliderOpacity = 0.5
                     self?.sliderDisabled = true
                     self?.faceMesh.meshDisabled = true
-                case .unknown, .recorded(_), .saveRequest(_), .saving:
+                case .unknown, .standBy, .recorded(_), .saveRequest(_), .saving:
                     self?.sliderOpacity = 1.0
                     self?.sliderDisabled = false
                     self?.faceMesh.meshDisabled = false

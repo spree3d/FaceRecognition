@@ -12,7 +12,7 @@ import Resolver
 
 class SceneViewDelegate: NSObject {
     @Injected private var faceMesh: FaceMesh
-    @Injected private var sticksPositions: ScnRecorder
+    @Injected private var scnRecorder: ScnRecorder
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float3, Never>?
     private var cancelable: AnyCancellable?
@@ -22,8 +22,7 @@ class SceneViewDelegate: NSObject {
         super.init()
         self.subject = PassthroughSubject<simd_float3, Never>()
         self.cancelable = subject?
-//            .debounce(for: .milliseconds(100), scheduler: self.queue)
-            .throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
+            .throttle(for: .milliseconds(100), scheduler: self.queue, latest: true)
             .sink { faceTransform in
                 DispatchQueue.main.sync { [weak self] in
                     self?.cancelableReceiveValue(faceTransform)
@@ -33,8 +32,9 @@ class SceneViewDelegate: NSObject {
 }
 extension SceneViewDelegate {
     func cancelableReceiveValue(_ lookAt:simd_float3) {
+        guard self.scnRecorder.recording != .standBy else { return }
         if let (rotation, accuracy) = try? FaceOrientation.orientation(lookAt) {
-            self.sticksPositions.updateSticksPositions(rotation: rotation,
+            self.scnRecorder.updateSticksPositions(rotation: rotation,
                                                        value: accuracy,
                                                        time: Date())
         }
@@ -77,26 +77,15 @@ extension SceneViewDelegate: ARSCNViewDelegate {
             let faceOrientation = cameraTransform * faceTransform
             
             let facialFeaturesList = faceAnchor.blendShapes.map { ($0.key.rawValue, $0.value.floatValue) }
-            self.faceMesh.update(facialFeaturesList: facialFeaturesList, faceAnchor: faceAnchor)
+            if self.faceMesh.maskFacialFeature > 0 {
+                self.faceMesh.update(facialFeaturesList: facialFeaturesList, faceAnchor: faceAnchor)
+            }
             
             faceGeometry.update(from: faceAnchor.geometry)
             let meshTransparency = self.faceMesh.meshDisabled ? 0.0 : self.faceMesh.alphaValue.cgFloat
             faceGeometry.materials.forEach {
                 $0.transparency = meshTransparency
             }
-            
-            /*
-            let deviation = faceOrientation.angleTo(vTo: simd_float3(0,0,1))
-            let rotationVector = simd_normalize( cross(simd_float3(0,0,1), faceOrientation) )
-            let quat = simd_quaternion(-1 * deviation, rotationVector)
-            let quat_mat = simd_float3x3(quat)
-            
-            let localTransform = faceAnchor.transform.simd3x3 * quat_mat
-            let rotatedDir = simd_normalize( localTransform * faceOrientation)
-            let x_y_angle_rad = rotatedDir.simd2.angleTo(vTo: simd_float2(1,0))
-            print("x_y_angle_rad: \(x_y_angle_rad.toGrades)")
-            */
-            
             self.subject?.send(faceOrientation)
         }
     }

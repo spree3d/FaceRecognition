@@ -12,7 +12,9 @@ import Resolver
 struct FaceRecognitionApp: App {
     var body: some Scene {
         WindowGroup {
-            MainContentView()
+            HStack {
+                HomeView()
+            }
         }
     }
 }

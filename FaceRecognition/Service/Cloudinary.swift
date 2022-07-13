@@ -52,7 +52,7 @@ class Cloudinary {
             .signedUpload(url: url,
                     params: params,
                     progress: { progress in
-                print("progress: \(String(describing: progress))")
+//                print("progress: \(String(describing: progress))")
                 progressCallback(progress.fractionCompleted)
             })
         request.response( { response, error in

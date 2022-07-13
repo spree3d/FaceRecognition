@@ -16,7 +16,7 @@ struct StickView: View {
                 .fill(model.color)
                 .opacity(model.opacity.double)
             capsule
-                .stroke(Color.black, lineWidth: 1)
+                .stroke(Color.white, lineWidth: 1)
         }
     }
 }
@@ -55,14 +55,17 @@ struct Stick_Previews: PreviewProvider {
         var color:Color
         var opacity:Float
         var body: some View {
-            StickView(model: StickModel(size: CGSize(width: 200, height: 300),
-                                        ringWidth: (200 * 0.5 * 0.4).cgFloat,
-                                        count: 64,
-                                        rotation: rotation,
-                                        color: color,
-                                        opacity: opacity))
-            .previewLayout(.sizeThatFits)
-            .frame(width: 200, height: 300)
+            ZStack {
+                Color.black.ignoresSafeArea()
+                StickView(model: StickModel(size: CGSize(width: 200, height: 300),
+                                            ringWidth: (200 * 0.5 * 0.4).cgFloat,
+                                            count: 64,
+                                            rotation: rotation,
+                                            color: color,
+                                            opacity: opacity))
+                .previewLayout(.sizeThatFits)
+                .frame(width: 200, height: 300)
+            }
         }
     }
     static var previews: some View {
