@@ -46,6 +46,9 @@ struct HomeView: View {
                 })
             }
         }
+        .onAppear {
+            clearCache()
+        }
     }
 }
 

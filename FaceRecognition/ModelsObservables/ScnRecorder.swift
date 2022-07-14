@@ -86,7 +86,7 @@ class ScnRecorder: ObservableObject {
         var value: Float
         var time: TimeInterval? // in seconds
     }
-    static let positionValueThreshold:Float = 0.72
+    static let positionValueThreshold:Float = 0.70
     var meaningfullVideoObserver: AnyCancellable?
     @Published var positions: [Position]
     var recognitionDone: Bool {
@@ -128,7 +128,7 @@ class ScnRecorder: ObservableObject {
         }
     }
 }
-fileprivate
+
 extension ScnRecorder {
     var meaningfulVideoAnglesCount: Int { 8 }
     var meaningfulVideoAnglesStep: Float { Float.two_pi / meaningfulVideoAnglesCount.float }

@@ -87,3 +87,21 @@ extension URL {
         }
     }
 }
+
+func clearCache(){
+    let fileManager = FileManager.default
+    do {
+        let documentDirectoryURL = try fileManager.url(for: .documentDirectory,
+                                                       in: .userDomainMask,
+                                                       appropriateFor: nil,
+                                                       create: false)
+        let fileURLs = try fileManager.contentsOfDirectory(at: documentDirectoryURL,
+                                                           includingPropertiesForKeys: nil,
+                                                           options: .skipsHiddenFiles)
+        for url in fileURLs {
+           try fileManager.removeItem(at: url)
+        }
+    } catch {
+        print("Failure cleaning cache, error \(error)")
+    }
+}

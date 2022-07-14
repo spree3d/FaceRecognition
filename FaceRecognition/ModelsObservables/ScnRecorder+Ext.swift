@@ -148,16 +148,9 @@ extension ScnRecorder {
             }
             
         }
-        guard let videoUrl = try? URL.videoFolder.appendingPathComponent("video.mp4")
+        guard let videoUrl = try? URL.videoFolder.appendingPathComponent("video-\(UUID().uuidString).mp4")
         else {
             return Fail(error: ScnRecorderVideoError.videoFolderCreationError).eraseToAnyPublisher()
-        }
-        if FileManager.default.fileExists(atPath: videoUrl.path) {
-            do {
-                try FileManager.default.removeItem(at: videoUrl)
-            } catch {
-                return Fail(error: ScnRecorderVideoError.canNotRemoveExistingVideo).eraseToAnyPublisher()
-            }
         }
         guard let exporter = AVAssetExportSession(asset: composition,
                                                   presetName: AVAssetExportPresetHighestQuality)
@@ -187,6 +180,7 @@ extension AVAssetExportSession {
             self.exportAsynchronously {
                 switch self.status {
                 case AVAssetExportSession.Status.completed:
+                    print("AVAssert export succeded")
                     Cloudinary.shared.upload(url: videoUrl, name: self.cloudinaryVideoName) {
                         fractionCompleted in
                         DispatchQueue.main.async { [weak scnRecorder] in
@@ -209,13 +203,13 @@ extension AVAssetExportSession {
                         }
                     }
                 case AVAssetExportSession.Status.failed:
-                    print("failed \(self.error?.localizedDescription ?? "error nil")")
+                    print("AVAssert export failed \(self.error?.localizedDescription ?? "error nil")")
                     promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
                 case AVAssetExportSession.Status.cancelled:
-                    print("cancelled \(self.error?.localizedDescription ?? "error nil")")
+                    print("AVAssert export cancelled \(self.error?.localizedDescription ?? "error nil")")
                     promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
                 default:
-                    print("complete")
+                    print("AVAssert export complete")
                     promise(Result.failure(self.error ?? ScnRecorderVideoError.undefined))
                 }
             }
@@ -229,11 +223,8 @@ extension AVAssetExportSession {
         { _, error in
             if let error = error {
                 print("Error saving the video \(error)")
-            }
-            do {
-                try FileManager.default.removeItem(at: videoUrl)
-            } catch {
-                print("Failure removing file, error \(error)")
+            } else {
+                print("Video saved to photo album \(videoUrl)")
             }
         }
 

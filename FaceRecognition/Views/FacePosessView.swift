@@ -45,7 +45,9 @@ class FacePosesMonitor: ObservableObject {
         guard self.scnRecorder.recording != .stopRequest else {
             return
         }
-        DispatchQueue.main.async { [weak self] in
+        let deadline = DispatchTime.now() + scnRecorder.meaningfulVideoAngleTime
+        DispatchQueue.main.asyncAfter(deadline: deadline) {
+            [weak self] in
             print("Stop request is about to be requested")
             self?.scnRecorder.recording = .stopRequest
             self?.positionsObserver = nil
@@ -92,6 +94,7 @@ class FacePosesMonitor: ObservableObject {
 }
 extension FacePosesMonitor {
     func viewOnAppear() {
+        clearCache()
         DispatchQueue.main.async {
             self.scnRecorder.reset()
             self.scnRecorder.recording = .standBy
@@ -101,6 +104,7 @@ extension FacePosesMonitor {
         }
     }
     func viewOnDissapear() {
+        clearCache()
         DispatchQueue.main.async {
             self.scnRecorder.reset()
             self.scnRecorder.recording = .standBy
