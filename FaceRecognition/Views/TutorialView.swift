@@ -37,8 +37,13 @@ struct TutorialView: View {
             ZStack {
                 Color.black
                     .ignoresSafeArea()
+                FaceRecognitionView(withFaceRecognition:false)
+                    .clipShape(Circle())
+                ImageRotatingView(image: Image(systemName: "face.smiling"),
+                                  side: geom.size.width * 0.5,
+                                  foregroundColor: .white)
                 VStack {
-                    HStack {
+                    HStack(alignment: .top, spacing: 0) {
                         Button {
                             dissmisView.toggle()
                         } label: {
@@ -49,14 +54,6 @@ struct TutorialView: View {
                         Spacer()
                     }
                     .padding()
-                    Spacer()
-                    ZStack {
-                        FaceRecognitionView(withFaceRecognition:false)
-                            .clipShape(Circle())
-                        ImageRotatingView(image: Image(systemName: "face.smiling"),
-                                          size: geom.size.width * 0.5,
-                                          foregroundColor: .white)
-                    }
                     Spacer()
                 }
             }

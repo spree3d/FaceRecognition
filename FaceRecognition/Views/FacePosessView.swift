@@ -46,7 +46,7 @@ class FacePosesMonitor: ObservableObject {
             return
         }
         DispatchQueue.main.async { [weak self] in
-            print("Stop request should be requested")
+            print("Stop request is about to be requested")
             self?.scnRecorder.recording = .stopRequest
             self?.positionsObserver = nil
         }
@@ -87,14 +87,6 @@ class FacePosesMonitor: ObservableObject {
             }
             self.objectWillChange.send()
             return
-        }
-    }
-    var stopRequestWork: DispatchWorkItem {
-        DispatchWorkItem {
-            DispatchQueue.main.async { [weak self] in
-                self?.scnRecorder.recording = .stopRequest
-                self?.recordingUpdatingState = nil
-            }
         }
     }
 }
@@ -149,8 +141,8 @@ struct FacePosesView: View {
                     Button {
                         tutorialIsActive.toggle()
                     } label: {
-                        Image(systemName: "questionmark")
-                            .font(.title2)
+                        Image(systemName: "questionmark.circle")
+                            .font(.largeTitle)
                             .foregroundColor(.white)
                     }
                     .sheet(isPresented: $tutorialIsActive,
@@ -160,6 +152,7 @@ struct FacePosesView: View {
                            content: {
                         TutorialView(dissmisView: $tutorialIsActive)
                     })
+                    .padding(.trailing)
 
                 }
                 .padding()
@@ -174,6 +167,11 @@ struct FacePosesView: View {
         }
         .onChange(of: facePosesMonitor.dissmisView) { _ in
             dissmisView.toggle()
+        }
+        .onChange(of: tutorialIsActive) { newValue in
+            if newValue {
+                self.facePosesMonitor.viewOnDissapear()
+            }
         }
         .onAppear {
             self.facePosesMonitor.viewOnAppear()

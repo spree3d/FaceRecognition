@@ -36,14 +36,16 @@ extension Array where Element == CMTimeRange {
     }
     var prependBound: [Element] {
         guard let first = self.first else { return self }
-        let start = CMTime(seconds: 0, preferredTimescale: first.start.timescale)
+        let start = CMTime(seconds: first.start.seconds,
+                           preferredTimescale: first.start.timescale)
         let duration = CMTime(seconds: first.duration.seconds * 0.5,
                               preferredTimescale: first.duration.timescale)
         return [CMTimeRange(start: start, duration: duration)] + self
     }
     var appendBound: [Element] {
         guard let last = self.last else { return self }
-        let start = CMTime(seconds: 0, preferredTimescale: last.start.timescale)
+        let start = CMTime(seconds: last.start.seconds + last.duration.seconds * 0.5,
+                           preferredTimescale: last.start.timescale)
         let duration = CMTime(seconds: last.duration.seconds * 0.5,
                               preferredTimescale: last.duration.timescale)
         return self + [CMTimeRange(start: start, duration: duration)]
@@ -199,10 +201,12 @@ extension AVAssetExportSession {
                             scnRecorder?.recording = .saving(progress: nil,
                                                              result: false)
                             promise(Result.failure(error))
+                            
+                        } else {
+                            scnRecorder?.recording = .saving(progress: nil,
+                                                             result: true)
+                            promise(Result.success(succed))
                         }
-                        scnRecorder?.recording = .saving(progress: nil,
-                                                         result: true)
-                        promise(Result.success(succed))
                     }
                 case AVAssetExportSession.Status.failed:
                     print("failed \(self.error?.localizedDescription ?? "error nil")")

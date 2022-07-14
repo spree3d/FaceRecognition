@@ -15,11 +15,11 @@ import Resolver
 /// TODO: Change the class to actor.
 final
 class SticksRingModel: ObservableObject {
-    @Injected var sticksPositions: ScnRecorder
+    @Injected var scnRecorder: ScnRecorder
     var sticksPositionsListener: AnyCancellable?
     // throttle(for: .milliseconds(500), scheduler: self.queue, latest: true)
     init() {
-        self.sticksPositionsListener = sticksPositions.$positions
+        self.sticksPositionsListener = scnRecorder.$positions
             .throttle(for: .milliseconds(100), scheduler: RunLoop.main, latest: true)
             .sink { [weak self] _ in
                 self?.objectWillChange.send()

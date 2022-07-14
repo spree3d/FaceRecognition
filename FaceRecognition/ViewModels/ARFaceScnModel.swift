@@ -51,12 +51,25 @@ class ARFaceScnModel: ObservableObject {
                     self.recorder?.record()
                     self.scnRecorder.recording = .recording(Date())
                 case .stopRequest:
+                    guard let recorder = self.recorder,
+                       case .recording = recorder.status else {
+                        print("Recorded stop request but recorder isn't recording")
+                        break
+                    }
+                    print("Recorded stop.")
                     self.recorder?.stop { url in
                         DispatchQueue.main.async {
                             self.scnRecorder.recording = .recorded(url)
                         }
                     }
+                case .recording(_):
+                    break
                 default:
+                    if let recorder = self.recorder,
+                       case .unknown = recorder.status {
+                        recorder.cancel()
+                        print("Recorded cancelled.")
+                    }
                     break
                 }
             }

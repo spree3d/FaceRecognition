@@ -41,16 +41,18 @@ class ImageRotatingModel: ObservableObject {
 
 struct ImageRotatingView: View {
     let image: Image
-    var size:Double? = nil
+    var side:Double? = nil
     var foregroundColor = Color.orange
     @StateObject var model = ImageRotatingModel()
     var body: some View {
         GeometryReader { geom in
-            HStack {
+            VStack {
                 Spacer()
-                VStack{
+                HStack {
                     Spacer()
                     image
+                        .resizable()
+                        .scaledToFit()
                         .fitSystemFont()
                         .foregroundColor(foregroundColor)
                         .rotation3DEffect(model.angle,
@@ -61,8 +63,8 @@ struct ImageRotatingView: View {
                         .animation(
                             .easeInOut(duration: model.duration )
                         )
-                        .frame(width: size ?? geom.size.width,
-                               height: size ?? geom.size.height)
+                        .frame(width:  side ?? geom.size.width,
+                               height: side ?? geom.size.height)
                     Spacer()
                 }
                 Spacer()
@@ -74,7 +76,7 @@ struct ImageRotatingView: View {
 struct ImageRotatingView_Previews: PreviewProvider {
     static var previews: some View {
         ImageRotatingView(image: Image(systemName: "faceid"),
-                          size: 168,
+                          side: 168,
                           foregroundColor: .blue)
     }
 }

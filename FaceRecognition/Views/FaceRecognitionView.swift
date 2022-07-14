@@ -26,7 +26,7 @@ struct FaceRecognitionView: View {
                     ARFaceScnView()
                 }
                 ring(geom.size)
-                ForEach( model.sticksPositions.positions) {
+                ForEach( model.scnRecorder.positions) {
                     stick(geom.size, $0)
                 }
     #endif
@@ -47,7 +47,7 @@ extension FaceRecognitionView {
         let color = opacity >= ScnRecorder.positionValueThreshold ? Color.green : Color.yellow
         return StickModel(size: size,
                    ringWidth: model.ringWidth(size: size),
-                   count: model.sticksPositions.positions.count,
+                   count: model.scnRecorder.positions.count,
                    rotation: rotation,
                    color: color,
                    opacity: opacity)
