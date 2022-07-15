@@ -117,13 +117,17 @@ class ScnRecorder: ObservableObject {
             .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
             .sink(receiveCompletion: {error in
                 self.reset()
-                self.recording = .unknown
                 print("error on making video, error: \(error)")
                 self.meaningfullVideoObserver = nil
+                DispatchQueue.main.async {
+                    self.recording = .unknown
+                }
             }, receiveValue: { saved in
                 self.reset()
-                self.recording = .unknown
                 self.meaningfullVideoObserver = nil
+                DispatchQueue.main.async {
+                    self.recording = .unknown
+                }
             })
         }
     }

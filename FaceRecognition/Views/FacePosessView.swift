@@ -22,20 +22,6 @@ class FacePosesMonitor: ObservableObject {
     init() {
         self.videoProcessing = (inProcess:false, percent:nil, result:nil)
         self.queue = DispatchQueue(label: "com.facerecognition.faceposesmonitor.\(UUID().uuidString)")
-        self.positionsObserver = scnRecorder
-            .$positions
-            .throttle(for: .seconds(1),
-                      scheduler: self.queue,
-                      latest: true)
-            .sink { [weak self] _ in
-                self?.positionsCallback()
-            }
-        self.recordingObserver = scnRecorder
-            .$recording
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.recordingCallback()
-            }
     }
     
     func positionsCallback() {
@@ -53,8 +39,8 @@ class FacePosesMonitor: ObservableObject {
             self?.positionsObserver = nil
         }
     }
-    func recordingCallback() {
-        switch self.scnRecorder.recording {
+    func recordingCallback(_ recording:RecordingStatus) {
+        switch recording {
         case .unknown:
             return
         case .standBy:
@@ -80,9 +66,9 @@ class FacePosesMonitor: ObservableObject {
             let p = progress != nil ? "\(progress!)" : "N/A"
             let r = result != nil ? "\(result!)" : "N/A"
             print("progress \(p), result \(r)")
+            let percent = progress != nil ? (progress! * 100).float : nil
             self.videoProcessing = (inProcess:true,
-                                    percent: progress != nil ?
-                                    (progress! * 100).float : nil,
+                                    percent: percent,
                                     result:result)
             if let result = result, result == true {
                 self.dissmisView = true
@@ -93,22 +79,34 @@ class FacePosesMonitor: ObservableObject {
     }
 }
 extension FacePosesMonitor {
-    func viewOnAppear() {
-        clearCache()
+    func viewActive() {
+        self.positionsObserver = scnRecorder
+            .$positions
+            .throttle(for: .seconds(1),
+                      scheduler: self.queue,
+                      latest: true)
+            .sink { [weak self] _ in
+                self?.positionsCallback()
+            }
+        self.recordingObserver = scnRecorder
+            .$recording
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] recording in
+                self?.recordingCallback(recording)
+            }
         DispatchQueue.main.async {
             self.scnRecorder.reset()
-            self.scnRecorder.recording = .standBy
-        }
-        DispatchQueue.main.async {
             self.scnRecorder.recording = .recordRequest
         }
     }
-    func viewOnDissapear() {
+    func viewPassive() {
         clearCache()
-        DispatchQueue.main.async {
-            self.scnRecorder.reset()
-            self.scnRecorder.recording = .standBy
-        }
+        self.positionsObserver = nil
+        self.recordingObserver = nil
+        self.recordingUpdatingState?.cancel()
+        self.recordingUpdatingState = nil
+        self.scnRecorder.reset()
+        self.scnRecorder.recording = .standBy
     }
 }
 
@@ -150,9 +148,6 @@ struct FacePosesView: View {
                             .foregroundColor(.white)
                     }
                     .sheet(isPresented: $tutorialIsActive,
-                           onDismiss: {
-                        facePosesMonitor.viewOnAppear()
-                    },
                            content: {
                         TutorialView(dissmisView: $tutorialIsActive)
                     })
@@ -173,15 +168,20 @@ struct FacePosesView: View {
             dissmisView.toggle()
         }
         .onChange(of: tutorialIsActive) { newValue in
+            print("FacePosessView tutorialIsActive new value \(tutorialIsActive)")
             if newValue {
-                self.facePosesMonitor.viewOnDissapear()
+                self.facePosesMonitor.viewPassive()
+            } else {
+                self.facePosesMonitor.viewActive()
             }
         }
         .onAppear {
-            self.facePosesMonitor.viewOnAppear()
+            print("FacePosessView on Appear")
+            self.facePosesMonitor.viewActive()
         }
         .onDisappear {
-            self.facePosesMonitor.viewOnDissapear()
+            print("FacePosessView on Disppear")
+            self.facePosesMonitor.viewPassive()
         }
     }
 }

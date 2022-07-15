@@ -27,7 +27,14 @@ class ARFaceScnModel: ObservableObject {
     private let sessionDelegate: SessionDelegate
     private let sceneViewDelegate: SceneViewDelegate
     private var recordingObserver: AnyCancellable?
+    func stopObservers() {
+        self.recordingObserver = nil
+    }
+    deinit {
+        print("ARFaceScnModel deinit called")
+    }
     init() {
+        print("ARFaceScnModel init was called.")
         sceneView = ARSCNView() //add configuration
         sessionDelegate = SessionDelegate()
         sceneViewDelegate = SceneViewDelegate()
@@ -40,35 +47,49 @@ class ARFaceScnModel: ObservableObject {
         // RecorderAR should be init on view did load.
         recorder = RecordAR(ARSceneKit: sceneView)
         recorder?.enableAudio = false
-        self.recordingObserver = self.recordingObserverMaker
+        self.startObservers()
     }
-    private var recordingObserverMaker: AnyCancellable {
-        self.scnRecorder.$recording
-            .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
+    static
+    private var time: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss.SSSS"
+        return formatter.string(from: Date())
+    }
+    private func startObservers() {
+        self.recordingObserver = self.scnRecorder
+            .$recording
+            .receive(on: DispatchQueue.main)
             .sink {  recording in
                 switch recording {
                 case .recordRequest:
+                    print("scnRecorder.recording \(self.scnRecorder.recording)")
+                    print("Recorded record request requested, \(Self.time)")
                     self.recorder?.record()
-                    self.scnRecorder.recording = .recording(Date())
+                    DispatchQueue.main.async {
+                        self.scnRecorder.recording = .recording(Date())
+                    }
                 case .stopRequest:
                     guard let recorder = self.recorder,
                        case .recording = recorder.status else {
-                        print("Recorded stop request but recorder isn't recording")
+                        print("Recorded stop request but recorder isn't recording, \(Self.time)")
                         break
                     }
-                    print("Recorded stop.")
+                    print("Recorded stop requested, \(Self.time)")
                     self.recorder?.stop { url in
                         DispatchQueue.main.async {
                             self.scnRecorder.recording = .recorded(url)
                         }
                     }
                 case .recording(_):
+                    print("scnRecorder.recording \(self.scnRecorder.recording)")
+                    print("Recorded recording was requested, \(Self.time)")
                     break
                 default:
                     if let recorder = self.recorder,
-                       case .unknown = recorder.status {
+                       case .recording = recorder.status {
+                        print("Recorded about to be cancelled, \(Self.time)")
                         recorder.cancel()
-                        print("Recorded cancelled.")
+                        print("Recorded was cancelled, \(Self.time)")
                     }
                     break
                 }

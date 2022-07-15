@@ -22,6 +22,7 @@ extension ARFaceTrackingConfiguration {
 struct ARFaceScnUIView: UIViewRepresentable {
     let model: ARFaceScnModel
     func makeUIView(context: Context) -> ARSCNView {
+        print("ARSCNViewUI: makeUIView was called.")
         guard ARFaceTrackingConfiguration.isSupported else {
             return ARSCNView()
         }
@@ -33,8 +34,18 @@ struct ARFaceScnUIView: UIViewRepresentable {
     func updateUIView(_ uiView: ARSCNView, context: Context) {
 //        print("ARSCNViewUI: updateUIView was called.")
     }
-    static func dismantleUIView(_ uiView: ARSCNView, coordinator: ()) {
+    static func dismantleUIView(_ uiView: ARSCNView, coordinator: Self.Coordinator) {
         print("ARSCNViewUI: dismantleUIView was called.")
+        coordinator.model?.stopObservers()
+    }
+    class Coordinator: NSObject {
+        weak var model: ARFaceScnModel?
+        init(model:ARFaceScnModel) {
+            self.model = model
+        }
+    }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(model: self.model)
     }
 }
 

@@ -22,11 +22,7 @@ class TutorialModel: ObservableObject {
             }
     }
     func viewOnDissapear() {
-        DispatchQueue.main.async {
-            clearCache()
-            self.scnRecorder.reset()
-            self.scnRecorder.recording = .standBy
-        }
+        self.positionsObserver = nil
     }
 }
 
@@ -58,10 +54,8 @@ struct TutorialView: View {
                     Spacer()
                 }
             }
-            .onAppear {
-                model.viewOnDissapear()
-            }
         }
+        .onDisappear { self.model.viewOnDissapear() }
     }
 }
 
