@@ -115,18 +115,18 @@ class ScnRecorder: ObservableObject {
                                                                       error: self.meaningfulVideoAnglesError,
                                                                       angleTime: self.meaningfulVideoAngleTime)
             .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
-            .sink(receiveCompletion: {error in
-                self.reset()
+            .sink(receiveCompletion: { [weak self] error in
+                self?.reset()
                 print("error on making video, error: \(error)")
-                self.meaningfullVideoObserver = nil
-                DispatchQueue.main.async {
-                    self.recording = .unknown
+                self?.meaningfullVideoObserver = nil
+                DispatchQueue.main.async { [weak self] in
+                    self?.recording = .unknown
                 }
-            }, receiveValue: { saved in
-                self.reset()
-                self.meaningfullVideoObserver = nil
+            }, receiveValue: { [weak self] saved in
+                self?.reset()
+                self?.meaningfullVideoObserver = nil
                 DispatchQueue.main.async {
-                    self.recording = .unknown
+                    self?.recording = .unknown
                 }
             })
         }

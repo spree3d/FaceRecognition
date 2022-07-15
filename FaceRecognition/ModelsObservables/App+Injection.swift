@@ -19,8 +19,6 @@ extension Resolver: ResolverRegistering {
             
             Resolver.register { SticksRingModel() }
                 .scope(.graph)
-            
-            Resolver.register { PositionSitckNumberModel() }
         }
         [
             registerModel

@@ -47,8 +47,6 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            let dir = Bundle.main.releaseVersionNumberPretty + "/b" + (Bundle.main.buildVersionNumber ?? "0")
-            print("dir: \(dir)")
             clearCache()
         }
     }

@@ -20,12 +20,6 @@
 		C9459BAC281896C60016DA32 /* ARFaceGeometry.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */; };
 		C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */; };
 		C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */; };
-		C9459BB3281B54DA0016DA32 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB2281B54DA0016DA32 /* MailView.swift */; };
-		C9459BB8281C60E60016DA32 /* Sliders.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB7281C60E60016DA32 /* Sliders.swift */; };
-		C9459BBA281C611E0016DA32 /* MainActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB9281C611E0016DA32 /* MainActionsView.swift */; };
-		C9459BBC281C61530016DA32 /* FacialFeaturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBB281C61530016DA32 /* FacialFeaturesListView.swift */; };
-		C9459BBE281C61700016DA32 /* FacialFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBD281C61700016DA32 /* FacialFeatureView.swift */; };
-		C9459BC0281C620D0016DA32 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BBF281C620D0016DA32 /* HelpView.swift */; };
 		C949F827287CB239004C0DA9 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C949F826287CB239004C0DA9 /* TutorialView.swift */; };
 		C95FC51B286EA91E004EDCE2 /* CoreVideo+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */; };
 		C9600E6D28652A1A0004D7D8 /* ScnRecorder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */; };
@@ -43,7 +37,6 @@
 		C9957D6628799E9200A291B4 /* ButtonAnimated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9957D6528799E9200A291B4 /* ButtonAnimated.swift */; };
 		C9A20C07287EAC4A000F1734 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A20C06287EAC4A000F1734 /* CircularProgressView.swift */; };
 		C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */; };
-		C9AAE0AA280E088B00771A61 /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0A9280E088B00771A61 /* MainContentView.swift */; };
 		C9AAE0AC280E088C00771A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9AAE0AB280E088C00771A61 /* Assets.xcassets */; };
 		C9AAE0AF280E088C00771A61 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9AAE0AE280E088C00771A61 /* Preview Assets.xcassets */; };
 		C9AAE0B9280E088C00771A61 /* FaceRecognitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0B8280E088C00771A61 /* FaceRecognitionTests.swift */; };
@@ -90,12 +83,6 @@
 		C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ARFaceGeometry.obj; sourceTree = "<group>"; };
 		C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceGeometryModel.swift; sourceTree = "<group>"; };
 		C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARKit+Ext.swift"; sourceTree = "<group>"; };
-		C9459BB2281B54DA0016DA32 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
-		C9459BB7281C60E60016DA32 /* Sliders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sliders.swift; sourceTree = "<group>"; };
-		C9459BB9281C611E0016DA32 /* MainActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainActionsView.swift; sourceTree = "<group>"; };
-		C9459BBB281C61530016DA32 /* FacialFeaturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialFeaturesListView.swift; sourceTree = "<group>"; };
-		C9459BBD281C61700016DA32 /* FacialFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialFeatureView.swift; sourceTree = "<group>"; };
-		C9459BBF281C620D0016DA32 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		C949F826287CB239004C0DA9 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreVideo+Ext.swift"; sourceTree = "<group>"; };
 		C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScnRecorder+Ext.swift"; sourceTree = "<group>"; };
@@ -114,7 +101,6 @@
 		C9A20C06287EAC4A000F1734 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
 		C9AAE0A4280E088B00771A61 /* FaceRecognition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceRecognition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AAE0A7280E088B00771A61 /* FaceRecognitionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionApp.swift; sourceTree = "<group>"; };
-		C9AAE0A9280E088B00771A61 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
 		C9AAE0AB280E088C00771A61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9AAE0AE280E088C00771A61 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C9AAE0B4280E088C00771A61 /* FaceRecognitionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceRecognitionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,19 +164,6 @@
 				C9AAE0D2280E0B6200771A61 /* ARFaceScnUIView.swift */,
 			);
 			path = UIViewRepresentable;
-			sourceTree = "<group>";
-		};
-		C9459BB6281C60A60016DA32 /* MainContentView */ = {
-			isa = PBXGroup;
-			children = (
-				C9AAE0A9280E088B00771A61 /* MainContentView.swift */,
-				C9459BB7281C60E60016DA32 /* Sliders.swift */,
-				C9459BB9281C611E0016DA32 /* MainActionsView.swift */,
-				C9459BBB281C61530016DA32 /* FacialFeaturesListView.swift */,
-				C9459BBD281C61700016DA32 /* FacialFeatureView.swift */,
-				C9459BBF281C620D0016DA32 /* HelpView.swift */,
-			);
-			path = MainContentView;
 			sourceTree = "<group>";
 		};
 		C9600E6E28667A950004D7D8 /* Frameworks */ = {
@@ -320,11 +293,9 @@
 			children = (
 				C9957D5D2879247400A291B4 /* Animations */,
 				C91EF2E32864404A00A6C726 /* Utils */,
-				C9459BB6281C60A60016DA32 /* MainContentView */,
 				C9459BAF2819CAC70016DA32 /* UIViewRepresentable */,
 				C9AAE0D7280F79AE00771A61 /* StickView.swift */,
 				C9AAE0D9280F79F900771A61 /* FaceRecognitionView.swift */,
-				C9459BB2281B54DA0016DA32 /* MailView.swift */,
 				C9600E71286A6F9B0004D7D8 /* ARFaceScnView.swift */,
 				C9957D552878F97600A291B4 /* HomeView.swift */,
 				C9B76F15287A214200C2CFA1 /* FacePosessView.swift */,
@@ -516,12 +487,10 @@
 			files = (
 				C9270B5A285708A600FDA006 /* StickModel.swift in Sources */,
 				C9957D6628799E9200A291B4 /* ButtonAnimated.swift in Sources */,
-				C9459BBE281C61700016DA32 /* FacialFeatureView.swift in Sources */,
 				C949F827287CB239004C0DA9 /* TutorialView.swift in Sources */,
 				C9F7600F2811F02500FF8F8F /* FaceTranslation.swift in Sources */,
 				C9A20C07287EAC4A000F1734 /* CircularProgressView.swift in Sources */,
 				C968E648286FB11D001EEECA /* Cloudinary.swift in Sources */,
-				C9459BBA281C611E0016DA32 /* MainActionsView.swift in Sources */,
 				C9B76F16287A214200C2CFA1 /* FacePosessView.swift in Sources */,
 				C93F8681285D597C00EC52E3 /* ScnRecorder.swift in Sources */,
 				C9AAE0DC280F7A5600771A61 /* App+Injection.swift in Sources */,
@@ -536,22 +505,17 @@
 				C9957D6328797C6400A291B4 /* FacePoses.swift in Sources */,
 				C9600E72286A6F9B0004D7D8 /* ARFaceScnView.swift in Sources */,
 				C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */,
-				C9AAE0AA280E088B00771A61 /* MainContentView.swift in Sources */,
 				C93AE14F281096A3003A0939 /* Foundation+Ext.swift in Sources */,
 				C9AAE0E1280F829500771A61 /* SceneViewDelegate.swift in Sources */,
 				C9600E74286A6FD50004D7D8 /* ARFaceScnModel.swift in Sources */,
-				C9459BB8281C60E60016DA32 /* Sliders.swift in Sources */,
 				C9957D5F2879249600A291B4 /* FacesIdView.swift in Sources */,
 				C93AE15128109732003A0939 /* CoreGraphics+Ext.swift in Sources */,
 				C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */,
-				C9459BB3281B54DA0016DA32 /* MailView.swift in Sources */,
 				C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */,
 				C9957D592879179100A291B4 /* CircularBackgroundView.swift in Sources */,
-				C9459BC0281C620D0016DA32 /* HelpView.swift in Sources */,
 				C96E50B9287E2B37008C1D02 /* CustomCircularProgressViewStyle.swift in Sources */,
 				C9AAE0D8280F79AE00771A61 /* StickView.swift in Sources */,
 				C9957D562878F97600A291B4 /* HomeView.swift in Sources */,
-				C9459BBC281C61530016DA32 /* FacialFeaturesListView.swift in Sources */,
 				C9957D6128792CBC00A291B4 /* ImageRotatingView.swift in Sources */,
 				C93F867D285D549400EC52E3 /* Resolver+Ext.swift in Sources */,
 				C9AAE0D3280E0B6200771A61 /* ARFaceScnUIView.swift in Sources */,

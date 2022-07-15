@@ -17,8 +17,8 @@ struct ARFaceScnView: View {
     }
 }
 
-//struct ARFaceScnView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ARFaceScnView()
-//    }
-//}
+struct ARFaceScnView_Previews: PreviewProvider {
+    static var previews: some View {
+        ARFaceScnView()
+    }
+}

@@ -59,14 +59,15 @@ class ARFaceScnModel: ObservableObject {
         self.recordingObserver = self.scnRecorder
             .$recording
             .receive(on: DispatchQueue.main)
-            .sink {  recording in
+            .sink {  [weak self] recording in
+                guard let self = self else { return }
                 switch recording {
                 case .recordRequest:
                     print("scnRecorder.recording \(self.scnRecorder.recording)")
                     print("Recorded record request requested, \(Self.time)")
                     self.recorder?.record()
-                    DispatchQueue.main.async {
-                        self.scnRecorder.recording = .recording(Date())
+                    DispatchQueue.main.async { [weak self] in
+                        self?.scnRecorder.recording = .recording(Date())
                     }
                 case .stopRequest:
                     guard let recorder = self.recorder,
@@ -76,8 +77,8 @@ class ARFaceScnModel: ObservableObject {
                     }
                     print("Recorded stop requested, \(Self.time)")
                     self.recorder?.stop { url in
-                        DispatchQueue.main.async {
-                            self.scnRecorder.recording = .recorded(url)
+                        DispatchQueue.main.async { [weak self] in
+                            self?.scnRecorder.recording = .recorded(url)
                         }
                     }
                 case .recording(_):

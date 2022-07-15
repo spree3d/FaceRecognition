@@ -16,7 +16,7 @@ class TutorialModel: ObservableObject {
         self.positionsObserver = scnRecorder
             .$positions
             .receive(on: DispatchQueue.main)
-            .sink { _ in
+            .sink { [weak self] _ in
                 //
                 // scnRecorderlistOfMatchingAngles(angles:angles, error:error)
             }
