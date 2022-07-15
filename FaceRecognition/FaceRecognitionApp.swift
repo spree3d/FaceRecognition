@@ -10,6 +10,9 @@ import Resolver
 
 @main
 struct FaceRecognitionApp: App {
+    init() {
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
     var body: some Scene {
         WindowGroup {
             HStack {

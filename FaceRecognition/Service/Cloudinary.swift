@@ -29,25 +29,21 @@ class Cloudinary {
                                       secure: true )
         self.cloudinary = CLDCloudinary(configuration: config)
     }
-    func saveVideoToPhotoAlbum(videoUrl:URL) {
-        PHPhotoLibrary.shared()
-            .performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
-            })
-        { saved, error in
-            if let error = error {
-                print("Error saving video on Photo Album, error: \(error)")
-            }
-        }
-    }
     func upload(url:URL, name:String,
                 progress progressCallback: @escaping (Double)->Void,
                 completion: @escaping (Bool, Error?) -> Void) {
         let params = CLDUploadRequestParams()
         params.setResourceType(.video)
         params.setPublicId(name)
+        var cloudinaryFolder = ""
+        cloudinaryFolder += "FaceRecognition"
+        cloudinaryFolder += "/" + Bundle.main.releaseVersionNumberPretty
+        if let buildVersionNumber = Bundle.main.buildVersionNumber {
+            cloudinaryFolder += "/" + buildVersionNumber
+        }
         let deviceFolder = UIDevice.current.identifierForVendor?.uuidString ?? "UserFolder"
-        params.setFolder("FaceRecognition/\(deviceFolder)/")
+        cloudinaryFolder += "/" + deviceFolder
+        params.setFolder(cloudinaryFolder)
         let request = cloudinary.createUploader()
             .signedUpload(url: url,
                     params: params,
