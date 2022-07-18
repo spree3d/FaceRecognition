@@ -6,53 +6,26 @@
 //
 
 import SwiftUI
-import Resolver
-import Combine
-
-class TutorialModel: ObservableObject {
-    @Injected var scnRecorder: ScnRecorder
-    var positionsObserver: AnyCancellable?
-    init() {
-        self.positionsObserver = scnRecorder
-            .$positions
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                //
-                // scnRecorderlistOfMatchingAngles(angles:angles, error:error)
-            }
-    }
-    func viewOnDissapear() {
-        self.positionsObserver = nil
-    }
-}
 
 struct TutorialView: View {
     @StateObject private var model = TutorialModel()
     @Binding var dissmisView:Bool
     var body: some View {
         GeometryReader { geom in
-            ZStack {
-                Color.black
-                    .ignoresSafeArea()
-                FaceRecognitionView(withFaceRecognition:false)
-                    .clipShape(Circle())
-                ImageRotatingView(image: Image(systemName: "face.smiling"),
-                                  side: geom.size.width * 0.5,
-                                  foregroundColor: .white)
+            Color.black.ignoresSafeArea()
+            ZStack(alignment: .crossAlignment) {
                 VStack {
-                    HStack(alignment: .top, spacing: 0) {
-                        Button {
-                            dissmisView.toggle()
-                        } label: {
-                            Text("Dismiss")
-                                .font(.title2)
-                                .foregroundColor(.blue)
-                        }
-                        Spacer()
-                    }
-                    .padding()
-                    Spacer()
+                    TopBarViewView(dissmisView: $dissmisView)
+                    FaceRecognitionView(withFaceRecognition:false)
+                        .clipShape(Circle())
+                        .alignmentGuide(VerticalAlignment.crossAlignment,
+                                        computeValue: { c in c[VerticalAlignment.center] })
+                                    
                 }
+                ImageRotatingView(image: Image(systemName: "face.smiling"),
+                                  foregroundColor: .white)
+                .frame(width: geom.size.width * 0.5,
+                       height: geom.size.width * 0.5)
             }
         }
         .onDisappear { self.model.viewOnDissapear() }
@@ -62,5 +35,23 @@ struct TutorialView: View {
 struct Tutorial_Previews: PreviewProvider {
     static var previews: some View {
         TutorialView(dissmisView: .constant(true))
+    }
+}
+
+fileprivate
+struct TopBarViewView: View {
+    @Binding var dissmisView:Bool
+    var body: some View {
+        HStack {
+            Button {
+                dissmisView.toggle()
+            } label: {
+                Text("Dismiss")
+                    .font(.title2)
+                    .foregroundColor(.blue)
+            }
+            Spacer()
+        }
+        .padding()
     }
 }

@@ -103,3 +103,25 @@ extension UnitPoint {
         return list
     }
 }
+
+extension VerticalAlignment {
+    private enum CrossAlignment : AlignmentID {
+        static func defaultValue(in d: ViewDimensions) -> CGFloat {
+            return d[VerticalAlignment.center]
+        }
+    }
+    static let crossAlignment = VerticalAlignment(CrossAlignment.self)
+}
+extension HorizontalAlignment {
+    private enum CrossAlignment : AlignmentID {
+        static func defaultValue(in d: ViewDimensions) -> CGFloat {
+            return d[HorizontalAlignment.center]
+        }
+    }
+    static let crossAlignment = HorizontalAlignment(CrossAlignment.self)
+}
+
+extension Alignment {
+    static let crossAlignment = Alignment(horizontal: .crossAlignment,
+                               vertical: .crossAlignment)
+}

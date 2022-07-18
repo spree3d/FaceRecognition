@@ -41,42 +41,29 @@ class ImageRotatingModel: ObservableObject {
 
 struct ImageRotatingView: View {
     let image: Image
-    var side:Double? = nil
     var foregroundColor = Color.orange
     @StateObject var model = ImageRotatingModel()
     var body: some View {
-        GeometryReader { geom in
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .fitSystemFont()
-                        .foregroundColor(foregroundColor)
-                        .rotation3DEffect(model.angle,
-                                          axis: model.axis)
-                        .shadow(color: .black,
-                                radius: 10,
-                                x: model.axis.x, y: model.axis.y)
-                        .animation(
-                            .easeInOut(duration: model.duration )
-                        )
-                        .frame(width:  side ?? geom.size.width,
-                               height: side ?? geom.size.height)
-                    Spacer()
-                }
-                Spacer()
-            }
-        }
+        image
+            .resizable()
+            .scaledToFit()
+            .fitSystemFont()
+            .foregroundColor(foregroundColor)
+            .rotation3DEffect(model.angle,
+                              axis: model.axis)
+            .shadow(color: .black,
+                    radius: 10,
+                    x: model.axis.x, y: model.axis.y)
+            .animation(
+                .easeInOut(duration: model.duration )
+            )
     }
 }
 
 struct ImageRotatingView_Previews: PreviewProvider {
     static var previews: some View {
         ImageRotatingView(image: Image(systemName: "faceid"),
-                          side: 168,
                           foregroundColor: .blue)
+        .previewLayout(.sizeThatFits)
     }
 }

@@ -15,10 +15,8 @@
 		C93AE1532810A79D003A0939 /* SceneKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */; };
 		C93F8675285CEA0700EC52E3 /* ARVideoKit in Frameworks */ = {isa = PBXBuildFile; productRef = C93F8674285CEA0700EC52E3 /* ARVideoKit */; };
 		C93F867D285D549400EC52E3 /* Resolver+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F867C285D549400EC52E3 /* Resolver+Ext.swift */; };
-		C93F867F285D591D00EC52E3 /* FaceMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F867E285D591D00EC52E3 /* FaceMesh.swift */; };
 		C93F8681285D597C00EC52E3 /* ScnRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93F8680285D597C00EC52E3 /* ScnRecorder.swift */; };
 		C9459BAC281896C60016DA32 /* ARFaceGeometry.obj in Resources */ = {isa = PBXBuildFile; fileRef = C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */; };
-		C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */; };
 		C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */; };
 		C949F827287CB239004C0DA9 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C949F826287CB239004C0DA9 /* TutorialView.swift */; };
 		C95FC51B286EA91E004EDCE2 /* CoreVideo+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */; };
@@ -48,6 +46,8 @@
 		C9AAE0DC280F7A5600771A61 /* App+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0DB280F7A5600771A61 /* App+Injection.swift */; };
 		C9AAE0E1280F829500771A61 /* SceneViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */; };
 		C9B76F16287A214200C2CFA1 /* FacePosessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B76F15287A214200C2CFA1 /* FacePosessView.swift */; };
+		C9D22ADC2882175E005D6DBD /* FacePosesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D22ADB2882175E005D6DBD /* FacePosesModel.swift */; };
+		C9D22ADE288217B8005D6DBD /* TutorialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D22ADD288217B8005D6DBD /* TutorialModel.swift */; };
 		C9F760082810E06200FF8F8F /* SwiftUI+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */; };
 		C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F760092810E46600FF8F8F /* SticksRingModel.swift */; };
 		C9F7600D2811007A00FF8F8F /* FaceOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F7600C2811007A00FF8F8F /* FaceOrientation.swift */; };
@@ -78,10 +78,8 @@
 		C93AE15028109732003A0939 /* CoreGraphics+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Ext.swift"; sourceTree = "<group>"; };
 		C93AE1522810A79D003A0939 /* SceneKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Ext.swift"; sourceTree = "<group>"; };
 		C93F867C285D549400EC52E3 /* Resolver+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Resolver+Ext.swift"; sourceTree = "<group>"; };
-		C93F867E285D591D00EC52E3 /* FaceMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceMesh.swift; sourceTree = "<group>"; };
 		C93F8680285D597C00EC52E3 /* ScnRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScnRecorder.swift; sourceTree = "<group>"; };
 		C9459BAB281896C60016DA32 /* ARFaceGeometry.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ARFaceGeometry.obj; sourceTree = "<group>"; };
-		C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFaceGeometryModel.swift; sourceTree = "<group>"; };
 		C9459BB0281B4EEC0016DA32 /* ARKit+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARKit+Ext.swift"; sourceTree = "<group>"; };
 		C949F826287CB239004C0DA9 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		C95FC51A286EA91E004EDCE2 /* CoreVideo+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreVideo+Ext.swift"; sourceTree = "<group>"; };
@@ -114,6 +112,8 @@
 		C9AAE0DB280F7A5600771A61 /* App+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+Injection.swift"; sourceTree = "<group>"; };
 		C9AAE0E0280F829500771A61 /* SceneViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewDelegate.swift; sourceTree = "<group>"; };
 		C9B76F15287A214200C2CFA1 /* FacePosessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePosessView.swift; sourceTree = "<group>"; };
+		C9D22ADB2882175E005D6DBD /* FacePosesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacePosesModel.swift; sourceTree = "<group>"; };
+		C9D22ADD288217B8005D6DBD /* TutorialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialModel.swift; sourceTree = "<group>"; };
 		C9F760072810E06200FF8F8F /* SwiftUI+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Ext.swift"; sourceTree = "<group>"; };
 		C9F760092810E46600FF8F8F /* SticksRingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SticksRingModel.swift; sourceTree = "<group>"; };
 		C9F7600C2811007A00FF8F8F /* FaceOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceOrientation.swift; sourceTree = "<group>"; };
@@ -317,9 +317,10 @@
 			isa = PBXGroup;
 			children = (
 				C9F760092810E46600FF8F8F /* SticksRingModel.swift */,
-				C9459BAD281897330016DA32 /* ARFaceGeometryModel.swift */,
 				C9270B59285708A600FDA006 /* StickModel.swift */,
 				C9600E73286A6FD50004D7D8 /* ARFaceScnModel.swift */,
+				C9D22ADB2882175E005D6DBD /* FacePosesModel.swift */,
+				C9D22ADD288217B8005D6DBD /* TutorialModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -328,7 +329,6 @@
 			isa = PBXGroup;
 			children = (
 				C9AAE0DB280F7A5600771A61 /* App+Injection.swift */,
-				C93F867E285D591D00EC52E3 /* FaceMesh.swift */,
 				C93F8680285D597C00EC52E3 /* ScnRecorder.swift */,
 				C9600E6C28652A1A0004D7D8 /* ScnRecorder+Ext.swift */,
 			);
@@ -489,14 +489,15 @@
 				C9957D6628799E9200A291B4 /* ButtonAnimated.swift in Sources */,
 				C949F827287CB239004C0DA9 /* TutorialView.swift in Sources */,
 				C9F7600F2811F02500FF8F8F /* FaceTranslation.swift in Sources */,
+				C9D22ADC2882175E005D6DBD /* FacePosesModel.swift in Sources */,
 				C9A20C07287EAC4A000F1734 /* CircularProgressView.swift in Sources */,
 				C968E648286FB11D001EEECA /* Cloudinary.swift in Sources */,
 				C9B76F16287A214200C2CFA1 /* FacePosessView.swift in Sources */,
 				C93F8681285D597C00EC52E3 /* ScnRecorder.swift in Sources */,
 				C9AAE0DC280F7A5600771A61 /* App+Injection.swift in Sources */,
-				C93F867F285D591D00EC52E3 /* FaceMesh.swift in Sources */,
 				C9F7600D2811007A00FF8F8F /* FaceOrientation.swift in Sources */,
 				C91EF2E52864405B00A6C726 /* Ring.swift in Sources */,
+				C9D22ADE288217B8005D6DBD /* TutorialModel.swift in Sources */,
 				C9F7600A2810E46600FF8F8F /* SticksRingModel.swift in Sources */,
 				C9957D5B287917C600A291B4 /* CircularBackgroundModel.swift in Sources */,
 				C9459BB1281B4EEC0016DA32 /* ARKit+Ext.swift in Sources */,
@@ -511,7 +512,6 @@
 				C9957D5F2879249600A291B4 /* FacesIdView.swift in Sources */,
 				C93AE15128109732003A0939 /* CoreGraphics+Ext.swift in Sources */,
 				C9AAE0A8280E088B00771A61 /* FaceRecognitionApp.swift in Sources */,
-				C9459BAE281897330016DA32 /* ARFaceGeometryModel.swift in Sources */,
 				C9957D592879179100A291B4 /* CircularBackgroundView.swift in Sources */,
 				C96E50B9287E2B37008C1D02 /* CustomCircularProgressViewStyle.swift in Sources */,
 				C9AAE0D8280F79AE00771A61 /* StickView.swift in Sources */,

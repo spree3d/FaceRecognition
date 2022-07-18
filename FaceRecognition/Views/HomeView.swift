@@ -19,15 +19,7 @@ struct HomeView: View {
                 .blur(radius: 100)
                 .opacity(0.5)
             VStack {
-                VStack {
-                    Text("Spree3D")
-                    Text("Face Poses")
-                    Text("Recognition")
-                }
-                .font(.custom("HoeflerText-Black", size: 48))
-                .foregroundColor(.black)
-                .shadow(color: Color.white, radius: 15, x: 0, y: 10)
-                .padding()
+                TitleView()
                 Spacer()
                 ImageRotatingView(image: Image(systemName: "faceid"))
                     .padding(60)
@@ -38,12 +30,9 @@ struct HomeView: View {
                     scnRecorder.reset()
                 }
                 .fullScreenCover(isPresented: $facePosesIsActive,
-                                 onDismiss: {
-                    scnRecorder.reset()
-                },
-                                 content: {
+                                 onDismiss: { scnRecorder.reset() }) {
                     FacePosesView(dissmisView: $facePosesIsActive)
-                })
+                }
             }
         }
         .onAppear {
@@ -52,6 +41,20 @@ struct HomeView: View {
     }
 }
 
+fileprivate
+struct TitleView: View {
+    var body: some View {
+        VStack {
+            Text("Spree3D")
+            Text("Face Poses")
+            Text("Recognition")
+        }
+        .font(.custom("HoeflerText-Black", size: 48))
+        .foregroundColor(.black)
+        .shadow(color: Color.white, radius: 15, x: 0, y: 10)
+        .padding()
+    }
+}
 
 extension HomeView {
     var bottomTopGradient: LinearGradient {

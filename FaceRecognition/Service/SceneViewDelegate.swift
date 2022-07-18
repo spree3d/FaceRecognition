@@ -11,7 +11,6 @@ import ARKit
 import Resolver
 
 class SceneViewDelegate: NSObject {
-    @Injected private var faceMesh: FaceMesh
     @Injected private var scnRecorder: ScnRecorder
     private let queue: DispatchQueue
     private var subject: PassthroughSubject<simd_float3, Never>?
@@ -46,29 +45,12 @@ extension SceneViewDelegate {
  ARConfiguration.WorldAlignment.camera: https://developer.apple.com/documentation/arkit/arconfiguration/worldalignment/camera
  */
 extension SceneViewDelegate: ARSCNViewDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        self.queue.async { [weak self] in
-            guard let self = self else { return }
-            do {
-                let faceNode = try SCNNode.faceMeshMaker(renderer,
-                                                         nodeFor: anchor,
-                                                         transparency: self.faceMesh.alphaValue)
-                node.addChildNode(faceNode)
-                self.faceNode = faceNode
-            } catch {
-              print("Error making Face Mesh, error: \(error)")
-            }
-        }
-    }
-    
     /**
      faceAnchor.geometry have the vertices and triangles indices.
      */
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         self.queue.async {
-            guard let faceNode = self.faceNode,
-                  let faceGeometry = faceNode.geometry as? ARSCNFaceGeometry,
-                  let faceAnchor = anchor as? ARFaceAnchor,
+            guard let faceAnchor = anchor as? ARFaceAnchor,
                   let pointOfView = renderer.pointOfView
             else { return }
          
@@ -76,30 +58,8 @@ extension SceneViewDelegate: ARSCNViewDelegate {
             let faceTransform = faceAnchor.transform.columns.2.simd3
             let faceOrientation = cameraTransform * faceTransform
             
-            let facialFeaturesList = faceAnchor.blendShapes.map { ($0.key.rawValue, $0.value.floatValue) }
-            if self.faceMesh.maskFacialFeature > 0 {
-                self.faceMesh.update(facialFeaturesList: facialFeaturesList, faceAnchor: faceAnchor)
-            }
-            
-            faceGeometry.update(from: faceAnchor.geometry)
-            let meshTransparency = self.faceMesh.meshDisabled ? 0.0 : self.faceMesh.alphaValue.cgFloat
-            faceGeometry.materials.forEach {
-                $0.transparency = meshTransparency
-            }
             self.subject?.send(faceOrientation)
         }
     }
-    /*
-    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
-        self.queue.async {
-            guard let faceAnchor = anchor as? ARFaceAnchor else { return }
-            let lookAtGlobal = faceAnchor.transform * simd_float4(x: faceAnchor.lookAtPoint.x, y: faceAnchor.lookAtPoint.y, z: faceAnchor.lookAtPoint.z, w: 0)
-            let lookAt = simd_normalize(lookAtGlobal).simd3
-            print("FR_DEBUG: lookAtGN \(lookAt)")
-            
-            self.subject?.send(lookAt)
-        }
-    }
-    */
 }
 

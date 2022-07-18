@@ -11,9 +11,6 @@ import Resolver
 extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         func registerModel() {
-            Resolver.register { FaceMesh() }
-                .scope(.application)
-            
             Resolver.register { ScnRecorder(count: 8*8) }
                 .scope(.application)
             
