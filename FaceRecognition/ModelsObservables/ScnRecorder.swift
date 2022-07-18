@@ -21,7 +21,7 @@ enum RecordingStatus {
     case saving(progress:Double?, result:Bool?)
 }
 
-extension RecordingStatus {
+extension RecordingStatus: Equatable {
     static func == (lhs: RecordingStatus, rhs: RecordingStatus) -> Bool {
         switch lhs {
         case .unknown:
@@ -92,14 +92,14 @@ class ScnRecorder: ObservableObject {
     var recognitionDone: Bool {
         self.positions.filter { $0.value < Self.positionValueThreshold }.count == 0
     }
-    @Published var recording: RecordingStatus {
-        didSet { recordingDidSet(oldValue) }
-    }
+    @Published var recording: RecordingStatus
+    private var recordingObserver: AnyCancellable?
     private let queue: DispatchQueue
     init(count:Int) {
         self.positions = Self.positionsBuilder(count: count)
         self.recording = .standBy
         self.queue = DispatchQueue(label: "com.spree3d.SticksPositions.\(UUID().uuidString)")
+        self.recordingObserver = self.$recording.removeDuplicates().sink(receiveValue: self.recordingCallback(_:))
     }
     /**
      If count is -1 the class use the current count
@@ -108,28 +108,28 @@ class ScnRecorder: ObservableObject {
         let count = count ?? self.positions.count
         self.positions = Self.positionsBuilder(count: count)
     }
-    private func  recordingDidSet(_ oldValue:RecordingStatus) {
-        if  self.recording != oldValue,
-            case .saveRequest = self.recording {
-            self.meaningfullVideoObserver = self.buildMeaningfulVideo(angles: self.meaningfulVideoAngles,
-                                                                      error: self.meaningfulVideoAnglesError,
-                                                                      angleTime: self.meaningfulVideoAngleTime)
-            .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
-            .sink(receiveCompletion: { [weak self] error in
-                self?.reset()
-                print("error on making video, error: \(error)")
-                self?.meaningfullVideoObserver = nil
-                DispatchQueue.main.async { [weak self] in
-                    self?.recording = .unknown
-                }
-            }, receiveValue: { [weak self] saved in
-                self?.reset()
-                self?.meaningfullVideoObserver = nil
-                DispatchQueue.main.async {
-                    self?.recording = .unknown
-                }
-            })
-        }
+    private func recordingCallback(_ value:RecordingStatus) {
+        print("ScnRecorder recording request \(value)")
+        guard case .saveRequest(let url) = value else { return }
+        self.meaningfullVideoObserver = self.buildMeaningfulVideo(url,
+                                                                  angles: self.meaningfulVideoAngles,
+                                                                  error: self.meaningfulVideoAnglesError,
+                                                                  angleTime: self.meaningfulVideoAngleTime)
+        .receive(on: DispatchQueue.main) // called because of the re-edition of self.recording
+        .sink(receiveCompletion: { [weak self] error in
+            self?.reset()
+            print("error on making video, error: \(error)")
+            self?.meaningfullVideoObserver = nil
+            DispatchQueue.main.async { [weak self] in
+                self?.recording = .standBy
+            }
+        }, receiveValue: { [weak self] saved in
+            self?.reset()
+            self?.meaningfullVideoObserver = nil
+            DispatchQueue.main.async {
+                self?.recording = .standBy
+            }
+        })
     }
 }
 

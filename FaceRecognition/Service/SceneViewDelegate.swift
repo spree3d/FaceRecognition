@@ -31,7 +31,7 @@ class SceneViewDelegate: NSObject {
 }
 extension SceneViewDelegate {
     func cancelableReceiveValue(_ lookAt:simd_float3) {
-        guard self.scnRecorder.recording != .standBy else { return }
+        guard case .recording(_) = self.scnRecorder.recording else { return }
         if let (rotation, accuracy) = try? FaceOrientation.orientation(lookAt) {
             self.scnRecorder.updateSticksPositions(rotation: rotation,
                                                        value: accuracy,

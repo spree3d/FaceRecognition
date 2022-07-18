@@ -114,12 +114,9 @@ extension ScnRecorder {
         let matchingPositions = self.positions.filter { matchingAnglesSet.contains($0.angle) }
         return matchingPositions.map { $0.time }.compactMap { $0 }
     }
-    func buildMeaningfulVideo(angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
+    func buildMeaningfulVideo(_ url:URL, angles:[Float], error:Float, angleTime:TimeInterval) -> AnyPublisher<Bool, Error> {
         DispatchQueue.main.async { [weak self] in
             self?.recording = .saving(progress: 0, result: nil)
-        }
-        guard case RecordingStatus.saveRequest(let url) = self.recording else {
-            return Fail(error: ScnRecorderVideoError.invalidRecordingState).eraseToAnyPublisher()
         }
         
         let timeList = listOfMatchingAngles(angles:angles, error:error)
