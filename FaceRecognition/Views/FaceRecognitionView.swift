@@ -11,7 +11,7 @@ import SwiftUI
 
 struct FaceRecognitionView: View {
     @InjectedStateObject var model: SticksRingModel
-    var withFaceRecognition = true
+    var withFaceRecognition: Bool
     
     var body: some View {
         GeometryReader { geom in
@@ -21,6 +21,10 @@ struct FaceRecognitionView: View {
                 ForEach( model.scnRecorder.positions) {
                     stick(geom.size, $0)
                 }
+                ImageRotatingView(image: Image(systemName: "face.smiling"),
+                                  foregroundColor: .orange)
+                .frame(width: geom.size.width * 0.5,
+                       height: geom.size.width * 0.5)
     #else
                 if withFaceRecognition {
                     ARFaceScnView()
@@ -65,17 +69,19 @@ struct FaceRecognitionView_Previews: PreviewProvider {
     struct SticksRingViewProxy: View {
         let sticksPositions: ScnRecorder
         let model: SticksRingModel
-        init() {
+        let withFaceRecognition: Bool
+        init(withFaceRecognition:Bool) {
             sticksPositions = ScnRecorder(count: 64)
             model = SticksRingModel()
+            self.withFaceRecognition = withFaceRecognition
         }
         var body: some View {
-            FaceRecognitionView()
+            FaceRecognitionView(withFaceRecognition: withFaceRecognition)
         }
     }
     
     static var previews: some View {
-        SticksRingViewProxy()
+        SticksRingViewProxy(withFaceRecognition: false)
     }
 }
 

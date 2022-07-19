@@ -20,7 +20,7 @@ struct FacePosesView: View {
                 VStack {
                     TopBarView(dissmisView: $dissmisView,
                                tutorialIsActive: $tutorialIsActive)
-                    FaceRecognitionView()
+                    FaceRecognitionView(withFaceRecognition: !tutorialIsActive)
                         .clipShape(Circle())
                         .alignmentGuide(VerticalAlignment.crossAlignment) {
                             d in d[VerticalAlignment.center]
