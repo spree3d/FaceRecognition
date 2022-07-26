@@ -5,7 +5,6 @@
 //  Created by Gustavo Halperin on 4/20/22.
 //
 
-import Foundation
 import SceneKit
 
 extension SIMD4 {

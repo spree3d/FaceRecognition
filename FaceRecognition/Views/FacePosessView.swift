@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FacePosesRecogntion
 
 struct FacePosesView: View {
     @StateObject var facePosesMonitor = FacePosesModel()
@@ -20,7 +21,8 @@ struct FacePosesView: View {
                 VStack {
                     TopBarView(dissmisView: $dissmisView,
                                tutorialIsActive: $tutorialIsActive)
-                    FaceRecognitionView(withFaceRecognition: !tutorialIsActive)
+                    FacePosesRecognitionView()
+//                    FaceRecognitionView(withFaceRecognition: !tutorialIsActive)
                         .clipShape(Circle())
                         .alignmentGuide(VerticalAlignment.crossAlignment) {
                             d in d[VerticalAlignment.center]

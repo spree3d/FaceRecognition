@@ -7,39 +7,39 @@
 
 import Combine
 import SwiftUI
+import FacePosesRecogntion
+
 
 
 struct FaceRecognitionView: View {
     @InjectedStateObject var model: SticksRingModel
     var withFaceRecognition: Bool
+    var ringDecorator: RingDecorator = PackageConfig.shared.ringDecorator
+    var sticks: Sticks = Sticks(decorator: PackageConfig.shared.sticksDecorator,
+                                count: PackageConfig.shared.sticksCount)
     
     var body: some View {
         GeometryReader { geom in
             ZStack {
     #if targetEnvironment(simulator)
-                ring(geom.size)
-                ForEach( model.scnRecorder.positions) {
-                    stick(geom.size, $0)
-                }
                 ImageRotatingView(image: Image(systemName: "face.smiling"),
                                   foregroundColor: .orange)
-                .frame(width: geom.size.width * 0.5,
-                       height: geom.size.width * 0.5)
+                .scaleEffect(0.5)
+                SticksView(sticks: sticks,
+                           ringDecorator: ringDecorator)
     #else
                 if withFaceRecognition {
                     ARFaceScnView()
                 }
-                ring(geom.size)
-                ForEach( model.scnRecorder.positions) {
-                    stick(geom.size, $0)
-                }
+                SticksView(sticks: sticks,
+                           ringDecorator: ringDecorator)
     #endif
             }
         }
         .background(Color(red: 0, green: 0, blue: 0, opacity: 0.1))
     }
 }
-
+/*
 extension FaceRecognitionView {
     private
     func ring(_ size:CGSize) -> some View {
@@ -64,7 +64,7 @@ extension FaceRecognitionView {
                                    ))
     }
 }
-
+*/
 struct FaceRecognitionView_Previews: PreviewProvider {
     struct SticksRingViewProxy: View {
         let sticksPositions: ScnRecorder

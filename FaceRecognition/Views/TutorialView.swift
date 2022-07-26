@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FacePosesRecogntion
 
 struct TutorialView: View {
     @StateObject private var model = TutorialModel()
@@ -24,8 +25,9 @@ struct TutorialView: View {
                 }
                 ImageRotatingView(image: Image(systemName: "face.smiling"),
                                   foregroundColor: .white)
-                .frame(width: geom.size.width * 0.5,
-                       height: geom.size.width * 0.5)
+                .scaleEffect(0.5)
+//                .frame(width: geom.size.width * 0.5,
+//                       height: geom.size.width * 0.5)
             }
         }
         .onDisappear { self.model.viewOnDissapear() }

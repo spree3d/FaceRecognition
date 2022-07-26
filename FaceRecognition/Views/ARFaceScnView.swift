@@ -12,7 +12,7 @@ struct ARFaceScnView: View {
     var body: some View {
         ARFaceScnUIView(model: model)
             .onAppear{
-                model.recorder?.prepare()
+//                model.recorder?.prepare()
             }
     }
 }

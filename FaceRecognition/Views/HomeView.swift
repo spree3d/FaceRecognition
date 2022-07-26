@@ -8,16 +8,16 @@
 import Combine
 import SwiftUI
 import Resolver
-
+import FacePosesRecogntion
 
 struct HomeView: View {
     @State private var facePosesIsActive:Bool = false
     @Injected var scnRecorder: ScnRecorder
     var body: some View {
         ZStack {
-            CircularBackgroundView().ignoresSafeArea()
-                .blur(radius: 100)
-                .opacity(0.5)
+//            CircularBackgroundView().ignoresSafeArea()
+//                .blur(radius: 100)
+//                .opacity(0.5)
             VStack {
                 TitleView()
                 Spacer()

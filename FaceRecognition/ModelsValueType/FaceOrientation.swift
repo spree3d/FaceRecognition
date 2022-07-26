@@ -124,16 +124,4 @@ extension FaceOrientation {
         let accuracy = (deviation - deviation_lower) / deviation_length
         return (rotation_rad, accuracy)
     }
-    /*
-    static
-    func localFaceRotation(_ direction: simd_float3) -> Float {
-        let deviation = direction.angleTo(vTo: simd_float3(0,0,1))
-        let rotationVector = simd_normalize( cross(simd_float3(0,0,1), direction) )
-        let quat = simd_quaternion(-1 * deviation, rotationVector)
-        let rotatedDir = simd_normalize( simd_act(quat, direction) )
-        let x_y_angle_rad = rotatedDir.simd2.angleTo(vTo: simd_float2(1,0))
-        print("rotationVector, rotatedDir: \(rotationVector), \(rotatedDir)")
-        return x_y_angle_rad
-    }
-    */
 }
